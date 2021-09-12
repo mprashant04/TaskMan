@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp">
+
+    <!-- ********** Top elements ****************************************************************************************************-->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:gravity="bottom"
+            android:hint="Enter Title"
+            android:inputType="text|textCapSentences"
+            android:maxLength="250"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/dueOnText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_alignParentLeft="true"
+            android:onClick="onClickDueOnText"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/toggleAudioAlertFlag"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/title"
+            android:layout_centerHorizontal="true"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:src="@drawable/bell_filled" />
+
+
+        <TextView
+            android:id="@+id/tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/dueOnText"
+            android:gravity="right"
+            android:textSize="15sp" />
+
+
+        <!--  section separator -->
+        <Button
+            android:id="@+id/boundaryTop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/toggleAudioAlertFlag"
+            android:layout_marginTop="@dimen/editDialogSectionMargin" />
+
+        <!-- ************ add time buttons**********************************************************  -->
+        <Button
+            android:id="@+id/addTimeNow"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTop"
+            android:onClick="onClickTimeButton"
+            android:tag="add_minutes_0" />
+
+        <Button
+            android:id="@+id/addTime30Min"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTop"
+            android:layout_toRightOf="@id/addTimeNow"
+            android:onClick="onClickTimeButton"
+            android:tag="add_minutes_30" />
+
+        <Button
+            android:id="@+id/addTime1Hr"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTop"
+            android:layout_toRightOf="@id/addTime30Min"
+            android:onClick="onClickTimeButton"
+            android:tag="add_minutes_60" />
+
+        <Button
+            android:id="@+id/addTime3Hr"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTop"
+            android:layout_toRightOf="@id/addTime1Hr"
+            android:onClick="onClickTimeButton"
+            android:tag="add_minutes_180" />
+
+        <Button
+            android:id="@+id/addTime6Hr"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTop"
+            android:layout_toRightOf="@id/addTime3Hr"
+            android:onClick="onClickTimeButton"
+            android:tag="add_minutes_360" />
+
+        <Button
+            android:id="@+id/timeSomeDay"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTop"
+            android:layout_toRightOf="@id/addTime6Hr"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:tag="set_time_some_day" />
+
+        <!--  section separator -->
+        <Button
+            android:id="@+id/boundaryAddTime"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/addTimeNow"
+            android:layout_marginTop="@dimen/editDialogSectionMargin" />
+
+        <!-- ************ Time buttons**********************************************************  -->
+        <!--  row 1 -->
+        <Button
+            android:id="@+id/time6"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryAddTime"
+            android:onClick="onClickTimeButton"
+            android:tag="time_6" />
+
+        <Button
+            android:id="@+id/time7"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryAddTime"
+            android:layout_toRightOf="@id/time6"
+            android:onClick="onClickTimeButton"
+            android:tag="time_7" />
+
+        <Button
+            android:id="@+id/time8"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryAddTime"
+            android:layout_toRightOf="@id/time7"
+            android:onClick="onClickTimeButton"
+            android:tag="time_8" />
+
+        <Button
+            android:id="@+id/time9"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryAddTime"
+            android:layout_toRightOf="@id/time8"
+            android:onClick="onClickTimeButton"
+            android:tag="time_9" />
+
+        <Button
+            android:id="@+id/time10"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryAddTime"
+            android:layout_toRightOf="@id/time9"
+            android:onClick="onClickTimeButton"
+            android:tag="time_10" />
+
+        <Button
+            android:id="@+id/time11"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryAddTime"
+            android:layout_toRightOf="@id/time10"
+            android:onClick="onClickTimeButton"
+            android:tag="time_11" />
+
+        <!--  row 2 -->
+        <Button
+            android:id="@+id/time12"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time6"
+            android:onClick="onClickTimeButton"
+            android:tag="time_12" />
+
+        <Button
+            android:id="@+id/time13"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time6"
+            android:layout_toRightOf="@id/time12"
+            android:onClick="onClickTimeButton"
+            android:tag="time_13" />
+
+        <Button
+            android:id="@+id/time14"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time6"
+            android:layout_toRightOf="@id/time13"
+            android:onClick="onClickTimeButton"
+            android:tag="time_14" />
+
+        <Button
+            android:id="@+id/time15"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time6"
+            android:layout_toRightOf="@id/time14"
+            android:onClick="onClickTimeButton"
+            android:tag="time_15" />
+
+        <Button
+            android:id="@+id/time16"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time6"
+            android:layout_toRightOf="@id/time15"
+            android:onClick="onClickTimeButton"
+            android:tag="time_16" />
+
+        <Button
+            android:id="@+id/time17"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time6"
+            android:layout_toRightOf="@id/time16"
+            android:onClick="onClickTimeButton"
+            android:tag="time_17" />
+
+        <!--  row 3 -->
+        <Button
+            android:id="@+id/time18"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time12"
+            android:onClick="onClickTimeButton"
+            android:tag="time_18" />
+
+        <Button
+            android:id="@+id/time19"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time12"
+            android:layout_toRightOf="@id/time18"
+            android:onClick="onClickTimeButton"
+            android:tag="time_19" />
+
+        <Button
+            android:id="@+id/time20"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time12"
+            android:layout_toRightOf="@id/time19"
+            android:onClick="onClickTimeButton"
+            android:tag="time_20" />
+
+        <Button
+            android:id="@+id/time21"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time12"
+            android:layout_toRightOf="@id/time20"
+            android:onClick="onClickTimeButton"
+            android:tag="time_21" />
+
+        <Button
+            android:id="@+id/time22"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time12"
+            android:layout_toRightOf="@id/time21"
+            android:onClick="onClickTimeButton"
+            android:tag="time_22" />
+
+        <Button
+            android:id="@+id/time23"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/time12"
+            android:layout_toRightOf="@id/time22"
+            android:onClick="onClickTimeButton"
+            android:tag="time_23" />
+
+
+        <!--  section separator -->
+        <Button
+            android:id="@+id/boundaryTime"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/time23"
+            android:layout_marginTop="@dimen/editDialogSectionMargin" />
+
+
+        <!-- ************ anchor date **********************************************************  -->
+        <Button
+            android:id="@+id/anchor_day_0"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTime"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_0" />
+
+        <Button
+            android:id="@+id/anchor_day_1"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTime"
+            android:layout_toRightOf="@id/anchor_day_0"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_1" />
+
+        <Button
+            android:id="@+id/anchor_day_2"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTime"
+            android:layout_toRightOf="@id/anchor_day_1"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_2" />
+
+        <Button
+            android:id="@+id/anchor_day_3"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTime"
+            android:layout_toRightOf="@id/anchor_day_2"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_3" />
+
+        <Button
+            android:id="@+id/anchor_day_4"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTime"
+            android:layout_toRightOf="@id/anchor_day_3"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_4" />
+
+        <Button
+            android:id="@+id/anchor_day_5"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/boundaryTime"
+            android:layout_toRightOf="@id/anchor_day_4"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_5" />
+
+        <Button
+            android:id="@+id/anchor_day_6"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_0"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_6" />
+
+        <Button
+            android:id="@+id/anchor_day_7"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_0"
+            android:layout_toRightOf="@id/anchor_day_6"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_7" />
+
+        <Button
+            android:id="@+id/anchor_day_8"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_0"
+            android:layout_toRightOf="@id/anchor_day_7"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_8" />
+
+        <Button
+            android:id="@+id/anchor_day_9"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_0"
+            android:layout_toRightOf="@id/anchor_day_8"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_9" />
+
+        <Button
+            android:id="@+id/anchor_day_10"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_0"
+            android:layout_toRightOf="@id/anchor_day_9"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_10" />
+
+        <Button
+            android:id="@+id/anchor_day_11"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_0"
+            android:layout_toRightOf="@id/anchor_day_10"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_11" />
+
+        <Button
+            android:id="@+id/anchor_day_12"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_6"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_12" />
+
+        <Button
+            android:id="@+id/anchor_day_13"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_6"
+            android:layout_toRightOf="@id/anchor_day_12"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_13" />
+
+        <Button
+            android:id="@+id/anchor_day_14"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_6"
+            android:layout_toRightOf="@id/anchor_day_13"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_14" />
+
+        <Button
+            android:id="@+id/anchor_day_15"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_6"
+            android:layout_toRightOf="@id/anchor_day_14"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_15" />
+
+        <Button
+            android:id="@+id/anchor_day_16"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_6"
+            android:layout_toRightOf="@id/anchor_day_15"
+            android:onClick="onClickAnchorDayButton"
+            android:tag="anchor_day_16" />
+
+        <Button
+            android:id="@+id/customAnchorDay"
+            android:layout_width="@dimen/time_button_width"
+            android:layout_height="@dimen/time_button_height"
+            android:layout_below="@id/anchor_day_6"
+            android:layout_toRightOf="@id/anchor_day_16"
+            android:onClick="onClickCustomAnchorDayButton"
+            android:text="Custom" />
+
+        <!--  section separator -->
+        <Button
+            android:id="@+id/boundaryDate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/anchor_day_12"
+            android:layout_marginTop="@dimen/editDialogSectionMargin" />
+
+        <!-- ************ bottom area**********************************************************  -->
+
+        <ImageButton
+            android:id="@+id/deleteTask"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/boundaryDate"
+            android:backgroundTint="@color/transparent"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:src="@drawable/recycle_bin"
+            android:tint="@color/red" />
+
+        <ImageButton
+            android:id="@+id/saveTask"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/boundaryDate"
+            android:layout_toRightOf="@id/deleteTask"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:src="@drawable/save1" />
+
+
+        <ImageButton
+            android:id="@+id/completeTask"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/boundaryDate"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/task_complete_button_background"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:src="@drawable/done" />
+
+
+        <TextView
+            android:id="@+id/multiEditSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/completeTask"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+

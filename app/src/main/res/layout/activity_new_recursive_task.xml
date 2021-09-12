@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- ********** Top elements ****************************************************************************************************-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/labelStartingFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Starting from"
+        android:textSize="15sp" />
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/labelStartingFrom"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="4"
+        android:calendarViewShown="true"
+        android:spinnersShown="false" />
+
+    <NumberPicker
+        android:id="@+id/timeHour"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@id/date_picker"
+        android:layout_marginLeft="120dp" />
+
+    <TextView
+        android:id="@+id/labelHr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_picker"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/timeHour"
+        android:text="  Hr     "
+        android:textSize="15sp" />
+
+    <NumberPicker
+        android:id="@+id/timeMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@id/date_picker"
+        android:layout_toRightOf="@id/labelHr" />
+
+    <TextView
+        android:id="@+id/labelMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_picker"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/timeMinute"
+        android:text="  Min  "
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/labelEvery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeHour"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="95dp"
+        android:text="Every        "
+        android:textSize="15sp" />
+
+    <NumberPicker
+        android:id="@+id/recursiveDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@id/timeHour"
+        android:layout_marginTop="60dp"
+        android:layout_toRightOf="@id/labelEvery" />
+
+    <Spinner
+        android:id="@+id/recursiveUnit"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeHour"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="95dp"
+        android:layout_toRightOf="@id/recursiveDuration" />
+
+
+    <Button
+        android:id="@+id/createNewTask"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/recursiveDuration"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Create New Task" />
+
+    <TextView
+        android:id="@+id/selectionInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createNewTask"
+        android:layout_centerHorizontal="true"
+        android:textSize="15sp" />
+
+</RelativeLayout>
+
+

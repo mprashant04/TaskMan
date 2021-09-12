@@ -1,0 +1,42 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.taskman.MainActivity">
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:title="Search"
+        app:showAsAction="ifRoom|withText"
+        app:actionViewClass="android.widget.SearchView"/>
+
+
+    <item
+        android:id="@+id/action_run_overdue"
+        android:orderInCategory="100"
+        android:title="Run Overdue Tasks"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_create_new_recursive_task"
+        android:orderInCategory="100"
+        android:title="New Recursive Task"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_toggleDeletedTasks"
+        android:orderInCategory="100"
+        android:title="Toggle - Deleted Tasks View"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_toggleTime"
+        android:orderInCategory="100"
+        android:title="Toggle - Task Time View"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_purgeDeletedTasks"
+        android:orderInCategory="100"
+        android:title="Purge Deleted Tasks"
+        app:showAsAction="never" />
+</menu>
