@@ -1,4 +1,4 @@
-How To create initial db manually
+***How To create initial db manually***
 
 - `cd %LOCALAPPDATA%\Android\sdk\platform-tools`
 - `adb shell`
