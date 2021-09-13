@@ -1,4 +1,4 @@
-package com.example.taskman.common;
+package com.example.taskman.task_handlers;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,6 +13,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.taskman.R;
+import com.example.taskman.utils.DateUtils;
+import com.example.taskman.common.Declarations;
+import com.example.taskman.utils.Utils;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 
@@ -53,6 +56,7 @@ public class NotificationHandler {
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel channel = new NotificationChannel(Declarations.CHANNEL_ID, name, importance);
         channel.setDescription(description);
+        channel.setSound(null, null);
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);

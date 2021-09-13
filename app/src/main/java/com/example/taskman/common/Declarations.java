@@ -5,8 +5,8 @@ import java.util.Date;
 public class Declarations {
 
     public static final int NOTIFICATION_ID = 0;
-    public static final String CHANNEL_ID = "TasksChannel";
-    public static final String CHANNEL_ID_SERVICE = "SereviceChannel";
+    public static final String CHANNEL_ID = "TasksChannel_1";
+    public static final String CHANNEL_ID_SERVICE = "ServiceChannel";
     public static final String BELL_CHAR = "\uD83D\uDD14";
 
     public static final String CALLED_FROM_NOTIFICATION = "calledFromNotification";

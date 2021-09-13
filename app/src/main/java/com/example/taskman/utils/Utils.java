@@ -1,4 +1,4 @@
-package com.example.taskman.common;
+package com.example.taskman.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,17 @@ public class Utils {
 
     public static void vibrate(Context context) {
         vibrate(context, 50);
+    }
+
+
+    public static int getSpinnerIndex(Spinner spinner, String stringToSearch) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(stringToSearch)) {
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     public static void vibrate(Context context, int milliSec) {

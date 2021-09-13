@@ -127,8 +127,8 @@ public class TaskDbHelper extends SQLiteOpenHelper {
                 t.setRecursiveUnit(TaskRecursiveUnit.getFromValue(cursor.getString(8)));
                 t.setStatus(TaskStatus.getFromValue(cursor.getString(9)));
                 t.setXtraFlags(cursor.getString(10));
-                //t.setCreatedOn(new Date(Long.parseLong(cursor.getString(11))));
-                //t.setLastUpdatedOn(new Date(Long.parseLong(cursor.getString(12))));
+                t.setCreatedOn(new Date(Long.parseLong(cursor.getString(11))));
+                t.setLastUpdatedOn(new Date(Long.parseLong(cursor.getString(12))));
 
                 tasks.add(t);
             } while (cursor.moveToNext());

@@ -12,7 +12,7 @@ import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.taskman.common.NotificationHandler;
+import com.example.taskman.task_handlers.NotificationHandler;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -45,7 +45,7 @@ public class TimeService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_SERVICE)
-                .setContentTitle("Foreground Service")
+                .setContentTitle("Running TaskMan Service")
                 .setSmallIcon(R.drawable.notification_record)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
@@ -62,7 +62,7 @@ public class TimeService extends Service {
         NotificationChannel serviceChannel = new NotificationChannel(
                 CHANNEL_ID_SERVICE,
                 "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_MIN
+                NotificationManager.IMPORTANCE_NONE
         );
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(serviceChannel);

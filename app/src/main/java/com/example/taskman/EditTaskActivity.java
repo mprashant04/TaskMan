@@ -9,24 +9,27 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.taskman.common.DateUtils;
 import com.example.taskman.common.Declarations;
 import com.example.taskman.common.Logs;
-import com.example.taskman.common.NotificationHandler;
-import com.example.taskman.common.StringUtils;
-import com.example.taskman.common.TaskHandler;
-import com.example.taskman.common.TaskHandlerMultiple;
-import com.example.taskman.common.Utils;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskStatus;
+import com.example.taskman.models.TaskTag;
 import com.example.taskman.models.TaskType;
+import com.example.taskman.task_handlers.NotificationHandler;
+import com.example.taskman.task_handlers.TaskHandler;
+import com.example.taskman.task_handlers.TaskHandlerMultiple;
+import com.example.taskman.utils.DateUtils;
+import com.example.taskman.utils.StringUtils;
+import com.example.taskman.utils.Utils;
 
 import java.util.Date;
 
@@ -50,23 +53,20 @@ public class EditTaskActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                calledFrom = extras.getString("calledFrom");
-            }
-            if (CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) != 0) Utils.vibrate(this);
-
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_edit_task);
 
 
-            if (calledFrom != null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                calledFrom = extras.getString("calledFrom");
+                if (CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) != 0) Utils.vibrate(this);
+
                 long taskId = extras.getLong("taskId");
                 task = db.get(taskId);
                 updateUI();
             } else {
-                Utils.alertDialog(this, "Error!!!   extras/calledFrom = null");
+                Utils.alertDialog(this, "Error!!!   extras = null");
             }
 
 
@@ -115,7 +115,7 @@ public class EditTaskActivity extends Activity {
             ((EditText) findViewById(R.id.title)).addTextChangedListener(new TextWatcher() {
                 public void onTextChanged(CharSequence s, int start, int before,
                                           int count) {
-                    task.setTitle(StringUtils.makeFirstCharacterUppercase(s.toString().trim()));
+                    task.setTitle(StringUtils.capitalizeFirstCharacter(s.toString().trim()));
                 }
 
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -149,7 +149,7 @@ public class EditTaskActivity extends Activity {
 
     private void deleteTask() {
         try {
-            new AlertDialog.Builder(this)
+            AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Are you sure to delete task?")
                     .setMessage("")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -161,7 +161,17 @@ public class EditTaskActivity extends Activity {
                     // A null listener allows the button to dismiss the dialog and take no further action.
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+                    .create();
+
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface arg0) {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.dialog_button_color));
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.dialog_button_color));
+                }
+            });
+
+            dialog.show();
         } catch (Throwable ex) {
             Logs.exception(ex);
         }
@@ -188,6 +198,8 @@ public class EditTaskActivity extends Activity {
         try {
             Utils.vibrate(this);
 
+            task.setTag(TaskTag.getFromValue(((Spinner) findViewById(R.id.tagSpinner)).getSelectedItem().toString()));
+
             long rowsUpdated = db.save(task);
             if (rowsUpdated == 1) {
                 Utils.toastNew(this,
@@ -206,17 +218,16 @@ public class EditTaskActivity extends Activity {
 
     private void closeActivity() {
         try {
-            if (CALLED_FROM_NOTIFICATION.compareTo(calledFrom) == 0 || CALLED_FROM_LIST_VIEW.compareTo(calledFrom) == 0 || CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) == 0) {
-                this.finish();  //finish activity, so that back button will not bring user back to old screen
 
-                if (CALLED_FROM_LIST_VIEW.compareTo(calledFrom) == 0) TaskHandler.listTasks(this);
-                else if (CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) == 0) {
-                    if (TaskHandlerMultiple.pendingTasksCount() > 0)
-                        TaskHandlerMultiple.editNextTask();
-                    else
-                        TaskHandler.listTasks(this);
-                }
-
+            if (CALLED_FROM_LIST_VIEW.compareTo(calledFrom) == 0) {
+                TaskHandler.listTasks(this);
+            } else if (CALLED_FROM_NOTIFICATION.compareTo(calledFrom) == 0) {
+                this.finish();  //just close activity / screen...
+            } else if (CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) == 0) {
+                if (TaskHandlerMultiple.pendingTasksCount() > 0)
+                    TaskHandlerMultiple.editNextTask(this);
+                else
+                    TaskHandler.listTasks(this);
             } else {
                 Utils.alertDialog(this, "Invalid 'calledFrom' value (" + calledFrom + ")");
             }
@@ -247,7 +258,6 @@ public class EditTaskActivity extends Activity {
     private void updateUI() {
         try {
 
-
             //------- Task attributes --------------------------------------
             EditText title = (EditText) findViewById(R.id.title);
             title.setText(task.getTitle());
@@ -259,8 +269,10 @@ public class EditTaskActivity extends Activity {
                 dueOn.setTextColor(ColorStateList.valueOf(0xffff1aff));
             }
 
-            TextView tag = (TextView) findViewById(R.id.tag);
-            tag.setText(task.getTag().getValue());
+            Spinner tagSpinner = (Spinner) findViewById(R.id.tagSpinner);
+            tagSpinner.setAdapter(new ArrayAdapter<String>(this,
+                    R.layout.spinner_task_tag, TaskTag.stringValues()));
+            tagSpinner.setSelection(Utils.getSpinnerIndex(tagSpinner, task.getTag().getValue()));
 
 
             if (task.getDueOn().getTime() <= new Date().getTime()) {
@@ -323,7 +335,7 @@ public class EditTaskActivity extends Activity {
             // ------------ multi edit mode -------------------------------------------
             if (CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) == 0) {
                 TextView multiEditSummary = (TextView) findViewById(R.id.multiEditSummary);
-                multiEditSummary.setText("Remaining " + (TaskHandlerMultiple.pendingTasksCount() + 1));
+                multiEditSummary.setText("Remaining  " + (TaskHandlerMultiple.pendingTasksCount() + 1));
 
                 multiEditSummary.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
@@ -371,7 +383,7 @@ public class EditTaskActivity extends Activity {
                         ((Button) v).setTextColor(ColorStateList.valueOf(Color.WHITE));
                     } else {
                         ((Button) v).setBackgroundTintList(ColorStateList.valueOf(0xff5b728b));
-                        if (DateUtils.isWeekEnd(dt))
+                        if (DateUtils.isWeekend(dt))
                             ((Button) v).setTextColor(ColorStateList.valueOf(0xff748ba4));
                         else
                             ((Button) v).setTextColor(ColorStateList.valueOf(Color.WHITE));

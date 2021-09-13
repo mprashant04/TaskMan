@@ -11,9 +11,9 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.taskman.common.DateUtils;
+import com.example.taskman.utils.DateUtils;
 import com.example.taskman.common.Logs;
-import com.example.taskman.common.TaskHandler;
+import com.example.taskman.task_handlers.TaskHandler;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskRecursiveUnit;

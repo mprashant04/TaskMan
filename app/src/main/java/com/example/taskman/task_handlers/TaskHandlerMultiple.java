@@ -1,5 +1,6 @@
-package com.example.taskman.common;
+package com.example.taskman.task_handlers;
 
+import android.app.Activity;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -9,22 +10,20 @@ import static com.example.taskman.common.Declarations.CALLED_FROM_MULTIPLE_EDIT_
 
 public class TaskHandlerMultiple {
     private static List<Integer> taskIdsToEdit = new ArrayList<>();
-    private static Context contextToUse = null;
 
-    public static void editMultipleTasks(Context context, List<Integer> taskIds) {
+    public static void editMultipleTasks(Activity activity, List<Integer> taskIds) {
         taskIdsToEdit.clear();
         taskIdsToEdit.addAll(taskIds);
-        contextToUse = context;
 
-        editNextTask();
+        editNextTask(activity);
     }
 
     public static int pendingTasksCount() {
         return taskIdsToEdit.size();
     }
 
-    public static void editNextTask() {
-        TaskHandler.editTask(contextToUse, taskIdsToEdit.remove(0), CALLED_FROM_MULTIPLE_EDIT_MODE);
+    public static void editNextTask(Activity activity) {
+        TaskHandler.editTask(activity, taskIdsToEdit.remove(0), CALLED_FROM_MULTIPLE_EDIT_MODE);
     }
 
     public static void cancelMultiEdit() {

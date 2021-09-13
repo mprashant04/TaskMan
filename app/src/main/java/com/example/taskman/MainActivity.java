@@ -13,14 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
-import com.example.taskman.common.AppState;
-import com.example.taskman.common.TaskHandler;
-import com.example.taskman.common.TaskHandlerMultiple;
-import com.example.taskman.common.Utils;
+import com.example.taskman.common.OrderBy;
 import com.example.taskman.db.TaskContract;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskStatus;
+import com.example.taskman.task_handlers.TaskHandler;
+import com.example.taskman.task_handlers.TaskHandlerMultiple;
+import com.example.taskman.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -50,20 +50,31 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewTask();
+                Utils.toast("Long press to create new task...", view.getContext());
             }
         });
+
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+                                       @Override
+                                       public boolean onLongClick(View v) {
+                                           createNewTask();
+                                           return false;
+                                       }
+                                   }
+        );
 
 
         populateTaskList();
     }
 
     private void populateTaskList() {
+        //toast("populating...");
+
         String whereClause = "";
-        String orderBy = TaskContract.TaskEntry._ID;
+        String orderBy = AppState.listView_orderBy.getValue();
 
         //build where clause
-        if (!AppState.showDeletedTasksInListView)
+        if (!AppState.listView_showDeletedTasksInListView)
             whereClause += TaskContract.TaskEntry.COLUMN_NAME_STATUS + "='" + TaskStatus.ACTIVE.getValue() + "'";
         if (searchString != null && searchString.trim().length() > 0)
             whereClause += (whereClause.trim().length() > 0 ? " AND " : "") + " INSTR(lower(" + TaskContract.TaskEntry.COLUMN_NAME_TITLE + "), lower('" + searchString.trim() + "')) > 0";
@@ -89,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        Utils.toastNew(this, "Today 09:23");
+        //Utils.toastNew(this, DateUtils.getThisYearEnd().toString());
+        //System.out.println("======================================================================");
+//        CustomTaskViewAdapter.test();
     }
 
     @Override
@@ -137,14 +150,14 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_toggleDeletedTasks) {
-            AppState.showDeletedTasksInListView = !AppState.showDeletedTasksInListView;
-            Utils.toastLong(AppState.showDeletedTasksInListView ? "Showing deleted tasks" : "NOT showing deleted tasks", this);
-            this.finish();
+            AppState.listView_showDeletedTasksInListView = !AppState.listView_showDeletedTasksInListView;
+            Utils.toastLong(AppState.listView_showDeletedTasksInListView ? "Showing deleted tasks" : "NOT showing deleted tasks", this);
+            //this.finish();
             TaskHandler.listTasks(this);
             return true;
         } else if (id == R.id.action_toggleTime) {
-            AppState.showTimeInListView = !AppState.showTimeInListView;
-            this.finish();
+            AppState.listView_showTimeInListView = !AppState.listView_showTimeInListView;
+            //this.finish();
             TaskHandler.listTasks(this);
             return true;
         } else if (id == R.id.action_create_new_recursive_task) {
@@ -152,6 +165,39 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_run_overdue) {
             runAllOverdueTasks();
+            return true;
+        } else if (id == R.id.action_sortby_id) {
+            changeSortOrder(OrderBy.ID);
+            return true;
+        } else if (id == R.id.action_sortby_tag) {
+            changeSortOrder(OrderBy.TAG);
+            return true;
+        } else if (id == R.id.action_sortby_status) {
+            changeSortOrder(OrderBy.STATUS);
+            return true;
+        } else if (id == R.id.action_sortby_type) {
+            changeSortOrder(OrderBy.TYPE);
+            return true;
+        } else if (id == R.id.action_sortby_last_updated_on) {
+            changeSortOrder(OrderBy.LAST_UPDATED_ON);
+            return true;
+        } else if (id == R.id.action_sortby_last_updated_on_desc) {
+            changeSortOrder(OrderBy.LAST_UPDATED_ON_DESC);
+            return true;
+        } else if (id == R.id.action_sortby_created_on) {
+            changeSortOrder(OrderBy.CREATED_ON);
+            return true;
+        } else if (id == R.id.action_sortby_created_on_desc) {
+            changeSortOrder(OrderBy.CREATED_ON_DESC);
+            return true;
+        } else if (id == R.id.action_sortby_due_on) {
+            changeSortOrder(OrderBy.DUE_ON);
+            return true;
+        } else if (id == R.id.action_sortby_due_on_desc) {
+            changeSortOrder(OrderBy.DUE_ON_DESC);
+            return true;
+        } else if (id == R.id.action_help) {
+            showHelpDialog();
             return true;
         } else if (id == R.id.action_purgeDeletedTasks) {
             Utils.toastNew(this, "TODO: pending implementation...");
@@ -161,14 +207,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showHelpDialog() {
+        String msg = "";
+        msg += "*** Manually adjust notification config *** \n"
+                + "   - Long press on task notification\n"
+                + "   - Disable 'Popup on screen' \n"
+                ;
+
+        Utils.infoDialog(this, "Help", msg);
+    }
+
+    private void changeSortOrder(OrderBy order) {
+        AppState.listView_orderBy = order;
+        TaskHandler.listTasks(this);
+    }
+
     private void runAllOverdueTasks() {
         List<Task> tasks = db.getActiveAndOverdue();
         if (tasks.size() > 0) {
             List<Integer> taskIds = tasks.stream().map(t -> t.getId()).collect(Collectors.toList());
             TaskHandlerMultiple.editMultipleTasks(this, taskIds);
-            this.finish();
-        }
-        else
+            //this.finish();
+        } else
             Utils.toastLong("No overdue tasks present...", this);
     }
 
@@ -179,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void editTask(int taskId) {
-        this.finish();
+        //this.finish();
         TaskHandler.editTask(this, taskId, CALLED_FROM_LIST_VIEW);
     }
 

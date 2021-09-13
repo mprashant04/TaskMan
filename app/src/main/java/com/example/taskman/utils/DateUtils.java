@@ -1,4 +1,6 @@
-package com.example.taskman.common;
+package com.example.taskman.utils;
+
+import com.example.taskman.common.Declarations;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,17 +21,57 @@ public class DateUtils {
             return "Tomorrow " + format("HH:mm", date);
         else if (isSameYear(new Date(), date))
             return format("EEE d-MMM, HH:mm", date);
-        else if (date.getTime() == Declarations.DATE_SOMEDAY.getTime())
+        else if (DateUtils.isSomeDay(date))
             return "Someday";
 
         return format("EEE d-MMM-yy, HH:mm", date);
     }
 
-    public static boolean isWeekEnd(Date date) {
+
+    //this year end + 23:59:59
+    public static Date getThisYearEnd() {
+        Date result = DateUtils.removeTime(new Date());
+        while (isSameYear(new Date(), result))
+            result = DateUtils.addDays(result, 1);
+        return DateUtils.addSeconds(result, -1);
+    }
+
+    //this month end + 23:59:59
+    public static Date getThisMonthEnd() {
+        Date result = DateUtils.removeTime(new Date());
+        while (isSameMonth(new Date(), result))
+            result = DateUtils.addDays(result, 1);
+        return DateUtils.addSeconds(result, -1);
+    }
+
+    //this month beginning 00:00:00
+    public static Date getThisMonthBeginning() {
+        Date result = DateUtils.removeTime(new Date());
+        while (isSameMonth(new Date(), result))
+            result = DateUtils.addDays(result, -1);
+        return DateUtils.addDays(result, 1);
+    }
+
+    //coming sunday 23:59:59
+    public static Date getThisSunday() {
+        Date result = DateUtils.removeTime(new Date());
+        while (!isSunday(result))
+            result = DateUtils.addDays(result, 1);
+        return DateUtils.addSeconds(DateUtils.addDays(result, 1), -1);
+    }
+
+    public static boolean isSunday(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
-                cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+        return cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+    }
+
+    public static boolean isWeekend(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+                ||
+                cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY;
     }
 
     public static boolean isSameDay(Date date1, Date date2) {
@@ -40,6 +82,14 @@ public class DateUtils {
         boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
                 cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
         return sameDay;
+    }
+
+    public static boolean isSameMonth(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+        return cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
     }
 
     public static boolean isSameYear(Date date1, Date date2) {
@@ -106,6 +156,10 @@ public class DateUtils {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
+    }
+
+    public static boolean isSomeDay(Date date) {
+        return date.getTime() == Declarations.DATE_SOMEDAY.getTime();
     }
 
 

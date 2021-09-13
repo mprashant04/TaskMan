@@ -1,6 +1,6 @@
 package com.example.taskman.models;
 
-import com.example.taskman.common.DateUtils;
+import com.example.taskman.utils.DateUtils;
 
 import java.util.Date;
 
@@ -54,9 +54,11 @@ public class Task {
     private String xtraFlags;  //TODO for 🔔 etc.
 
     @Getter
+    @Setter
     private Date createdOn;
 
     @Getter
+    @Setter
     private Date lastUpdatedOn;
 
     public Task(int id) {

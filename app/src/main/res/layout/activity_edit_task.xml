@@ -45,15 +45,24 @@
             android:src="@drawable/bell_filled" />
 
 
-        <TextView
-            android:id="@+id/tag"
-            android:layout_width="wrap_content"
+        <!--        <TextView-->
+        <!--            android:id="@+id/tag"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@id/title"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_toRightOf="@id/dueOnText"-->
+        <!--            android:gravity="right"-->
+        <!--            android:textSize="15sp" />-->
+
+        <Spinner
+            android:id="@+id/tagSpinner"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/dueOnText"
-            android:gravity="right"
-            android:textSize="15sp" />
+            android:layout_toRightOf="@id/toggleAudioAlertFlag"
+            android:background="@null" />
 
 
         <!--  section separator -->
@@ -497,10 +506,13 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_below="@id/boundaryDate"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
             android:backgroundTint="@color/task_complete_button_background"
             android:longClickable="true"
             android:onClick="onClickInformAboutLongPress"
+
+
             android:src="@drawable/done" />
 
 
@@ -510,7 +522,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/completeTask"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:longClickable="true"
             android:onClick="onClickInformAboutLongPress"
             android:textSize="15sp" />

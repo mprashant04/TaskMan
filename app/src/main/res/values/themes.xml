@@ -27,4 +27,5 @@
     <style name="Theme.TaskMan.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.TaskMan.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
