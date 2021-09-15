@@ -7,6 +7,34 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
+    private static String FORMAT_HOUR = "H";
+    private static String FORMAT_MINUTES = "m";
+    private static String FORMAT_SECONDS = "s";
+    private static String FORMAT_DAY_OF_MONTH = "d";
+    private static String FORMAT_MONTH_OF_YEAR = "M";
+    private static String FORMAT_DAY_NUMBER_OF_WEEK = "u"; //1 = Monday, ..., 7 = Sunday
+
+
+    private static SimpleDateFormat getDateFormat(String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf;
+    }
+
+    public static Long getHours() {
+        return Long.parseLong(getDateFormat(FORMAT_HOUR).format(new Date()));
+    }
+
+    public static Long getMinutes() {
+        return getMinutes(new Date());
+    }
+
+    public static Long getMinutes(Date date) {
+        return Long.parseLong(getDateFormat(FORMAT_MINUTES).format(date));
+    }
+
+    public static Long getSeconds() {
+        return Long.parseLong(getDateFormat(FORMAT_SECONDS).format(new Date()));
+    }
 
     public static String format(String format, Date date) {
         //"[yyyy/MM/dd - HH:mm:ss]"

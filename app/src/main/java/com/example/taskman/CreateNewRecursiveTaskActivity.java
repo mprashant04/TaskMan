@@ -11,12 +11,11 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.taskman.utils.DateUtils;
-import com.example.taskman.common.Logs;
-import com.example.taskman.task_handlers.TaskHandler;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskRecursiveUnit;
+import com.example.taskman.task_handlers.TaskHandler;
+import com.example.taskman.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,88 +29,86 @@ public class CreateNewRecursiveTaskActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_new_recursive_task);
 
-            //--------- number pickers ----------------------
-            NumberPicker npDuration = (NumberPicker) findViewById(R.id.recursiveDuration);
-            npDuration.setMaxValue(999);
-            npDuration.setMinValue(1);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_recursive_task);
 
-            NumberPicker npHour = (NumberPicker) findViewById(R.id.timeHour);
-            npHour.setMaxValue(23);
-            npHour.setMinValue(0);
+        //--------- number pickers ----------------------
+        NumberPicker npDuration = (NumberPicker) findViewById(R.id.recursiveDuration);
+        npDuration.setMaxValue(999);
+        npDuration.setMinValue(1);
 
-            NumberPicker npMinute = (NumberPicker) findViewById(R.id.timeMinute);
-            npMinute.setMaxValue(59);
-            npMinute.setMinValue(0);
+        NumberPicker npHour = (NumberPicker) findViewById(R.id.timeHour);
+        npHour.setMaxValue(23);
+        npHour.setMinValue(0);
 
-
-            //--------- unit selector combo -----------------------------
-            Spinner spinner = (Spinner) findViewById(R.id.recursiveUnit);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.recursiveTaskModeArray, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-
-            //-------- unit selection action ----------------------------
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    updateUI();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    updateUI();
-                }
-            });
-
-            //------- duration selection action ----------------------
-            npDuration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    updateUI();
-                }
-            });
-
-            //------- time selection action ----------------------
-            npHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    updateUI();
-                }
-            });
-            npMinute.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                    updateUI();
-                }
-            });
-
-            //------- date selection action ----------------------
-            ((DatePicker) findViewById(R.id.date_picker)).setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
-                @Override
-                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    updateUI();
-                }
-            });
-
-            //------- create task button action ----------------------
-            ((Button) findViewById(R.id.createNewTask)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createNewRecursiveTask();
-                }
-            });
+        NumberPicker npMinute = (NumberPicker) findViewById(R.id.timeMinute);
+        npMinute.setMaxValue(59);
+        npMinute.setMinValue(0);
 
 
-            updateUI();
+        //--------- unit selector combo -----------------------------
+        Spinner spinner = (Spinner) findViewById(R.id.recursiveUnit);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.recursiveTaskModeArray, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-        } catch (Throwable ex) {
-            Logs.exception(ex);
-        }
+        //-------- unit selection action ----------------------------
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateUI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                updateUI();
+            }
+        });
+
+        //------- duration selection action ----------------------
+        npDuration.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                updateUI();
+            }
+        });
+
+        //------- time selection action ----------------------
+        npHour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                updateUI();
+            }
+        });
+        npMinute.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                updateUI();
+            }
+        });
+
+        //------- date selection action ----------------------
+        ((DatePicker) findViewById(R.id.date_picker)).setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                updateUI();
+            }
+        });
+
+        //------- create task button action ----------------------
+        ((Button) findViewById(R.id.createNewTask)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewRecursiveTask();
+            }
+        });
+
+
+        updateUI();
+
+
     }
 
 

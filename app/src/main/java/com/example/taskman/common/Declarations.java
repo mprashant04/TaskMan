@@ -5,8 +5,10 @@ import java.util.Date;
 public class Declarations {
 
     public static final int NOTIFICATION_ID = 0;
-    public static final String CHANNEL_ID = "TasksChannel_1";
-    public static final String CHANNEL_ID_SERVICE = "ServiceChannel";
+    public static final String NOTIFICATION_CHANNEL_ID = "TasksChannel_1";
+    public static final String NOTIFICATION_CHANNEL_ID_SERVICE = "ServiceChannel";
+    public static final String NOTIFICATION_CHANNEL_ID_ERROR = "ErrorChannel";
+
     public static final String BELL_CHAR = "\uD83D\uDD14";
 
     public static final String CALLED_FROM_NOTIFICATION = "calledFromNotification";
@@ -15,7 +17,6 @@ public class Declarations {
 
     public static final String TASK_FLAG_AUDIO_ALERT = "_audio_";
 
-
-
-    public static final Date DATE_SOMEDAY = new Date(2099, 5, 6);
+    public static final Date DATE_SOMEDAY = new Date(2099 - 1900, 1, 2, 3, 4, 5);   //do NOT change this value, it's saved in DB for "someday" tasks
+    public static final String NEW_TASK_TITLE = "New Task";
 }

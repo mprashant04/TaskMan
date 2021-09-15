@@ -1,5 +1,6 @@
 package com.example.taskman.models;
 
+import com.example.taskman.common.Declarations;
 import com.example.taskman.utils.DateUtils;
 
 import java.util.Date;
@@ -81,7 +82,7 @@ public class Task {
     public static Task createNew() {
         // do NOT keep any null values in fields
         Task t = new Task(0);
-        t.setTitle("New Task");
+        t.setTitle(Declarations.NEW_TASK_TITLE);
         t.setDueOn(new Date());
         t.setNotes("");
 

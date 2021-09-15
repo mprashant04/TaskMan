@@ -12,14 +12,26 @@
     <color name="list_section_text_color">#ff90aedf</color>
     <color name="list_section_note_text_color">#FFa6a6a6</color>
     <color name="red">#FFFF0000</color>
+    <color name="toast_background_yellow">#ffff00</color>
+    <color name="toast_background_red">#ff3300</color>
+    <color name="toast_background_green">#66ff33</color>
+    <color name="toast_background_white">#ffffff</color>
     <color name="gray_900">#e6e6e6</color>
     <color name="gray_500">#cccccc</color>
     <color name="gray_200">#999999</color>
     <color name="task_overdue">#ff5c33</color>
     <color name="task_today">#4da6ff</color>
+    <color name="notification_subtext">#0099e6</color>
+    <color name="notification_background">#00334d</color>
     <color name="transparent">#00ffffff</color>
     <color name="task_complete_button_background">#ff083577</color>
+    <color name="task_expand_complete_button_background">#00666666</color>
     <color name="app_header_background">#ff052048</color>
-    <color name="dialog_button_color">#FFffff00</color>
+
+    <color name="dialog_button_cancel_color">#e6e6e6</color>
+    <color name="dialog_button_positive_color">#00ff00</color>
+    <color name="dialog_button_negative_color">#ff471a</color>
+
+    <color name="new_recursive_task_sumamry">#FFFF00</color>
 
 </resources>

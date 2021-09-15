@@ -18,7 +18,7 @@ import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskStatus;
 import com.example.taskman.models.TaskType;
 import com.example.taskman.utils.DateUtils;
-import com.example.taskman.utils.Utils;
+import com.example.taskman.utils.DialogUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -78,7 +78,7 @@ public class CustomTaskViewAdapter extends BaseAdapter {
         } else if (task.getType() == TaskType.ONETIME) {
             icon.setImageTintList(ColorStateList.valueOf(0xff333333));
         } else {
-            Utils.alertDialog(view.getContext(), "ERROR!!! invalid task type - " + task.getType());
+            DialogUtils.alertDialog(view.getContext(), "ERROR!!! invalid task type - " + task.getType());
         }
 
 
@@ -102,9 +102,9 @@ public class CustomTaskViewAdapter extends BaseAdapter {
         }
 
         //------- time show/hide --------------------------------------
-        dueOn.setVisibility(AppState.listView_showTimeInListView ? View.VISIBLE : View.GONE);
+        dueOn.setVisibility(AppState.ListView.isShowTime() ? View.VISIBLE : View.GONE);
         // to increase row height little bit when time not being shown
-        if (!AppState.listView_showTimeInListView)
+        if (!AppState.ListView.isShowTime())
             setMargin(view.findViewById(R.id.bottomGap), 0, 0, 0, 120);
 
 
@@ -132,7 +132,7 @@ public class CustomTaskViewAdapter extends BaseAdapter {
     }
 
     private String getSectionHeaderNote() {
-        switch (AppState.listView_orderBy) {
+        switch (AppState.ListView.getOrderBy()) {
             case ID:
                 return context.getString(R.string.sort_by_id);
             case CREATED_ON:
@@ -159,7 +159,7 @@ public class CustomTaskViewAdapter extends BaseAdapter {
     }
 
     private boolean isSectionChanged(int idx) {
-        switch (AppState.listView_orderBy) {
+        switch (AppState.ListView.getOrderBy()) {
             case ID:
                 return false;   //no section grouping in this case
 
@@ -169,7 +169,7 @@ public class CustomTaskViewAdapter extends BaseAdapter {
     }
 
     private String getSectionHeader(int idx) {
-        switch (AppState.listView_orderBy) {
+        switch (AppState.ListView.getOrderBy()) {
             case ID:
                 return "Error?????";   //not expecting function call for this condition
 

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:text="Starting from"
         android:textSize="15sp" />
 
@@ -92,22 +92,28 @@
         android:layout_toRightOf="@id/recursiveDuration" />
 
 
-    <Button
-        android:id="@+id/createNewTask"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
-        android:layout_below="@id/recursiveDuration"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Create New Task" />
-
     <TextView
         android:id="@+id/selectionInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/createNewTask"
+        android:layout_below="@id/recursiveDuration"
         android:layout_centerHorizontal="true"
-        android:textSize="15sp" />
+        android:textStyle="bold"
+        android:layout_marginTop="70dp"
+        android:textColor="@color/new_recursive_task_sumamry"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/createNewTask"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/selectionInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:text="Create New Task" />
+
+
 
 </RelativeLayout>
 

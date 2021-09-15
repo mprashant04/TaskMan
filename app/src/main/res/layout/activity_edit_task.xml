@@ -22,7 +22,9 @@
             android:gravity="bottom"
             android:hint="Enter Title"
             android:inputType="text|textCapSentences"
-            android:maxLength="250"
+            android:lineSpacingExtra="-3dp"
+            android:maxLength="350"
+            android:selectAllOnFocus="true"
             android:textSize="25sp" />
 
         <TextView
@@ -500,6 +502,17 @@
             android:onClick="onClickInformAboutLongPress"
             android:src="@drawable/save1" />
 
+        <ImageButton
+            android:id="@+id/expandCompleteTask"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/boundaryDate"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="@color/task_expand_complete_button_background"
+            android:longClickable="true"
+            android:onClick="onClickInformAboutLongPress"
+            android:src="@drawable/unfold_more" />
 
         <ImageButton
             android:id="@+id/completeTask"
@@ -511,9 +524,8 @@
             android:backgroundTint="@color/task_complete_button_background"
             android:longClickable="true"
             android:onClick="onClickInformAboutLongPress"
-
-
-            android:src="@drawable/done" />
+            android:src="@drawable/done"
+            android:visibility="invisible" />
 
 
         <TextView

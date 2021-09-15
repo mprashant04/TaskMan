@@ -17,10 +17,11 @@ import com.example.taskman.task_handlers.NotificationHandler;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.example.taskman.common.Declarations.CHANNEL_ID_SERVICE;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_SERVICE;
 
 public class TimeService extends Service {
-    public static final long NOTIFY_INTERVAL = 5 * 60 * 1000;  //5 minutes
+    public static final long NOTIFY_INTERVAL = 10 * 60 * 1000;  //10 minutes
+    //public static final long NOTIFY_INTERVAL = 20 * 1000;  //for testing only
 
     // run on another Thread to avoid crash
     private Handler mHandler = new Handler();
@@ -34,39 +35,26 @@ public class TimeService extends Service {
 
     @Override
     public void onCreate() {
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        createNotificationChannel();
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_SERVICE)
+        Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_SERVICE)
                 .setContentTitle("Running TaskMan Service")
                 .setSmallIcon(R.drawable.notification_record)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .build();
-        startForeground(1, notification);
+        startForeground(100001, notification);
 
         createTimer();
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
 
 
-    private void createNotificationChannel() {
-        NotificationChannel serviceChannel = new NotificationChannel(
-                CHANNEL_ID_SERVICE,
-                "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_NONE
-        );
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(serviceChannel);
-    }
 
     private void createTimer() {
         // cancel if already existed

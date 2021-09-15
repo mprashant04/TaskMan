@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.example.taskman.CreateNewRecursiveTaskActivity;
+import com.example.taskman.CreateNewTaskActivity;
 import com.example.taskman.MainActivity;
-import com.example.taskman.utils.Utils;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
+import com.example.taskman.utils.Utils;
 
 public class TaskHandler {
 
@@ -32,6 +33,10 @@ public class TaskHandler {
 
         Intent intent = new Intent(activity, CreateNewRecursiveTaskActivity.class);
         activity.startActivity(intent);
+    }
+
+    public static void createNewTask(Activity activity, String calledFrom) {
+        createNewTask(activity, Task.createNew(), calledFrom);
     }
 
     public static void createNewTask(Activity activity, Task task, String calledFrom) {

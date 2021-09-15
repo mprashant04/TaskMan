@@ -22,22 +22,35 @@
             android:theme="@style/Theme.TaskMan.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".EditTaskActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:taskAffinity=""></activity>
+
         <activity
             android:name=".CreateNewRecursiveTaskActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:taskAffinity=""></activity>
+
+        <activity
+            android:name="com.example.taskman.CreateNewTaskActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="com.example.taskman.CreateNewTask" />
+                <category android:name="android.intent.category.INFO" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".TimeService"

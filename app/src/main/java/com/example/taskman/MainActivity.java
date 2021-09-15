@@ -10,7 +10,9 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 
 import com.example.taskman.common.OrderBy;
@@ -18,8 +20,10 @@ import com.example.taskman.db.TaskContract;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskStatus;
+import com.example.taskman.task_handlers.NotificationHandler;
 import com.example.taskman.task_handlers.TaskHandler;
 import com.example.taskman.task_handlers.TaskHandlerMultiple;
+import com.example.taskman.utils.DialogUtils;
 import com.example.taskman.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,6 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
+import static com.example.taskman.utils.DialogUtils.infoDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Utils.checkExternalStorageAccess(this);
 
+        NotificationHandler.createNotificationChannels(this);
         startForegroundService(new Intent(this, TimeService.class));  //starting as foreground service to prevent it from getting killed
 
         super.onCreate(savedInstanceState);
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Utils.toast("Long press to create new task...", view.getContext());
+                DialogUtils.toast("Long press to create new task...", view.getContext());
             }
         });
 
@@ -71,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
         //toast("populating...");
 
         String whereClause = "";
-        String orderBy = AppState.listView_orderBy.getValue();
+        String orderBy = AppState.ListView.getOrderBy().getValue();
 
         //build where clause
-        if (!AppState.listView_showDeletedTasksInListView)
+        if (!AppState.ListView.isShowDeletedTasks())
             whereClause += TaskContract.TaskEntry.COLUMN_NAME_STATUS + "='" + TaskStatus.ACTIVE.getValue() + "'";
         if (searchString != null && searchString.trim().length() > 0)
             whereClause += (whereClause.trim().length() > 0 ? " AND " : "") + " INSTR(lower(" + TaskContract.TaskEntry.COLUMN_NAME_TITLE + "), lower('" + searchString.trim() + "')) > 0";
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Utils.toastNew(this, DateUtils.getThisYearEnd().toString());
+        //Utils.toastNew(this, DateUtils.getHours().toString() );
         //System.out.println("======================================================================");
 //        CustomTaskViewAdapter.test();
     }
@@ -109,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (menu instanceof MenuBuilder)
+            ((MenuBuilder) menu).setOptionalIconsVisible(true);
+
+        MenuCompat.setGroupDividerEnabled(menu, true);
 
         MenuItem searchViewItem = menu.findItem(R.id.app_bar_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
@@ -138,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toast(String newText) {
-        Utils.toast(newText, this);
+        DialogUtils.toast(newText, this);
     }
 
     @Override
@@ -150,14 +161,12 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_toggleDeletedTasks) {
-            AppState.listView_showDeletedTasksInListView = !AppState.listView_showDeletedTasksInListView;
-            Utils.toastLong(AppState.listView_showDeletedTasksInListView ? "Showing deleted tasks" : "NOT showing deleted tasks", this);
-            //this.finish();
+            AppState.ListView.toggleShowDeletedTasks();
+            DialogUtils.toastLong(AppState.ListView.isShowDeletedTasks() ? "Showing deleted tasks" : "NOT showing deleted tasks", this);
             TaskHandler.listTasks(this);
             return true;
         } else if (id == R.id.action_toggleTime) {
-            AppState.listView_showTimeInListView = !AppState.listView_showTimeInListView;
-            //this.finish();
+            AppState.ListView.toggleShowTime();
             TaskHandler.listTasks(this);
             return true;
         } else if (id == R.id.action_create_new_recursive_task) {
@@ -196,11 +205,15 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_sortby_due_on_desc) {
             changeSortOrder(OrderBy.DUE_ON_DESC);
             return true;
+        } else if (id == R.id.action_reset_view) {
+            AppState.ListView.reset();
+            TaskHandler.listTasks(this);
+            return true;
         } else if (id == R.id.action_help) {
             showHelpDialog();
             return true;
         } else if (id == R.id.action_purgeDeletedTasks) {
-            Utils.toastNew(this, "TODO: pending implementation...");
+            DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
         }
 
@@ -211,14 +224,15 @@ public class MainActivity extends AppCompatActivity {
         String msg = "";
         msg += "*** Manually adjust notification config *** \n"
                 + "   - Long press on task notification\n"
-                + "   - Disable 'Popup on screen' \n"
-                ;
+                + "   - Disable 'Popup on screen' \n\n\n"
+                + "APK build: " + Utils.getAppBuildTimeStamp(this);
+        ;
 
-        Utils.infoDialog(this, "Help", msg);
+        infoDialog(this, "Help", msg);
     }
 
     private void changeSortOrder(OrderBy order) {
-        AppState.listView_orderBy = order;
+        AppState.ListView.setOrderBy(order);
         TaskHandler.listTasks(this);
     }
 
@@ -229,12 +243,12 @@ public class MainActivity extends AppCompatActivity {
             TaskHandlerMultiple.editMultipleTasks(this, taskIds);
             //this.finish();
         } else
-            Utils.toastLong("No overdue tasks present...", this);
+            DialogUtils.toastLong("No overdue tasks present...", this);
     }
 
 
     private void createNewTask() {
-        TaskHandler.createNewTask(this, Task.createNew(), CALLED_FROM_LIST_VIEW);
+        TaskHandler.createNewTask(this, CALLED_FROM_LIST_VIEW);
     }
 
 

@@ -16,6 +16,10 @@
         <!-- By default all buttons text is caps, disabling this behavior -->
         <item name="android:textAllCaps">false</item>
 
+
+
+
+
     </style>
 
     <style name="Theme.TaskMan.NoActionBar">
