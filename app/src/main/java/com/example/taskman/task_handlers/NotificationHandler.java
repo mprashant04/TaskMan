@@ -63,7 +63,7 @@ public class NotificationHandler {
 
                 if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
                 Tasker.sendWatchNotification(context,
-                        watchMessage  + " " + BELL_CHAR
+                        watchMessage + " " + BELL_CHAR
                 );
             }
         }
@@ -118,11 +118,7 @@ public class NotificationHandler {
         //RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
 
         notificationLayout.setTextViewText(R.id.notification_text,
-                task.getTitle()
-                        + (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT) ? " " + BELL_CHAR : "")
-                //+ " (" + task.getId() + ") "
-                //+ DateUtils.format("HH:mm:ss", new Date())
-                //+ " ★"
+                task.getFormattedTitle()
         );
 
         if (showSubText) {

@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.taskman.common.Declarations;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskStatus;
 import com.example.taskman.models.TaskType;
@@ -22,8 +21,6 @@ import com.example.taskman.utils.DialogUtils;
 
 import java.util.Date;
 import java.util.List;
-
-import static com.example.taskman.common.Declarations.BELL_CHAR;
 
 public class CustomTaskViewAdapter extends BaseAdapter {
     Context context;
@@ -59,11 +56,8 @@ public class CustomTaskViewAdapter extends BaseAdapter {
         ImageView icon = (ImageView) view.findViewById(R.id.icon);
 
         Task task = tasks.get(i);
-        title.setText(task.getTitle()
-                        //+ " (" + task.getId() + ")"
-                        + (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT) ? " " + BELL_CHAR : "")  //🔔 bell icon
-                //+ (task.getStatus() == TaskStatus.DELETED ? " [deleted] " : "")
-        );
+        title.setText(task.getFormattedTitle());
+
         dueOn.setText(DateUtils.toReadableString(task.getDueOn())
                 + (task.getType() == TaskType.RECURSIVE ? " (" + task.getRecursiveDuration() + "-" + task.getRecursiveUnit().getValue() + ")" : ""));
 

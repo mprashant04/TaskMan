@@ -145,8 +145,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        updateMenuTitles(menu);
+
         return true;
     }
+
+    private void updateMenuTitles(Menu menu) {
+        menu.findItem(R.id.action_toggleDeletedTasks).setTitle(getMenuTitlePrefix(AppState.ListView.isShowDeletedTasks()) + "Deleted Tasks");
+        menu.findItem(R.id.action_toggleTime).setTitle(getMenuTitlePrefix(AppState.ListView.isShowTime()) + "Due On Time");
+        menu.findItem(R.id.action_toggleTaskId).setTitle(getMenuTitlePrefix(AppState.ListView.isShowTaskId()) + "Task ID");
+    }
+
+    private String getMenuTitlePrefix(boolean settingEnabled) {
+        return settingEnabled ? "Hide " : "Show ";
+    }
+
 
     private void toast(String newText) {
         DialogUtils.toast(newText, this);
@@ -169,7 +182,12 @@ public class MainActivity extends AppCompatActivity {
             AppState.ListView.toggleShowTime();
             TaskHandler.listTasks(this);
             return true;
-        } else if (id == R.id.action_create_new_recursive_task) {
+        } else if (id == R.id.action_toggleTaskId) {
+            AppState.ListView.toggleShowTaskId();
+            NotificationHandler.refreshAll(this);
+            TaskHandler.listTasks(this);
+            return true;
+        }  else if (id == R.id.action_create_new_recursive_task) {
             TaskHandler.createNewRecursiveTask(this);
             return true;
         } else if (id == R.id.action_run_overdue) {
@@ -207,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_reset_view) {
             AppState.ListView.reset();
+            NotificationHandler.refreshAll(this);
             TaskHandler.listTasks(this);
             return true;
         } else if (id == R.id.action_help) {

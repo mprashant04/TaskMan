@@ -1,5 +1,6 @@
 package com.example.taskman.models;
 
+import com.example.taskman.AppState;
 import com.example.taskman.common.Declarations;
 import com.example.taskman.utils.DateUtils;
 
@@ -7,6 +8,8 @@ import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import static com.example.taskman.common.Declarations.BELL_CHAR;
 
 public class Task {
 
@@ -117,5 +120,11 @@ public class Task {
             return d;
         }
         return null;
+    }
+
+    public String getFormattedTitle() {
+        return this.getTitle()
+                + (this.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT) ? " " + BELL_CHAR : "")
+                + (AppState.ListView.isShowTaskId() ? "   [" + this.getId() + "]" : "");
     }
 }

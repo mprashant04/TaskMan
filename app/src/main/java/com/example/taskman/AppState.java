@@ -8,12 +8,13 @@ import lombok.Setter;
 public class AppState {
 
 
-
-    static class ListView {
+    public static class ListView {
         @Getter
         private static boolean showDeletedTasks;
         @Getter
         private static boolean showTime;
+        @Getter
+        private static boolean showTaskId;
         @Setter
         @Getter
         private static OrderBy orderBy;
@@ -30,9 +31,14 @@ public class AppState {
             showTime = !showTime;
         }
 
+        public static void toggleShowTaskId() {
+            showTaskId = !showTaskId;
+        }
+
         public static void reset() {
             showDeletedTasks = false;
             showTime = false;
+            showTaskId = false;
             orderBy = OrderBy.TAG;
         }
     }

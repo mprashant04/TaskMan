@@ -63,15 +63,23 @@
                 <item
                     android:id="@+id/action_toggleDeletedTasks"
                     android:icon="@drawable/delete_sweep"
-                    android:title="Toggle - Deleted Tasks View"
+                    android:title=""
                     app:showAsAction="never" />
 
                 <item
                     android:id="@+id/action_toggleTime"
                     android:icon="@drawable/clock"
-                    android:title="Toggle - Task Time View"
+                    android:title=""
                     app:showAsAction="never" />
 
+                <item
+                    android:id="@+id/action_toggleTaskId"
+                    android:icon="@drawable/hash"
+                    android:title=""
+                    app:showAsAction="never" />
+            </group>
+
+            <group android:id="@+id/grp3">
                 <item
                     android:id="@+id/action_reset_view"
                     android:icon="@drawable/clear_layers"
@@ -80,8 +88,6 @@
             </group>
         </menu>
     </item>
-
-
 
 
     <item
@@ -95,7 +101,6 @@
         android:icon="@drawable/add_task"
         android:title="New Recursive Task"
         app:showAsAction="never" />
-
 
 
     <item
