@@ -1,3 +1,9 @@
+***Download APK***
+
+- https://github.com/mprashant04/TaskMan/tree/main/app/build/outputs/apk
+
+
+
 ***How To create initial db manually***
 
 - `cd %LOCALAPPDATA%\Android\sdk\platform-tools`
