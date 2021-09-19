@@ -2,6 +2,7 @@ package com.example.taskman;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,6 +36,7 @@ import com.example.taskman.utils.StringUtils;
 import com.example.taskman.utils.UserFeedbackUtils;
 import com.example.taskman.utils.Utils;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
@@ -312,14 +315,6 @@ public class EditTaskActivity extends Activity {
                 ((Button) v).setText("Sumday");
                 //((Button) v).setBackgroundTintList(ColorStateList.valueOf(0xff54542b));
             }
-            //------- anchor day button UI --------------------------------------
-            else if (v instanceof Button && v.getTag() != null && v.getTag().toString().startsWith(BTN_TAG_ANCHOR_DAY)) {
-                Date dt = resolveAnchorDate(v.getTag().toString());
-                if (DateUtils.isSameDay(new Date(), dt))
-                    ((Button) v).setText("Today");
-                else
-                    ((Button) v).setText(DateUtils.format("EEE d", dt));
-            }
         }
 
         // ------------ delete button, show only if recursive task -------------------------------------------
@@ -372,26 +367,32 @@ public class EditTaskActivity extends Activity {
 
     private void updateSelectedAnchorDayButtonUI() {
 
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relative_layout);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relative_layout).findViewById(R.id.relative_layout_date_controls);
         for (int i = 0; i < layout.getChildCount(); i++) {
             View v = layout.getChildAt(i);
+
             if (v instanceof Button && v.getTag() != null && v.getTag().toString().startsWith(BTN_TAG_ANCHOR_DAY)) {
                 Date dt = resolveAnchorDate(v.getTag().toString());
-                if (DateUtils.isSameDay(anchorDate, dt)) {
-                    ((Button) v).setBackgroundTintList(ColorStateList.valueOf(0xFFc45a5a));
-                    ((Button) v).setTextColor(ColorStateList.valueOf(Color.WHITE));
-                } else {
-                    ((Button) v).setBackgroundTintList(ColorStateList.valueOf(0xff5b728b));
-                    if (DateUtils.isWeekend(dt))
-                        ((Button) v).setTextColor(ColorStateList.valueOf(0xff748ba4));
-                    else
-                        ((Button) v).setTextColor(ColorStateList.valueOf(Color.WHITE));
-                }
+                Button btn = (Button) v;
 
+                btn.setText(DateUtils.isSameDay(new Date(), dt) ? "Today" : DateUtils.format("EEE d", dt));
+
+                if (DateUtils.isSameDay(anchorDate, dt)) {
+                    btn.setBackgroundTintList(ColorStateList.valueOf(0xFFc45a5a));
+                    btn.setTextColor(ColorStateList.valueOf(Color.WHITE));
+                } else {
+                    btn.setBackgroundTintList(ColorStateList.valueOf(0xff5b728b));
+                    if (DateUtils.isWeekend(dt))
+                        btn.setTextColor(ColorStateList.valueOf(0xff748ba4));
+                    else
+                        btn.setTextColor(ColorStateList.valueOf(Color.WHITE));
+                }
             }
         }
 
-
+        //custom selected date text
+        ((TextView) findViewById(R.id.relative_layout_date_custom_controls).findViewById(R.id.selectedCustomDateText))
+                .setText(DateUtils.format("EEE  d/MMM/yyyy", anchorDate));
     }
 
     private Date resolveAnchorDate(String tag) {
@@ -457,10 +458,14 @@ public class EditTaskActivity extends Activity {
     public void onClickAnchorDayButton(View v) {
         if (v.getTag() != null) {
             if (v.getTag().toString().startsWith(BTN_TAG_ANCHOR_DAY)) {
-                anchorDate = resolveAnchorDate(v.getTag().toString());
-                updateSelectedAnchorDayButtonUI();
+                changeAnchorDate(resolveAnchorDate(v.getTag().toString()));
             }
         }
+    }
+
+    private void changeAnchorDate(Date newAnchorDate) {
+        anchorDate = newAnchorDate;
+        updateSelectedAnchorDayButtonUI();
     }
 
 
@@ -491,7 +496,22 @@ public class EditTaskActivity extends Activity {
     }
 
     public void onClickCustomAnchorDayButton(View v) {
-        DialogUtils.toast("custom anchor", this);
+        findViewById(R.id.relative_layout).findViewById(R.id.relative_layout_date_controls).setVisibility(View.INVISIBLE);
+        findViewById(R.id.relative_layout).findViewById(R.id.relative_layout_date_custom_controls).setVisibility(View.VISIBLE);
+
+        final Calendar newCalendar = Calendar.getInstance();
+        newCalendar.setTime(anchorDate);
+
+        final DatePickerDialog customDateSelectorDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                changeAnchorDate(newDate.getTime());
+            }
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        customDateSelectorDialog.getDatePicker().setFirstDayOfWeek(Calendar.MONDAY);
+        customDateSelectorDialog.show();
     }
 
     private void cancelMultiEditMode() {

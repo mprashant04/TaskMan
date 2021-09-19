@@ -90,6 +90,7 @@ public class CreateNewRecursiveTaskActivity extends Activity {
         });
 
         //------- date selection action ----------------------
+        ((DatePicker) findViewById(R.id.date_picker)).setFirstDayOfWeek(Calendar.MONDAY);
         ((DatePicker) findViewById(R.id.date_picker)).setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
