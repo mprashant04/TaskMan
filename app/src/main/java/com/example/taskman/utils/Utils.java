@@ -2,6 +2,8 @@ package com.example.taskman.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -80,6 +82,12 @@ public class Utils {
         intent.putExtra("taskId", taskId);
         intent.putExtra("calledFrom", calledFrom);
         return intent;
+    }
+    
+    public static void copyToClipboard(Context context, String text){
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", text);
+        clipboard.setPrimaryClip(clip);
     }
 
 }

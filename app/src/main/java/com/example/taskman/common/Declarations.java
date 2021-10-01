@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Declarations {
 
+    public static final String APK_VERSION = "0.6";
+
     public static final int NOTIFICATION_ID = 0;
     public static final String NOTIFICATION_CHANNEL_ID = "TasksChannel_1";
     public static final String NOTIFICATION_CHANNEL_ID_SERVICE = "ServiceChannel";

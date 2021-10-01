@@ -34,11 +34,11 @@ import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_SE
 public class NotificationHandler {
     private static Object SYNC = new Object();
 
-    public static void refreshAll(Context context) {
+    public static synchronized void refreshAll(Context context) {
         refreshAll(context, false);
     }
 
-    public static void refreshAll(Context context, boolean enableAudioAlert) {
+    public static synchronized void refreshAll(Context context, boolean enableAudioAlert) {
         synchronized (SYNC) {
             boolean taskFoundWithAudioAlert = false;
             String watchMessage = "";
@@ -76,7 +76,7 @@ public class NotificationHandler {
                 ;
     }
 
-    public static void createNotificationChannels(Context context) {
+    public static synchronized void createNotificationChannels(Context context) {
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
 

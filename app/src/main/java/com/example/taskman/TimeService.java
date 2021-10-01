@@ -13,6 +13,7 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 
 import com.example.taskman.task_handlers.NotificationHandler;
+import com.example.taskman.utils.FireBaseUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -63,6 +64,7 @@ public class TimeService extends Service {
         }
         mTimer = new Timer();
         mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(this), 1000, NOTIFY_INTERVAL);
+
     }
 
     class TimeDisplayTimerTask extends TimerTask {

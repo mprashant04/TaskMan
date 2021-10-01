@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 
+import com.example.taskman.common.Declarations;
 import com.example.taskman.common.OrderBy;
 import com.example.taskman.db.TaskContract;
 import com.example.taskman.db.TaskDbHelper;
@@ -24,11 +25,17 @@ import com.example.taskman.task_handlers.NotificationHandler;
 import com.example.taskman.task_handlers.TaskHandler;
 import com.example.taskman.task_handlers.TaskHandlerMultiple;
 import com.example.taskman.utils.DialogUtils;
+import com.example.taskman.utils.FireBaseUtils;
 import com.example.taskman.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.NonNull;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
 import static com.example.taskman.utils.DialogUtils.infoDialog;
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         populateTaskList();
+
+        FireBaseUtils.init(this);
     }
 
     private void populateTaskList() {
@@ -162,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void toast(String newText) {
-        DialogUtils.toast(newText, this);
+        Utils.copyToClipboard(this, newText);
+        DialogUtils.toastLong(newText, this);
     }
 
     @Override
@@ -187,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             NotificationHandler.refreshAll(this);
             TaskHandler.listTasks(this);
             return true;
-        }  else if (id == R.id.action_create_new_recursive_task) {
+        } else if (id == R.id.action_create_new_recursive_task) {
             TaskHandler.createNewRecursiveTask(this);
             return true;
         } else if (id == R.id.action_run_overdue) {
@@ -244,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
         msg += "*** Manually adjust notification config *** \n"
                 + "   - Long press on task notification\n"
                 + "   - Disable 'Popup on screen' \n\n\n"
-                + "APK build: " + Utils.getAppBuildTimeStamp(this);
+                + "APK version: " + Declarations.APK_VERSION;
         ;
 
         infoDialog(this, "Help", msg);
@@ -285,6 +295,8 @@ public class MainActivity extends AppCompatActivity {
 //        }
         this.finish();
     }
+
+
 
 
 }
