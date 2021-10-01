@@ -29,7 +29,7 @@ import java.util.List;
 
 import static com.example.taskman.common.Declarations.BELL_CHAR;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
-import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_SERVICE;
 
@@ -84,7 +84,7 @@ public class NotificationHandler {
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
 
         //--------- task notification channel -------------------------------------
-        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TASK,
                 "Tasks Channel",
                 NotificationManager.IMPORTANCE_HIGH);
         channel.setSound(null, null);
@@ -134,7 +134,7 @@ public class NotificationHandler {
         }
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID_TASK)
                 .setSmallIcon(R.drawable.notification_icon)
                 //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
@@ -154,7 +154,7 @@ public class NotificationHandler {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         for (StatusBarNotification n : mNotificationManager.getActiveNotifications()) {
-            if (Declarations.NOTIFICATION_CHANNEL_ID.equals(n.getNotification().getChannelId())) {
+            if (Declarations.NOTIFICATION_CHANNEL_ID_TASK.equals(n.getNotification().getChannelId())) {
                 mNotificationManager.cancel(n.getTag(), n.getId());
             }
         }

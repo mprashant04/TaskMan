@@ -36,22 +36,22 @@
                     android:id="@+id/action_sortby_due_on"
                     android:title="@string/sort_by_due_on"
                     app:showAsAction="never" />
-                <item
+                <!--item
                     android:id="@+id/action_sortby_due_on_desc"
                     android:title="@string/sort_by_due_on_desc"
-                    app:showAsAction="never" />
-                <item
+                    app:showAsAction="never" /-->
+                <!--item
                     android:id="@+id/action_sortby_last_updated_on"
                     android:title="@string/sort_by_last_updated_on"
-                    app:showAsAction="never" />
+                    app:showAsAction="never" /-->
                 <item
                     android:id="@+id/action_sortby_last_updated_on_desc"
                     android:title="@string/sort_by_last_updated_on_desc"
                     app:showAsAction="never" />
-                <item
+                <!--item
                     android:id="@+id/action_sortby_created_on"
                     android:title="@string/sort_by_created_on"
-                    app:showAsAction="never" />
+                    app:showAsAction="never" /-->
                 <item
                     android:id="@+id/action_sortby_created_on_desc"
                     android:title="@string/sort_by_created_on_desc"

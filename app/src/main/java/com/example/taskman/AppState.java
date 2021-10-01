@@ -39,7 +39,7 @@ public class AppState {
             showDeletedTasks = false;
             showTime = false;
             showTaskId = false;
-            orderBy = OrderBy.TAG;
+            orderBy = OrderBy.DUE_ON;
         }
     }
 

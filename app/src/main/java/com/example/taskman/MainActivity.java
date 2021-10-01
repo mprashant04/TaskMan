@@ -211,24 +211,24 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_sortby_type) {
             changeSortOrder(OrderBy.TYPE);
             return true;
-        } else if (id == R.id.action_sortby_last_updated_on) {
-            changeSortOrder(OrderBy.LAST_UPDATED_ON);
-            return true;
+//        } else if (id == R.id.action_sortby_last_updated_on) {
+//            changeSortOrder(OrderBy.LAST_UPDATED_ON);
+//            return true;
         } else if (id == R.id.action_sortby_last_updated_on_desc) {
             changeSortOrder(OrderBy.LAST_UPDATED_ON_DESC);
             return true;
-        } else if (id == R.id.action_sortby_created_on) {
-            changeSortOrder(OrderBy.CREATED_ON);
-            return true;
+//        } else if (id == R.id.action_sortby_created_on) {
+//            changeSortOrder(OrderBy.CREATED_ON);
+//            return true;
         } else if (id == R.id.action_sortby_created_on_desc) {
             changeSortOrder(OrderBy.CREATED_ON_DESC);
             return true;
         } else if (id == R.id.action_sortby_due_on) {
             changeSortOrder(OrderBy.DUE_ON);
             return true;
-        } else if (id == R.id.action_sortby_due_on_desc) {
-            changeSortOrder(OrderBy.DUE_ON_DESC);
-            return true;
+//        } else if (id == R.id.action_sortby_due_on_desc) {
+//            changeSortOrder(OrderBy.DUE_ON_DESC);
+//            return true;
         } else if (id == R.id.action_reset_view) {
             AppState.ListView.reset();
             NotificationHandler.refreshAll(this);
