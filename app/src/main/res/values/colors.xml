@@ -23,6 +23,7 @@
     <color name="task_today">#4da6ff</color>
     <color name="notification_subtext">#0099e6</color>
     <color name="notification_background">#00334d</color>
+    <color name="notification_background_error">#AA0101</color>
     <color name="transparent">#00ffffff</color>
     <color name="task_complete_button_background">#ff083577</color>
     <color name="task_expand_complete_button_background">#00666666</color>

@@ -75,11 +75,7 @@ public class MainActivity extends AppCompatActivity {
                                        }
                                    }
         );
-
-
         populateTaskList();
-
-        FireBaseUtils.init(this);
     }
 
     private void populateTaskList() {

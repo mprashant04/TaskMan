@@ -55,6 +55,7 @@ public class TimeService extends FirebaseMessagingService {
         startForeground(100001, notification);
 
         createTimer();
+        FireBaseUtils.init(this);
     }
 
 //    @Override

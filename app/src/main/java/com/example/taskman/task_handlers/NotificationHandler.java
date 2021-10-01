@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.ToneGenerator;
 import android.os.SystemClock;
+import android.service.notification.StatusBarNotification;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -23,6 +24,7 @@ import com.example.taskman.utils.DateUtils;
 import com.example.taskman.utils.UserFeedbackUtils;
 import com.example.taskman.utils.Utils;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.example.taskman.common.Declarations.BELL_CHAR;
@@ -33,6 +35,7 @@ import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_SE
 
 public class NotificationHandler {
     private static Object SYNC = new Object();
+    private static int errorNotificationId = 0;
 
     public static synchronized void refreshAll(Context context) {
         refreshAll(context, false);
@@ -149,6 +152,36 @@ public class NotificationHandler {
 
     private static void cancelAllNotifications(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+
+        for (StatusBarNotification n : mNotificationManager.getActiveNotifications()) {
+            if (Declarations.NOTIFICATION_CHANNEL_ID.equals(n.getNotification().getChannelId())) {
+                mNotificationManager.cancel(n.getTag(), n.getId());
+            }
+        }
+    }
+
+    public static void showError(Context context, String msg) {
+        errorNotificationId++;
+
+        RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
+        notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", R.color.notification_background_error);
+
+        notificationLayout.setTextViewText(R.id.notification_text,  msg + "  (TaskMan " + DateUtils.format("HH:mm:ss", new Date()) + ")");
+        notificationLayout.setViewVisibility(R.id.notification_sub_text, View.GONE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID_ERROR)
+                .setSmallIcon(R.drawable.notification_icon)
+                //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(notificationLayout)
+                .setGroup(errorNotificationId + "-error")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOngoing(true)  //prevent dismiss
+                //.setCustomBigContentView(notificationLayoutExpanded)
+                //.setContentIntent(editTaskIntent)
+                ;
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.notify("error", errorNotificationId, builder.build());
     }
 }

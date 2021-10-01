@@ -2,6 +2,7 @@ package com.example.taskman.utils;
 
 import android.content.Context;
 
+import com.example.taskman.task_handlers.NotificationHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -28,7 +29,7 @@ public class FireBaseUtils {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
-                            DialogUtils.alertDialog(context, "Firebase topic subscription failed!!");
+                            NotificationHandler.showError(context, "Firebase topic subscription failed!!");
                         }
                         DialogUtils.toastLong("Firebase topic subscribed...", context);
                     }
