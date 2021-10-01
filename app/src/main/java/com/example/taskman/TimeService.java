@@ -12,15 +12,22 @@ import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.taskman.common.Tasker;
 import com.example.taskman.task_handlers.NotificationHandler;
 import com.example.taskman.utils.FireBaseUtils;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import lombok.NonNull;
+
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_SERVICE;
 
-public class TimeService extends Service {
+//Ref:  https://medium.com/nybles/sending-push-notifications-by-using-firebase-cloud-messaging-249aa34f4f4c
+
+public class TimeService extends FirebaseMessagingService {
     public static final long NOTIFY_INTERVAL = 10 * 60 * 1000;  //10 minutes
     //public static final long NOTIFY_INTERVAL = 20 * 1000;  //for testing only
 
@@ -29,10 +36,10 @@ public class TimeService extends Service {
     // timer handling
     private Timer mTimer = null;
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    //@Override
+    //public IBinder onBind(Intent intent) {
+    //    return null;
+    //}
 
     @Override
     public void onCreate() {
@@ -50,11 +57,17 @@ public class TimeService extends Service {
         createTimer();
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
-    }
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        return START_STICKY;
+//    }
 
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        //firebase push notification received....
+        super.onMessageReceived(remoteMessage);
+        Tasker.sendData(this, remoteMessage.getData().get("title"), remoteMessage.getData().get("data"));
+    }
 
 
     private void createTimer() {
