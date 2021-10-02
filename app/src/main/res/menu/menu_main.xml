@@ -102,6 +102,11 @@
         android:title="New Recursive Task"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_getFcmToken"
+        android:icon="@drawable/key"
+        android:title="Get FCM Token"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_purgeDeletedTasks"

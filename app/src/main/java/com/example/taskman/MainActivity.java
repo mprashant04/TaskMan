@@ -27,16 +27,10 @@ import com.example.taskman.task_handlers.TaskHandlerMultiple;
 import com.example.taskman.utils.DialogUtils;
 import com.example.taskman.utils.FireBaseUtils;
 import com.example.taskman.utils.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import lombok.NonNull;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
 import static com.example.taskman.utils.DialogUtils.infoDialog;
@@ -78,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         );
         populateTaskList();
 
-       if (Utils.isBatteryOptimizationEnabled(this)){
-           DialogUtils.alertDialog(this, "Disable the battery optimization...");
-       }
+        if (Utils.isBatteryOptimizationEnabled(this)) {
+            DialogUtils.alertDialog(this, "Disable the battery optimization...");
+        }
     }
 
     private void populateTaskList() {
@@ -242,6 +236,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_help) {
             showHelpDialog();
             return true;
+        } else if (id == R.id.action_getFcmToken) {
+            FireBaseUtils.getFireBaseToken(this);
+            return true;
         } else if (id == R.id.action_purgeDeletedTasks) {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
@@ -296,8 +293,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
         this.finish();
     }
-
-
 
 
 }
