@@ -2,6 +2,7 @@ package com.example.taskman.utils;
 
 import android.content.Context;
 
+import com.example.taskman.common.Logs;
 import com.example.taskman.task_handlers.NotificationHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,13 +25,16 @@ public class FireBaseUtils {
     }
 
     private static void subscribeTopic(Context context) {
+        Logs.info("FCM: ********  Subscribing Topic  ********");
         FirebaseMessaging.getInstance().subscribeToTopic("push_data")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
+                            Logs.error("FCM: Topic subscription failed!! " + task.getException());
                             NotificationHandler.showError(context, "Firebase topic subscription failed!!");
                         }
+                        Logs.info("FCM: Subscribed topic");
                         DialogUtils.toastLong("Firebase topic subscribed...", context);
                     }
                 });

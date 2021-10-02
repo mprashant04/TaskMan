@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Declarations {
 
-    public static final String APK_VERSION = "0.10";
+    public static final String APK_VERSION = "0.12";
 
     public static final int NOTIFICATION_ID = 0;
     public static final String NOTIFICATION_CHANNEL_ID_TASK = "TasksChannel_1";
@@ -21,4 +21,5 @@ public class Declarations {
 
     public static final Date DATE_SOMEDAY = new Date(2099 - 1900, 1, 2, 3, 4, 5);   //do NOT change this value, it's saved in DB for "someday" tasks
     public static final String NEW_TASK_TITLE = "New Task";
+
 }

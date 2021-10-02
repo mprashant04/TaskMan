@@ -77,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
                                    }
         );
         populateTaskList();
+
+       if (Utils.isBatteryOptimizationEnabled(this)){
+           DialogUtils.alertDialog(this, "Disable the battery optimization...");
+       }
     }
 
     private void populateTaskList() {

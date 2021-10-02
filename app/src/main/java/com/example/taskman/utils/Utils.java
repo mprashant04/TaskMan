@@ -1,42 +1,27 @@
 package com.example.taskman.utils;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Vibrator;
+import android.os.PowerManager;
 import android.provider.Settings;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.DrawableRes;
 
 import com.example.taskman.EditTaskActivity;
-import com.example.taskman.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 
-import static android.content.Context.VIBRATOR_SERVICE;
+import static android.content.Context.POWER_SERVICE;
 
 public class Utils {
 
 
-    public static String getAppBuildTimeStamp(Context context)  {
+    public static String getAppBuildTimeStamp(Context context) {
         try {
             String timeStamp = "";
 
@@ -48,8 +33,7 @@ public class Utils {
             timeStamp = formatter.format(time);
 
             return timeStamp;
-        }
-        catch (Throwable ex){
+        } catch (Throwable ex) {
             return "Error while getting APK build date!!!";
         }
     }
@@ -62,7 +46,6 @@ public class Utils {
         }
         return 0;
     }
-
 
 
     public static void checkExternalStorageAccess(Context context) {
@@ -83,11 +66,18 @@ public class Utils {
         intent.putExtra("calledFrom", calledFrom);
         return intent;
     }
-    
-    public static void copyToClipboard(Context context, String text){
+
+    public static void copyToClipboard(Context context, String text) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("label", text);
         clipboard.setPrimaryClip(clip);
+    }
+
+    public static synchronized boolean isBatteryOptimizationEnabled(Context context) {
+        Intent intent = new Intent();
+        String packageName = context.getPackageName();
+        PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
+        return !pm.isIgnoringBatteryOptimizations(packageName);
     }
 
 }

@@ -1,24 +1,47 @@
 package com.example.taskman.common;
 
-public class Logs {
-//    public static void info(String msg) {
-//        //TODO
-//    }
-//
-//    public static void error(String msg) {
-//        //TODO
-//    }
+import com.example.taskman.utils.DateUtils;
 
-//    public static void exception(Context context, Throwable ex) {
-//        Notification notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_ERROR)
-//                .setContentTitle("Exception!!")
-//                .setContentText(ex.toString())
-//                .setSmallIcon(R.drawable.alert)
-//                //.setContentIntent(pendingIntent)
-//                .setOngoing(true)
-//                .build();
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-//        notificationManager.notify(UUID.randomUUID().toString() + "", 999001, notification);
-//    }
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
+
+public class Logs {
+
+    private final static String PATH = "/sdcard/zLogs/TaskMan";
+
+    static {
+        createLogDirectory();
+    }
+
+    private static void createLogDirectory() {
+        File file = new File(PATH);
+        file.mkdirs();
+    }
+
+    public static synchronized void info(String msg) {
+        write("[INFO]", msg);
+    }
+
+    public static synchronized void error(String msg) {
+        write("[ERRR]", msg);
+    }
+
+    private static synchronized void write(String prefix, String msg) {
+        try {
+            File file = new File(PATH, "" + DateUtils.format("yyyy_MM_dd", new Date()) + ".html");
+            FileOutputStream stream = new FileOutputStream(file, true);
+
+            msg = DateUtils.format("HH:mm:ss", new Date()) + " " + prefix + " " + msg;
+
+            try {
+                stream.write((msg + "\n").getBytes());
+            } finally {
+                stream.close();
+            }
+        } catch (Throwable ex) {
+
+        }
+    }
+
 }
