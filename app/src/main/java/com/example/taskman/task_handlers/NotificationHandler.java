@@ -29,9 +29,9 @@ import java.util.List;
 
 import static com.example.taskman.common.Declarations.BELL_CHAR;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
-import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_SERVICE;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 
 public class NotificationHandler {
     private static Object SYNC = new Object();
@@ -54,7 +54,7 @@ public class NotificationHandler {
             List<Task> tasks = db.getActiveAndOverdue();
             for (int idx = 0; idx < tasks.size(); idx++) {
                 Task task = tasks.get(idx);
-                showNotification(context, task, idx == tasks.size() - 1);
+                showTaskNotification(context, task, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
                 if (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT)) {
                     taskFoundWithAudioAlert = true;
                     watchMessage = task.getTitle();
@@ -109,7 +109,7 @@ public class NotificationHandler {
     }
 
 
-    private static void showNotification(Context context, Task task, boolean showSubText) {
+    private static void showTaskNotification(Context context, Task task, String subText) {
         // edit task intent
         Intent intent = Utils.createEditTaskIntent(context, task.getId(), CALLED_FROM_NOTIFICATION);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -120,17 +120,13 @@ public class NotificationHandler {
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
         //RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
 
-        notificationLayout.setTextViewText(R.id.notification_text,
-                task.getFormattedTitle()
-        );
+        notificationLayout.setTextViewText(R.id.notification_text, task.getFormattedTitle());
 
-        if (showSubText) {
-//            notificationLayout.setTextViewText(R.id.notification_sub_text,
-//                    DateUtils.format("HH:mm:ss", new Date())
-//            );
-            notificationLayout.setChronometer(R.id.notification_sub_text, SystemClock.elapsedRealtime(), null, true);
+        if (subText != null) {
+            notificationLayout.setChronometer(R.id.notification_sub_text_chrono, SystemClock.elapsedRealtime(), null, true);
+            notificationLayout.setTextViewText(R.id.notification_sub_text_str, subText);
         } else {
-            notificationLayout.setViewVisibility(R.id.notification_sub_text, View.GONE);
+            notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
         }
 
 
@@ -166,8 +162,9 @@ public class NotificationHandler {
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
         notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", R.color.notification_background_error);
 
-        notificationLayout.setTextViewText(R.id.notification_text,  msg + "  (TaskMan " + DateUtils.format("HH:mm:ss", new Date()) + ")");
-        notificationLayout.setViewVisibility(R.id.notification_sub_text, View.GONE);
+        notificationLayout.setTextViewText(R.id.notification_text, msg);
+        notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
+        notificationLayout.setTextViewText(R.id.notification_sub_text_str, "Taskman ("+ DateUtils.format("HH:mm", new Date()) + ")");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID_ERROR)
                 .setSmallIcon(R.drawable.notification_icon)

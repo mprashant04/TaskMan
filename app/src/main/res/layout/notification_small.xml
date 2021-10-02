@@ -15,14 +15,26 @@
     <!--        android:textColor="@color/notification_subtext"-->
     <!--        android:textSize="9sp" />-->
 
-    <Chronometer
-        android:id="@+id/notification_sub_text"
+    <TextView
+        android:id="@+id/notification_sub_text_str"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:textColor="@color/notification_subtext"
+        android:paddingRight="3dp"
         android:textSize="9sp" />
+
+    <Chronometer
+        android:id="@+id/notification_sub_text_chrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/notification_sub_text_str"
+        android:paddingRight="3dp"
+        android:textColor="@color/notification_subtext"
+        android:textSize="9sp" />
+
+
 
     <TextView
         android:id="@+id/notification_text"
