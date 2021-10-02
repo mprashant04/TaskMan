@@ -24,18 +24,18 @@ public class Logs {
     }
 
     public static synchronized void error(String msg) {
-        write("[ERRR]", msg);
+        write("[ERROR]", msg);
     }
 
     private static synchronized void write(String prefix, String msg) {
         try {
-            File file = new File(PATH, "" + DateUtils.format("yyyy_MM_dd", new Date()) + ".html");
+            File file = new File(PATH, "" + DateUtils.format("yyyy_MM_dd", new Date()) + ".txt");
             FileOutputStream stream = new FileOutputStream(file, true);
 
-            msg = DateUtils.format("HH:mm:ss", new Date()) + " " + prefix + " " + msg;
+            msg = DateUtils.format("HH:mm:ss", new Date()) + " " + prefix + " " + msg + "\n";
 
             try {
-                stream.write((msg + "\n").getBytes());
+                stream.write(msg.getBytes());
             } finally {
                 stream.close();
             }
