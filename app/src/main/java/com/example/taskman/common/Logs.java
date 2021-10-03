@@ -10,6 +10,12 @@ public class Logs {
 
     private final static String PATH = "/sdcard/zLogs/TaskMan";
 
+    private static final String MSG_PLACEHOLDER = "$MESSAGE$";
+    private final static String TEMPLATE = "<b><p style=\"font-family:'Courier New'; font-size:25px; color:$COLOR$; padding:0px; margin:0px; white-space:nowrap;\">" + MSG_PLACEHOLDER + "</p></b>";
+    private final static String TEMPLATE_INFO = TEMPLATE.replace("$COLOR$", "blue");
+    private final static String TEMPLATE_WARN = TEMPLATE.replace("$COLOR$", "orange");
+    private final static String TEMPLATE_ERROR = TEMPLATE.replace("$COLOR$", "red");;
+
     static {
         createLogDirectory();
     }
@@ -20,19 +26,24 @@ public class Logs {
     }
 
     public static synchronized void info(String msg) {
-        write("[INFO]", msg);
+        write(TEMPLATE_INFO, msg);
+    }
+
+    public static synchronized void warn(String msg) {
+        write(TEMPLATE_WARN, msg);
     }
 
     public static synchronized void error(String msg) {
-        write("[ERROR]", msg);
+        write(TEMPLATE_ERROR, msg);
     }
 
-    private static synchronized void write(String prefix, String msg) {
+    private static synchronized void write(String template, String msg) {
         try {
-            File file = new File(PATH, "" + DateUtils.format("yyyy_MM_dd", new Date()) + ".txt");
+            File file = new File(PATH, "" + DateUtils.format("yyyy_MM_dd", new Date()) + ".html");
             FileOutputStream stream = new FileOutputStream(file, true);
 
-            msg = DateUtils.format("HH:mm:ss", new Date()) + " " + prefix + " " + msg + "\n";
+            msg = DateUtils.format("HH:mm:ss", new Date()) + " " + msg;
+            msg = template.replace(MSG_PLACEHOLDER, msg);
 
             try {
                 stream.write(msg.getBytes());

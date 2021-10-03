@@ -66,7 +66,8 @@ public class TimeService extends Service {
         }
 
 
-        Logs.info(LOG_PREFIX + "********* INIT *********");
+        Logs.error("=====================================================================================");
+        Logs.warn(LOG_PREFIX + " **** Init ****");
         mTimer = new Timer();
         mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(this), 1000, NOTIFY_INTERVAL);
 

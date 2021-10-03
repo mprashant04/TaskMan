@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import lombok.SneakyThrows;
+
 public class DateUtils {
     private static String FORMAT_HOUR = "H";
     private static String FORMAT_MINUTES = "m";
@@ -19,6 +21,14 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf;
     }
+
+    @SneakyThrows
+    public static Date stringToDate(String dateFormat, String dateString)  {
+        SimpleDateFormat df = getDateFormat(dateFormat);
+        df.setLenient(false);
+        return df.parse(dateString);
+    }
+
 
     public static Long getHours() {
         return Long.parseLong(getDateFormat(FORMAT_HOUR).format(new Date()));
