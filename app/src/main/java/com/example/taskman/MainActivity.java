@@ -25,12 +25,14 @@ import com.example.taskman.task_handlers.NotificationHandler;
 import com.example.taskman.task_handlers.TaskHandler;
 import com.example.taskman.task_handlers.TaskHandlerMultiple;
 import com.example.taskman.utils.DialogUtils;
-import com.example.taskman.utils.FireBaseUtils;
+import com.example.taskman.utils.PushyUtils;
 import com.example.taskman.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import me.pushy.sdk.Pushy;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
 import static com.example.taskman.utils.DialogUtils.infoDialog;
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.isBatteryOptimizationEnabled(this)) {
             DialogUtils.alertDialog(this, "Disable the battery optimization...");
         }
+
+        Pushy.listen(this);
     }
 
     private void populateTaskList() {
@@ -237,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
             showHelpDialog();
             return true;
         } else if (id == R.id.action_getFcmToken) {
-            FireBaseUtils.getFireBaseToken(this);
+            PushyUtils.showToken(this);
             return true;
         } else if (id == R.id.action_purgeDeletedTasks) {
             DialogUtils.toastNew(this, "TODO: pending implementation...");

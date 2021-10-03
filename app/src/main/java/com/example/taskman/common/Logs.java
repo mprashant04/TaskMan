@@ -4,6 +4,8 @@ import com.example.taskman.utils.DateUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 
 public class Logs {
@@ -31,6 +33,13 @@ public class Logs {
 
     public static synchronized void warn(String msg) {
         write(TEMPLATE_WARN, msg);
+    }
+
+    public static synchronized void error(final Throwable throwable) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw, true);
+        throwable.printStackTrace(pw);
+        write(TEMPLATE_ERROR, sw.getBuffer().toString().replace("\n", "<br>"));
     }
 
     public static synchronized void error(String msg) {

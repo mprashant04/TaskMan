@@ -12,7 +12,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.taskman.common.Logs;
 import com.example.taskman.task_handlers.NotificationHandler;
-import com.example.taskman.utils.FireBaseUtils;
+import com.example.taskman.utils.PushyUtils;
+
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,7 +51,6 @@ public class TimeService extends Service {
         startForeground(100001, notification);
 
         createTimer();
-        FireBaseUtils.init(this);
     }
 
     @Override
@@ -70,6 +70,8 @@ public class TimeService extends Service {
         Logs.warn(LOG_PREFIX + " **** Init ****");
         mTimer = new Timer();
         mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(this), 1000, NOTIFY_INTERVAL);
+
+        PushyUtils.register(this);
 
     }
 
