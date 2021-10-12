@@ -37,6 +37,9 @@ public class NotificationHandler {
     private static Object SYNC = new Object();
     private static int errorNotificationId = 0;
 
+    private static Long chronoTimerBase = null;
+
+
     public static synchronized void refreshAll(Context context) {
         refreshAll(context, false);
     }
@@ -46,6 +49,10 @@ public class NotificationHandler {
             boolean taskFoundWithAudioAlert = false;
             String watchMessage = "";
             int watchMessageCount = 0;
+
+            if (enableAudioAlert || chronoTimerBase == null) {
+                chronoTimerBase = SystemClock.elapsedRealtime();
+            }
 
             TaskDbHelper db = new TaskDbHelper(context);
 
@@ -127,7 +134,10 @@ public class NotificationHandler {
         notificationLayout.setTextViewText(R.id.notification_text, task.getFormattedTitle());
 
         if (subText != null) {
-            notificationLayout.setChronometer(R.id.notification_sub_text_chrono, SystemClock.elapsedRealtime(), null, true);
+            notificationLayout.setChronometer(R.id.notification_sub_text_chrono,
+                    chronoTimerBase,
+                    null,
+                    true);
             notificationLayout.setTextViewText(R.id.notification_sub_text_str, subText);
         } else {
             notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
