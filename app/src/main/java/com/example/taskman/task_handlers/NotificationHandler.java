@@ -62,7 +62,7 @@ public class NotificationHandler {
                 }
             }
             if (taskFoundWithAudioAlert && enableAudioAlert && !isSilentTime()) {
-                UserFeedbackUtils.playTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 700);   //ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
+                playTone();
 
                 if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
                 Tasker.sendWatchNotification(context,
@@ -70,6 +70,10 @@ public class NotificationHandler {
                 );
             }
         }
+    }
+
+    public static synchronized void playTone() {
+        UserFeedbackUtils.playTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 700);   //ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
     }
 
     private static boolean isSilentTime() {
@@ -164,7 +168,7 @@ public class NotificationHandler {
 
         notificationLayout.setTextViewText(R.id.notification_text, msg);
         notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
-        notificationLayout.setTextViewText(R.id.notification_sub_text_str, "Taskman ("+ DateUtils.format("HH:mm", new Date()) + ")");
+        notificationLayout.setTextViewText(R.id.notification_sub_text_str, "Taskman (" + DateUtils.format("HH:mm", new Date()) + ")");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID_ERROR)
                 .setSmallIcon(R.drawable.notification_icon)

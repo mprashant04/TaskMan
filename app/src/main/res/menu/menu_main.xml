@@ -115,6 +115,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_testNotificationSound"
+        android:icon="@drawable/sound"
+        android:title="Test Notification Sound"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_help"
         android:icon="@drawable/help"
         android:title="Help"

@@ -246,6 +246,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_purgeDeletedTasks) {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
+        } else if (id == R.id.action_testNotificationSound) {
+            NotificationHandler.playTone();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
