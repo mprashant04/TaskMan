@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Utils.checkExternalStorageAccess(this);
 
         NotificationHandler.createNotificationChannels(this);
-        startForegroundService(new Intent(this, TimeService.class));  //starting as foreground service to prevent it from getting killed
+        //startForegroundService(new Intent(this, TimeService.class));  //starting as foreground service to prevent it from getting killed
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
             DialogUtils.alertDialog(this, "Disable the battery optimization...");
         }
 
+
+        MyAlarmManager.init(this);
+        PushyUtils.register(this);
         Pushy.listen(this);
     }
 

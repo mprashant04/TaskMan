@@ -17,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.taskman.R;
 import com.example.taskman.common.Declarations;
+import com.example.taskman.common.Logs;
 import com.example.taskman.common.Tasker;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
@@ -80,7 +81,18 @@ public class NotificationHandler {
     }
 
     public static synchronized void playTone() {
-        UserFeedbackUtils.playTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 700);   //ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
+        //run asynchronously
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UserFeedbackUtils.playTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 700);   //ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
+                } catch (Throwable ex) {
+                    Logs.error("playTone error!!");
+                    Logs.error(ex);
+                }
+            }
+        }).start();
     }
 
     private static boolean isSilentTime() {

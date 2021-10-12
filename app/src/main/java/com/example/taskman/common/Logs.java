@@ -20,6 +20,7 @@ public class Logs {
 
     static {
         createLogDirectory();
+        error("==================================================================");
     }
 
     private static void createLogDirectory() {

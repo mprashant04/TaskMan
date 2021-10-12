@@ -57,10 +57,10 @@
             </intent-filter>
         </activity>
 
-        <service
+        <!--service
             android:name=".TimeService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"></service-->
 
         <!--service
             android:name=".MyFirebaseService"
@@ -71,8 +71,13 @@
             </intent-filter>
         </service-->
 
-        <!-- Pushy Declarations -->
+        <receiver
+            android:name=".MyAlarmManager"
+            android:enabled="true"
+            android:exported="true" />
 
+
+        <!-- Pushy Declarations -->
         <!-- Pushy Notification Receiver -->
         <!-- Incoming push notifications will invoke the following BroadcastReceiver -->
         <receiver android:name=".PushReceiver" android:exported="false">

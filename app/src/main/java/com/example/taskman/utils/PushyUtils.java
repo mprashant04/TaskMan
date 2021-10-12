@@ -9,8 +9,12 @@ import me.pushy.sdk.Pushy;
 
 public class PushyUtils {
     private static String token = "--not-yet-populated--";
+    private static boolean initiated = false;
 
-    public static void register(Context context) {
+    public static synchronized void register(Context context) {
+
+        if (initiated) return;
+        initiated = true;
 
         new Thread(new Runnable() {
             @Override
