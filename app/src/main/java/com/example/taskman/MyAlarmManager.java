@@ -27,12 +27,14 @@ public class MyAlarmManager extends BroadcastReceiver {
 
     private static void process(Context context) {
         if (lastProcessedOn == null) lastProcessedOn = new Date();
-        boolean intervalOk = (DateUtils.diffInSeconds(lastProcessedOn) < (INTERVAL / 1000) + 60);  //if run interval is ok as per definition, or big delays
+
+        long timeDiff = DateUtils.diffInSeconds(lastProcessedOn);
+        boolean intervalOk = (timeDiff < (INTERVAL / 1000) + 60);  //if run interval is ok as per definition, or big delays
 
         if (intervalOk)
-            Logs.info(LOG_PREFIX + "Refreshing all notifications");
+            Logs.info(LOG_PREFIX + "Refreshing notifications (" + timeDiff + ")");
         else
-            Logs.warn(LOG_PREFIX + "Refreshing all notifications");
+            Logs.warn(LOG_PREFIX + "Refreshing notifications (" + timeDiff + ")");
 
         NotificationHandler.refreshAll(context, true);
 
