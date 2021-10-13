@@ -1,6 +1,5 @@
 package com.example.taskman;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 
 import com.example.taskman.common.Declarations;
+import com.example.taskman.common.Logs;
 import com.example.taskman.common.OrderBy;
 import com.example.taskman.db.TaskContract;
 import com.example.taskman.db.TaskDbHelper;
@@ -261,7 +261,10 @@ public class MainActivity extends AppCompatActivity {
         String msg = "";
         msg += "*** Manually adjust notification config *** \n"
                 + "   - Long press on task notification\n"
-                + "   - Disable 'Popup on screen' \n\n\n"
+                + "   - Disable 'Popup on screen' "
+                + "\n\n\n"
+                + "Log path: " + Logs.PATH
+                + "\n\n\n"
                 + "APK version: " + Declarations.APK_VERSION;
         ;
 

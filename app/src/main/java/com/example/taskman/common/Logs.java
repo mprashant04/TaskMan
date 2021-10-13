@@ -1,6 +1,9 @@
 package com.example.taskman.common;
 
+import android.app.Activity;
+
 import com.example.taskman.utils.DateUtils;
+import com.example.taskman.utils.DialogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,13 +13,14 @@ import java.util.Date;
 
 public class Logs {
 
-    private final static String PATH = "/sdcard/zLogs/TaskMan";
+    public final static String PATH = "/sdcard/zLogs/TaskMan";
 
     private static final String MSG_PLACEHOLDER = "$MESSAGE$";
     private final static String TEMPLATE = "<b><p style=\"font-family:'Courier New'; font-size:25px; color:$COLOR$; padding:0px; margin:0px; white-space:nowrap;\">" + MSG_PLACEHOLDER + "</p></b>";
     private final static String TEMPLATE_INFO = TEMPLATE.replace("$COLOR$", "blue");
     private final static String TEMPLATE_WARN = TEMPLATE.replace("$COLOR$", "orange");
-    private final static String TEMPLATE_ERROR = TEMPLATE.replace("$COLOR$", "red");;
+    private final static String TEMPLATE_ERROR = TEMPLATE.replace("$COLOR$", "red");
+    ;
 
     static {
         createLogDirectory();

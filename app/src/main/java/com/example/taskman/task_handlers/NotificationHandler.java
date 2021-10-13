@@ -70,12 +70,13 @@ public class NotificationHandler {
                 }
             }
             if (taskFoundWithAudioAlert && enableAudioAlert && !isSilentTime()) {
-                playTone();
 
                 if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
                 Tasker.sendWatchNotification(context,
                         watchMessage + " " + BELL_CHAR
                 );
+
+                playTone();
             }
         }
     }
