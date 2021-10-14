@@ -76,17 +76,18 @@ public class NotificationHandler {
                         watchMessage + " " + BELL_CHAR
                 );
 
-                playTone();
+                playTone(true);
             }
         }
     }
 
-    public static synchronized void playTone() {
+    public static synchronized void playTone(boolean afterDelay) {
         //run asynchronously
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    if (afterDelay) Thread.sleep(1500);  //sometimes sound gets disturbed when played along with notifications, hence added delay
                     UserFeedbackUtils.playTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 700);   //ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
                 } catch (Throwable ex) {
                     Logs.error("playTone error!!");

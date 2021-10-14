@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
         } else if (id == R.id.action_testNotificationSound) {
-            NotificationHandler.playTone();
+            NotificationHandler.playTone(false);
             return true;
         }
 
