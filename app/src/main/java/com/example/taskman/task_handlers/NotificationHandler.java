@@ -238,7 +238,7 @@ public class NotificationHandler {
         final String notification_tag = "audio_notification_tag";
 
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
-        notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", R.color.black);
+        notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", R.color.transparent);
 
         notificationLayout.setTextViewText(R.id.notification_text, "(Audio Alert)");
         notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
