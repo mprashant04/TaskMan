@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Utils.checkExternalStorageAccess(this);
 
-        NotificationHandler.createNotificationChannels(this);
+        NotificationHandler.createNotificationChannels(this, false);
         //startForegroundService(new Intent(this, TimeService.class));  //starting as foreground service to prevent it from getting killed
 
         super.onCreate(savedInstanceState);
@@ -250,7 +250,10 @@ public class MainActivity extends AppCompatActivity {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
         } else if (id == R.id.action_testNotificationSound) {
-            NotificationHandler.playTone(false);
+            NotificationHandler.playTone(this,false, "Test");
+            return true;
+        } else if (id == R.id.action_recreateNotificationChannels) {
+            NotificationHandler.createNotificationChannels(this, true);
             return true;
         }
 
@@ -261,7 +264,9 @@ public class MainActivity extends AppCompatActivity {
         String msg = "";
         msg += "*** Manually adjust notification config *** \n"
                 + "   - Long press on task notification\n"
-                + "   - Disable 'Popup on screen' "
+                + "   - Disable 'Popup on screen' for 'Tasks' and 'Audio Alert' channels"
+                + "\n\n\n"
+                + "Remove TaskMan from WearOS app notification list"
                 + "\n\n\n"
                 + "Log path: " + Logs.PATH
                 + "\n\n\n"
