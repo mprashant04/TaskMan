@@ -16,7 +16,7 @@ import java.util.Date;
 public class MyAlarmManager extends BroadcastReceiver {
     private static final String LOG_PREFIX = "AlarmManager: ";
     private static boolean initiated = false;
-    private static final long INTERVAL = 10 * 60 * 1000;  //10 minutes
+    private static final long INTERVAL = 1 * 60 * 1000;  //10 minutes
     private static Date lastProcessedOn = null;
 
     //the method will be fired when the alarm is triggerred
