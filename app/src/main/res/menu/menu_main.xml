@@ -114,11 +114,6 @@
         android:title="Purge Deleted Tasks"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_recreateNotificationChannels"
-        android:icon="@drawable/model_training"
-        android:title="Re-create Notification Channels"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_testNotificationSound"

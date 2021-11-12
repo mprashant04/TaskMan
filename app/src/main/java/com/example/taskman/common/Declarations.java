@@ -4,12 +4,13 @@ import java.util.Date;
 
 public class Declarations {
 
-    public static final String APK_VERSION = "0.31";
+    public static final String APK_VERSION = "0.35";
 
     public static final int NOTIFICATION_ID = 0;
-    public static final String NOTIFICATION_CHANNEL_ID_TASK = "TasksChannel_1";
-    public static final String NOTIFICATION_CHANNEL_ID_AUDIO_ALERT = "TaskMan_Audio_Alert";
-    public static final String NOTIFICATION_CHANNEL_ID_ERROR = "ErrorChannel";
+
+    public static final String NOTIFICATION_CHANNEL_ID_TASK = "TasksChannel" + APK_VERSION;
+    public static final String NOTIFICATION_CHANNEL_ID_AUDIO_ALERT = "TaskMan_Audio_Alert" + APK_VERSION;
+    public static final String NOTIFICATION_CHANNEL_ID_ERROR = "ErrorChannel" + APK_VERSION;
 
     public static final String NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT = "Audio Alert Channel (TaskMan)"; //do NOT change value, used in tasker
 

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Utils.checkExternalStorageAccess(this);
 
-        NotificationHandler.createNotificationChannels(this, false);
+        NotificationHandler.createNotificationChannels(this);
         //startForegroundService(new Intent(this, TimeService.class));  //starting as foreground service to prevent it from getting killed
 
         super.onCreate(savedInstanceState);
@@ -250,10 +250,7 @@ public class MainActivity extends AppCompatActivity {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
         } else if (id == R.id.action_testNotificationSound) {
-            NotificationHandler.playTone(this,false, "Test");
-            return true;
-        } else if (id == R.id.action_recreateNotificationChannels) {
-            NotificationHandler.createNotificationChannels(this, true);
+            NotificationHandler.playTone(this, false, "Test");
             return true;
         }
 

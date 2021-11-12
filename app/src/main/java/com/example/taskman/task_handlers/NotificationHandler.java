@@ -22,7 +22,6 @@ import com.example.taskman.common.Declarations;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.utils.DateUtils;
-import com.example.taskman.utils.DialogUtils;
 import com.example.taskman.utils.Utils;
 
 import java.util.Date;
@@ -109,13 +108,22 @@ public class NotificationHandler {
                 ;
     }
 
-    public static synchronized void createNotificationChannels(Context context, boolean forceRecreate) {
+    public static synchronized void createNotificationChannels(Context context) {
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
 
+        //first delete old ones channels...
+        for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
+            String channelId = channel.getId();
+            if (channelId != NOTIFICATION_CHANNEL_ID_TASK
+                    && channelId != NOTIFICATION_CHANNEL_ID_ERROR
+                    && channelId != NOTIFICATION_CHANNEL_ID_AUDIO_ALERT) {
+                notificationManager.deleteNotificationChannel(channelId);
+            }
+        }
+
+
         //--------- task notification channel -----------------------------------------------------------------
-        if (forceRecreate)
-            notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID_TASK);
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TASK,
                 "Tasks Channel",
                 NotificationManager.IMPORTANCE_HIGH);
@@ -124,17 +132,11 @@ public class NotificationHandler {
 
 
         //---------- foreground service notification channel --------------------------------------------------------
-        if (forceRecreate)
-            notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT);
-
-        // notificationManager.deleteNotificationChannel("AudioAlert_2");   //delete later, test only
-
-
         NotificationChannel alertChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT,
                 NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT,
                 NotificationManager.IMPORTANCE_HIGH
         );
-        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getApplicationContext().getPackageName() + "/" + R.raw.audio_alert);
+        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getApplicationContext().getPackageName() + "/" + R.raw.audio_alert_3);  //when sound changed, change notification id also, with same id android does not update new sound i think
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -143,17 +145,11 @@ public class NotificationHandler {
         notificationManager.createNotificationChannel(alertChannel);
 
         //---------- Error notification channel ------------------------------------------------------------------
-        if (forceRecreate)
-            notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID_ERROR);
         NotificationChannel errorChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_ERROR,
                 "Error Notification Channel",
                 NotificationManager.IMPORTANCE_HIGH
         );
         notificationManager.createNotificationChannel(errorChannel);
-
-
-        if (forceRecreate)
-            DialogUtils.infoDialog(context, "Notification channels re-created. Refer help menu for tweak instructions");
     }
 
 
@@ -233,7 +229,7 @@ public class NotificationHandler {
         notificationManager.notify("error", errorNotificationId, builder.build());
     }
 
-    public static synchronized void showAudioAlert(Context context, String msg)  {
+    public static synchronized void showAudioAlert(Context context, String msg) {
         final int notification_id = 987767;
         final String notification_tag = "audio_notification_tag";
 
@@ -282,7 +278,6 @@ public class NotificationHandler {
 //                notificationManager.cancel(notification_tag, notification_id);
 //            }
 //        }, 8000);
-
 
 
     }
