@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.taskman.R;
 import com.example.taskman.common.Declarations;
+import com.example.taskman.common.Logs;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.utils.DateUtils;
@@ -46,6 +48,16 @@ public class NotificationHandler {
     }
 
     public static synchronized void refreshAll(Context context, boolean enableAudioAlert) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doRefreshAll(context, enableAudioAlert);   //run asynchronously
+            }
+        }, 1);
+    }
+
+    private static synchronized void doRefreshAll(Context context, boolean enableAudioAlert) {
         synchronized (SYNC) {
             boolean taskFoundWithAudioAlert = false;
             String watchMessage = "";
@@ -61,21 +73,21 @@ public class NotificationHandler {
             cancelAllNotifications(context);
 
             //----- Check if task present with audio alert ------------------
-            for (int idx = 0; idx < tasks.size(); idx++) {
-                Task task = tasks.get(idx);
-                if (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT)) {
-                    taskFoundWithAudioAlert = true;
-                    watchMessage = task.getTitle();
-                    watchMessageCount++;
+            if (enableAudioAlert) {
+                for (int idx = 0; idx < tasks.size(); idx++) {
+                    Task task = tasks.get(idx);
+                    if (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT)) {
+                        taskFoundWithAudioAlert = true;
+                        watchMessage = task.getTitle();
+                        watchMessageCount++;
+                    }
                 }
-            }
-
-            // ----- show alert notification before task alerts --------------------
-            //   because if tasks count is high, android does not allow showing alert notification
-            if (taskFoundWithAudioAlert && enableAudioAlert && !isSilentTime()) {
-                if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
-                watchMessage = watchMessage + " " + BELL_CHAR;
-                playTone(context, true, watchMessage);
+                //  show alert notification before task alerts, because if tasks count is high, android does not allow showing alert notification
+                if (taskFoundWithAudioAlert && !isSilentTime()) {
+                    if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
+                    watchMessage = watchMessage + " " + BELL_CHAR;
+                    playTone(context, true, watchMessage);
+                }
             }
 
             //------ Show tasks ----------------------------------------------
@@ -83,8 +95,6 @@ public class NotificationHandler {
                 Task task = tasks.get(idx);
                 showTaskNotification(context, task, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
             }
-
-
         }
     }
 
@@ -125,9 +135,10 @@ public class NotificationHandler {
         //first delete old ones channels...
         for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
             String channelId = channel.getId();
-            if (channelId != NOTIFICATION_CHANNEL_ID_TASK
-                    && channelId != NOTIFICATION_CHANNEL_ID_ERROR
-                    && channelId != NOTIFICATION_CHANNEL_ID_AUDIO_ALERT) {
+            if (!channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_TASK)
+                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_ERROR)
+                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)) {
+                Logs.info("######## Deleting old channel - " + channelId);
                 notificationManager.deleteNotificationChannel(channelId);
             }
         }

@@ -1,6 +1,7 @@
 package com.example.taskman.common;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.example.taskman.utils.DateUtils;
 import com.example.taskman.utils.DialogUtils;
@@ -53,6 +54,9 @@ public class Logs {
 
     private static synchronized void write(String template, String msg) {
         try {
+            Log.d("#########################################",msg);  //for ide console debug
+
+
             File file = new File(PATH, "" + DateUtils.format("yyyy_MM_dd", new Date()) + ".html");
             FileOutputStream stream = new FileOutputStream(file, true);
 

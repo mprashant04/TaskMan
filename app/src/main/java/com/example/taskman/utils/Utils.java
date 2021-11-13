@@ -20,6 +20,12 @@ import static android.content.Context.POWER_SERVICE;
 
 public class Utils {
 
+    public static void delay(int milliSeconds) {
+        try {
+            Thread.sleep(milliSeconds);
+        } catch (InterruptedException e) {
+        }
+    }
 
     public static String getAppBuildTimeStamp(Context context) {
         try {
