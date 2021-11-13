@@ -56,25 +56,35 @@ public class NotificationHandler {
             }
 
             TaskDbHelper db = new TaskDbHelper(context);
+            List<Task> tasks = db.getActiveAndOverdue();
 
             cancelAllNotifications(context);
 
-            List<Task> tasks = db.getActiveAndOverdue();
+            //----- Check if task present with audio alert ------------------
             for (int idx = 0; idx < tasks.size(); idx++) {
                 Task task = tasks.get(idx);
-                showTaskNotification(context, task, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
                 if (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT)) {
                     taskFoundWithAudioAlert = true;
                     watchMessage = task.getTitle();
                     watchMessageCount++;
                 }
             }
+
+            // ----- show alert notification before task alerts --------------------
+            //   because if tasks count is high, android does not allow showing alert notification
             if (taskFoundWithAudioAlert && enableAudioAlert && !isSilentTime()) {
                 if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
                 watchMessage = watchMessage + " " + BELL_CHAR;
-
                 playTone(context, true, watchMessage);
             }
+
+            //------ Show tasks ----------------------------------------------
+            for (int idx = 0; idx < tasks.size(); idx++) {
+                Task task = tasks.get(idx);
+                showTaskNotification(context, task, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
+            }
+
+
         }
     }
 
