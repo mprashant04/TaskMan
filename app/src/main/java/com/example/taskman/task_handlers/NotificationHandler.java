@@ -128,6 +128,16 @@ public class NotificationHandler {
                 ;
     }
 
+    private static synchronized boolean isNotificationChannelPresent(Context context, String channelId) {
+        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+
+        for (NotificationChannel channel : notificationManager.getNotificationChannels())
+            if (channel.getId().equalsIgnoreCase(channelId))
+                return true;
+
+        return false;
+    }
+
     public static synchronized void createNotificationChannels(Context context) {
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
@@ -138,39 +148,48 @@ public class NotificationHandler {
             if (!channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_TASK)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_ERROR)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)) {
-                Logs.info("######## Deleting old channel - " + channelId);
+                Logs.warn("Deleting obsolete notification channel - " + channelId);
                 notificationManager.deleteNotificationChannel(channelId);
             }
         }
 
 
         //--------- task notification channel -----------------------------------------------------------------
-        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TASK,
-                "Tasks Channel",
-                NotificationManager.IMPORTANCE_HIGH);
-        channel.setSound(null, null);
-        notificationManager.createNotificationChannel(channel);
+        if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_TASK)) {
+            Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_TASK);
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TASK,
+                    "Tasks Channel",
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.setSound(null, null);
+            notificationManager.createNotificationChannel(channel);
+        }
 
 
         //---------- foreground service notification channel --------------------------------------------------------
-        NotificationChannel alertChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT,
-                NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT,
-                NotificationManager.IMPORTANCE_HIGH
-        );
-        Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getApplicationContext().getPackageName() + "/" + R.raw.audio_alert_3);  //when sound changed, change notification id also, with same id android does not update new sound i think
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                .build();
-        alertChannel.setSound(soundUri, audioAttributes);
-        notificationManager.createNotificationChannel(alertChannel);
+        if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)) {
+            Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_AUDIO_ALERT);
+            NotificationChannel alertChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT,
+                    NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getApplicationContext().getPackageName() + "/" + R.raw.audio_alert_3);  //when sound changed, change notification id also, with same id android does not update new sound i think
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                    .build();
+            alertChannel.setSound(soundUri, audioAttributes);
+            notificationManager.createNotificationChannel(alertChannel);
+        }
 
         //---------- Error notification channel ------------------------------------------------------------------
-        NotificationChannel errorChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_ERROR,
-                "Error Notification Channel",
-                NotificationManager.IMPORTANCE_HIGH
-        );
-        notificationManager.createNotificationChannel(errorChannel);
+        if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_ERROR)) {
+            Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_ERROR);
+            NotificationChannel errorChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_ERROR,
+                    "Error Notification Channel",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationManager.createNotificationChannel(errorChannel);
+        }
     }
 
 
