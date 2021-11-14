@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.example.taskman.common.Declarations.BELL_CHAR;
+import static com.example.taskman.common.Declarations.BELL_CHAR_HTML;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
@@ -295,7 +296,7 @@ public class NotificationHandler {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(notification_tag, new Random().nextInt(), builder.build());
 
-        Logs.info(BELL_CHAR + " " + msg);
+        Logs.info(BELL_CHAR_HTML + " " + msg);
 
 
         //cancel notification after delay
