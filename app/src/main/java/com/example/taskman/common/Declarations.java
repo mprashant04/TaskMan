@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Declarations {
 
-    public static final String APK_VERSION = "0.44";
+    public static final String APK_VERSION = "0.45";
 
     public static final int NOTIFICATION_ID = 0;
 
@@ -16,7 +16,7 @@ public class Declarations {
 
 
     public static final String BELL_CHAR = "\uD83D\uDD14";
-    public static final String BELL_CHAR_HTML = "&#128276;&#x1F514;";
+    public static final String BELL_CHAR_HTML = "&#128276;";
 
     public static final String CALLED_FROM_NOTIFICATION = "calledFromNotification";
     public static final String CALLED_FROM_LIST_VIEW = "calledFromListView";
