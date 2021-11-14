@@ -28,6 +28,7 @@ import com.example.taskman.utils.Utils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static com.example.taskman.common.Declarations.BELL_CHAR;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
@@ -270,7 +271,7 @@ public class NotificationHandler {
     }
 
     public static synchronized void showAudioAlert(Context context, String msg) {
-        final int notification_id = 987767;
+        //final int notification_id = 987767;
         final String notification_tag = "audio_notification_tag";
 
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
@@ -292,7 +293,9 @@ public class NotificationHandler {
                 ;
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(notification_tag, notification_id, builder.build());
+        notificationManager.notify(notification_tag, new Random().nextInt(), builder.build());
+
+        Logs.info(BELL_CHAR + " " + msg);
 
 
         //cancel notification after delay
