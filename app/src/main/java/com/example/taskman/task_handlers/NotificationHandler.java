@@ -37,6 +37,7 @@ import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_AU
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT;
+import static com.example.taskman.utils.Utils.delay;
 
 public class NotificationHandler {
     private static Object SYNC = new Object();
@@ -88,7 +89,10 @@ public class NotificationHandler {
                 if (taskFoundWithAudioAlert && !isSilentTime()) {
                     if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
                     watchMessage = watchMessage + " " + BELL_CHAR;
+
+                    delay(2000);  //TODO testing - adding delay to see if this resolves tone not working issue
                     playTone(context, true, watchMessage);
+                    delay(2000);
                 }
             }
 
@@ -167,7 +171,7 @@ public class NotificationHandler {
         }
 
 
-        //---------- foreground service notification channel --------------------------------------------------------
+        //---------- Audio alert notification channel --------------------------------------------------------
         if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)) {
             Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_AUDIO_ALERT);
             NotificationChannel alertChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT,
@@ -177,8 +181,8 @@ public class NotificationHandler {
             Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getApplicationContext().getPackageName() + "/" + R.raw.audio_alert_3);  //when sound changed, change notification id also, with same id android does not update new sound i think
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    //.setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                    //.setUsage(AudioAttributes.USAGE_ALARM)
                     .build();
             alertChannel.setSound(soundUri, audioAttributes);
             notificationManager.createNotificationChannel(alertChannel);
