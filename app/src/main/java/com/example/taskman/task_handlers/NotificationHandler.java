@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -294,7 +295,7 @@ public class NotificationHandler {
                 //.setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSubText(msg)  //not for display purpose, but to send info to tasker to show watch message
-                .setTimeoutAfter(15000)  //auto cancel after some delay
+                .setTimeoutAfter(5000)  //auto cancel after some delay
                 //.setOngoing(true)  //prevent dismiss
                 ;
 
