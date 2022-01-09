@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -36,8 +35,10 @@ import static com.example.taskman.common.Declarations.BELL_CHAR_HTML;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_NON_AUDIO_ALERT;
 import static com.example.taskman.utils.Utils.delay;
 
 public class NotificationHandler {
@@ -107,7 +108,7 @@ public class NotificationHandler {
 
     public static synchronized void playTone(Context context, boolean afterDelay, String msg) {
         //Somehow above tone play logic was not working after phone idle for some time, hence using notification way below...
-        showAudioAlert(context, msg);
+        showWatchAlert(context, msg, true);
 
 
 //        //run asynchronously
@@ -154,7 +155,8 @@ public class NotificationHandler {
             String channelId = channel.getId();
             if (!channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_TASK)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_ERROR)
-                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)) {
+                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)
+                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT)) {
                 Logs.warn("Deleting obsolete notification channel - " + channelId);
                 notificationManager.deleteNotificationChannel(channelId);
             }
@@ -186,6 +188,16 @@ public class NotificationHandler {
                     //.setUsage(AudioAttributes.USAGE_ALARM)
                     .build();
             alertChannel.setSound(soundUri, audioAttributes);
+            notificationManager.createNotificationChannel(alertChannel);
+        }
+
+        //---------- Non-Audio alert notification channel --------------------------------------------------------
+        if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT)) {
+            Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT);
+            NotificationChannel alertChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT,
+                    NOTIFICATION_CHANNEL_NAME_NON_AUDIO_ALERT,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
             notificationManager.createNotificationChannel(alertChannel);
         }
 
@@ -277,18 +289,18 @@ public class NotificationHandler {
         notificationManager.notify("error", errorNotificationId, builder.build());
     }
 
-    public static synchronized void showAudioAlert(Context context, String msg) {
+    public static synchronized void showWatchAlert(Context context, String msg, boolean withAudio) {
         //final int notification_id = 987767;
         final String notification_tag = "audio_notification_tag";
 
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
         notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", R.color.transparent);
 
-        notificationLayout.setTextViewText(R.id.notification_text, "(Audio Alert)");
+        notificationLayout.setTextViewText(R.id.notification_text, "(Watch Alert)");
         notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
         notificationLayout.setTextViewText(R.id.notification_sub_text_str, "(" + DateUtils.format("HH:mm", new Date()) + ")");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, (withAudio ? NOTIFICATION_CHANNEL_ID_AUDIO_ALERT : NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT))
                 .setSmallIcon(R.drawable.notification_icon)
                 .setCustomContentView(notificationLayout)
                 //.setGroup(errorNotificationId + "-error")

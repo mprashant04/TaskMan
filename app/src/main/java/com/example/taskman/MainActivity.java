@@ -262,9 +262,9 @@ public class MainActivity extends AppCompatActivity {
         String msg = "";
         msg += "*** Manually adjust notification config *** \n"
                 + "   - Long press on task notification\n"
-                + "   - Disable 'Popup on screen' for 'Tasks' and 'Audio Alert' channels"
+                + "   - Disable 'Popup on screen' for 'Tasks' and 'Audio Alert' and 'Non-Audio Alert' channels"
                 + "\n\n\n"
-                + "Remove TaskMan from WearOS app notification list"
+                + "Add TaskMan in SmartWatch app notification list"
                 + "\n\n\n"
                 + "Log path: " + Logs.PATH
                 + "\n\n\n"

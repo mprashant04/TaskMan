@@ -14,7 +14,7 @@ public class MyWatchAlertBroadcastReceiver extends BroadcastReceiver {
 
         if ("com.example.taskman.WatchAlert".equals(action)) {
             String sharedText = intent.getDataString();
-            NotificationHandler.showAudioAlert(context, sharedText);
+            NotificationHandler.showWatchAlert(context, sharedText, false);
         }
     }
 }
