@@ -24,6 +24,7 @@ import com.example.taskman.common.Logs;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.utils.DateUtils;
+import com.example.taskman.utils.MultimediaUtils;
 import com.example.taskman.utils.Utils;
 
 import java.util.Date;
@@ -300,7 +301,11 @@ public class NotificationHandler {
         notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
         notificationLayout.setTextViewText(R.id.notification_sub_text_str, "(" + DateUtils.format("HH:mm", new Date()) + ")");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, (withAudio ? NOTIFICATION_CHANNEL_ID_AUDIO_ALERT : NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT))
+
+        //NotificationCompat.Builder builder = new NotificationCompat.Builder(context, (withAudio ? NOTIFICATION_CHANNEL_ID_AUDIO_ALERT : NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT))
+        //UPDATE: somehow notification tone for NOTIFICATION_CHANNEL_ID_AUDIO_ALERT was not working consistently, so using NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT
+        //        and playing tone as media in following code using MultimediaUtils.playAssetSound()
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setCustomContentView(notificationLayout)
                 //.setGroup(errorNotificationId + "-error")
@@ -315,34 +320,12 @@ public class NotificationHandler {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(notification_tag, new Random().nextInt(), builder.build());
 
+        //play sound
+        if (withAudio) {
+            MultimediaUtils.playAssetSound(context, R.raw.audio_alert_3);
+        }
+
         Logs.info(BELL_CHAR_HTML + " " + msg);
-
-
-        //cancel notification after delay
-        //--------------------------------------
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(5000);
-//                    notificationManager.cancel(notification_tag, notification_id);
-//                } catch (Throwable ex) {
-//                    Logs.error("playTone error!!");
-//                    Logs.error(ex);
-//                }
-//            }
-//        }).start();
-
-//
-//        final Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                notificationManager.cancel(notification_tag, notification_id);
-//            }
-//        }, 8000);
-
-
     }
 
 
