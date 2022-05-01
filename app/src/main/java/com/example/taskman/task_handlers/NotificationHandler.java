@@ -306,7 +306,8 @@ public class NotificationHandler {
                 //.setGroup(errorNotificationId + "-error")
                 //.setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSubText(msg)  //not for display purpose, but to send info to tasker to show watch message
+                //.setSubText(msg)  //not for display purpose, but to send info to tasker to show watch message  (this worked on amazfit watch)
+                .setContentText(msg)  //not for display purpose, but to send info to tasker to show watch message  (this worked on samsung galaxy 3 watch)
                 .setTimeoutAfter(5000)  //auto cancel after some delay
                 //.setOngoing(true)  //prevent dismiss
                 ;

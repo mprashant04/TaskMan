@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Declarations {
 
-    public static final String APK_VERSION = "0.57";
+    public static final String APK_VERSION = "0.58";
 
     public static final int NOTIFICATION_ID = 0;
 
