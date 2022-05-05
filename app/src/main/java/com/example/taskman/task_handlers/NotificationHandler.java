@@ -81,27 +81,6 @@ public class NotificationHandler {
 
             cancelAllNotifications(context);
 
-            //----- Check if task present with audio alert ------------------
-            if (enableAudioAlert) {
-                for (int idx = 0; idx < tasks.size(); idx++) {
-                    Task task = tasks.get(idx);
-                    if (task.isFlaggedForAudioAlert()) {
-                        taskFoundWithAudioAlert = true;
-                        watchMessage = task.getTitle();
-                        watchMessageCount++;
-                    }
-                }
-                //  show alert notification before task alerts, because if tasks count is high, android does not allow showing alert notification
-                if (taskFoundWithAudioAlert && !isSilentTime()) {
-                    if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
-                    watchMessage = watchMessage + " " + BELL_CHAR;
-
-                    //delay(2000);  //TODO testing - adding delay to see if this resolves tone not working issue
-                    playTone(context, true, watchMessage);
-                    //delay(2000);
-                }
-            }
-
             //------ Show tasks ----------------------------------------------
             for (int idx = 0; idx < tasks.size(); idx++) {
 
@@ -117,6 +96,29 @@ public class NotificationHandler {
 
                 if (isTaskLimitReached) break;
             }
+
+
+            //----- Check if task present with audio alert ------------------
+            if (enableAudioAlert) {
+                for (int idx = 0; idx < tasks.size(); idx++) {
+                    Task task = tasks.get(idx);
+                    if (task.isFlaggedForAudioAlert()) {
+                        taskFoundWithAudioAlert = true;
+                        watchMessage = task.getTitle();
+                        watchMessageCount++;
+                    }
+                }
+                //  show alert notification before task alerts, because if tasks count is high, android does not allow showing alert notification
+                if (taskFoundWithAudioAlert && !isSilentTime()) {
+                    if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
+                    watchMessage = watchMessage + " " + BELL_CHAR;
+
+                    delay(1000);
+                    playTone(context, true, watchMessage);
+                    //delay(2000);
+                }
+            }
+
         }
     }
 
