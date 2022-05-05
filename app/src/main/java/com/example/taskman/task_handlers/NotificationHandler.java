@@ -96,18 +96,26 @@ public class NotificationHandler {
                     if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
                     watchMessage = watchMessage + " " + BELL_CHAR;
 
-                    delay(2000);  //TODO testing - adding delay to see if this resolves tone not working issue
+                    //delay(2000);  //TODO testing - adding delay to see if this resolves tone not working issue
                     playTone(context, true, watchMessage);
-                    delay(2000);
+                    //delay(2000);
                 }
             }
 
             //------ Show tasks ----------------------------------------------
             for (int idx = 0; idx < tasks.size(); idx++) {
-                String suffix = null;
+
+                boolean isLastTask = (idx == tasks.size() - 1);
+                boolean isTaskLimitReached = !isLastTask && (idx >= Declarations.MAX_TASK_NOTIFICATIONS - 1);
 
                 Task task = tasks.get(idx);
-                showTaskNotification(context, task, suffix, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
+                showTaskNotification(context,
+                        task,
+                        (isTaskLimitReached ? " ➕" : null),
+                        (isLastTask || isTaskLimitReached ? "(" + tasks.size() + ")" : null)
+                );
+
+                if (isTaskLimitReached) break;
             }
         }
     }
