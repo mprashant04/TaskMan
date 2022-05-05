@@ -111,7 +111,7 @@ public class NotificationHandler {
                 Task task = tasks.get(idx);
                 showTaskNotification(context,
                         task,
-                        (isTaskLimitReached ? " ➕" : null),
+                        (isTaskLimitReached ? " ♦" : null),
                         (isLastTask || isTaskLimitReached ? "(" + tasks.size() + ")" : null)
                 );
 
