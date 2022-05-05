@@ -27,6 +27,8 @@ import com.example.taskman.utils.DateUtils;
 import com.example.taskman.utils.MultimediaUtils;
 import com.example.taskman.utils.Utils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -75,6 +77,7 @@ public class NotificationHandler {
 
             TaskDbHelper db = new TaskDbHelper(context);
             List<Task> tasks = db.getActiveAndOverdue();
+            sortTasks(tasks);
 
             cancelAllNotifications(context);
 
@@ -101,10 +104,33 @@ public class NotificationHandler {
 
             //------ Show tasks ----------------------------------------------
             for (int idx = 0; idx < tasks.size(); idx++) {
+                String suffix = null;
+
                 Task task = tasks.get(idx);
-                showTaskNotification(context, task, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
+                showTaskNotification(context, task, suffix, (idx == tasks.size() - 1 ? "(" + tasks.size() + ")" : null));
             }
         }
+    }
+
+    private static void sortTasks(List<Task> tasks) {
+        Collections.sort(tasks,
+                Comparator.comparing(Task::isFlaggedForAudioAlert).reversed()  //first show alert flagged tasks
+                        .thenComparing(Task::getDueOn) //then in due date order
+        );
+
+//        tasks.sort(new Comparator<Task>() {
+//            @Override
+//            public int compare(Task o1, Task o2) {
+//                boolean o1Flagged = o1.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT);
+//                boolean o2Flagged = o2.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT);
+//                //first sort by audio flag
+//                if (o1Flagged != o2Flagged) {
+//                    return (o1Flagged ? -1 : 1);
+//                }
+//                //then sort by id
+//                return o1.getId() - o2.getId();
+//            }
+//        });
     }
 
     public static synchronized void playTone(Context context, boolean afterDelay, String msg) {
@@ -214,7 +240,7 @@ public class NotificationHandler {
     }
 
 
-    private static void showTaskNotification(Context context, Task task, String subText) {
+    private static void showTaskNotification(Context context, Task task, String taskNameSuffix, String subText) {
         // edit task intent
         Intent intent = Utils.createEditTaskIntent(context, task.getId(), CALLED_FROM_NOTIFICATION);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -225,7 +251,7 @@ public class NotificationHandler {
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
         //RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
 
-        notificationLayout.setTextViewText(R.id.notification_text, task.getFormattedTitle());
+        notificationLayout.setTextViewText(R.id.notification_text, task.getFormattedTitle() + (taskNameSuffix == null ? "" : taskNameSuffix));
 
         if (subText != null) {
             notificationLayout.setChronometer(R.id.notification_sub_text_chrono,

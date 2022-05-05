@@ -69,6 +69,10 @@ public class Task {
         this.id = id;
     }
 
+    public boolean isFlaggedForAudioAlert() {
+        return isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT);
+    }
+
     public boolean isFlagged(String flagName) {
         return xtraFlags.contains(flagName);
     }
@@ -124,7 +128,7 @@ public class Task {
 
     public String getFormattedTitle() {
         return this.getTitle()
-                + (this.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT) ? " " + BELL_CHAR : "")
+                + (this.isFlaggedForAudioAlert() ? " " + BELL_CHAR : "")
                 + (AppState.ListView.isShowTaskId() ? "   [" + this.getId() + "]" : "");
     }
 }

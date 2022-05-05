@@ -6,6 +6,8 @@ public class Declarations {
 
     public static final String APK_VERSION = "0.61";
 
+    public static final int MAX_TASK_NOTIFICATIONS = 10;
+
     public static final int NOTIFICATION_ID = 0;
 
     public static final String NOTIFICATION_CHANNEL_ID_TASK = "TasksChannel_" + APK_VERSION;
