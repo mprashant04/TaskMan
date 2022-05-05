@@ -85,7 +85,7 @@ public class NotificationHandler {
             if (enableAudioAlert) {
                 for (int idx = 0; idx < tasks.size(); idx++) {
                     Task task = tasks.get(idx);
-                    if (task.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT)) {
+                    if (task.isFlaggedForAudioAlert()) {
                         taskFoundWithAudioAlert = true;
                         watchMessage = task.getTitle();
                         watchMessageCount++;

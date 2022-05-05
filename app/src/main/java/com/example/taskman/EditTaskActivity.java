@@ -353,7 +353,7 @@ public class EditTaskActivity extends Activity {
 
 
         ImageView flagAudio = ((ImageView) findViewById(R.id.toggleAudioAlertFlag));
-        if (task.isFlagged(TASK_FLAG_AUDIO_ALERT)) {
+        if (task.isFlaggedForAudioAlert()) {
             flagAudio.setImageResource(R.drawable.bell_filled);
             flagAudio.setImageTintList(ColorStateList.valueOf(0xffffff00));
         } else {
