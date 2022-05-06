@@ -67,7 +67,7 @@ public class NotificationHandler {
 
     private static synchronized void doRefreshAll(Context context, boolean enableAudioAlert) {
         synchronized (SYNC) {
-            boolean taskFoundWithAudioAlert = false;
+            boolean maxTaskDisplayLimitReached = false;
             String watchMessage = "";
             int watchMessageCount = 0;
 
@@ -85,32 +85,40 @@ public class NotificationHandler {
             for (int idx = 0; idx < tasks.size(); idx++) {
 
                 boolean isLastTask = (idx == tasks.size() - 1);
-                boolean isTaskLimitReached = !isLastTask && (idx >= Declarations.MAX_TASK_NOTIFICATIONS - 1);
+                maxTaskDisplayLimitReached = !isLastTask && (idx >= Declarations.MAX_TASK_NOTIFICATIONS - 1);
 
                 Task task = tasks.get(idx);
                 showTaskNotification(context,
                         task,
-                        (isTaskLimitReached ? " ♦" : null),
-                        (isLastTask || isTaskLimitReached ? "(" + tasks.size() + ")" : null)
+                        (maxTaskDisplayLimitReached ? " ♦" : null),
+                        (isLastTask || maxTaskDisplayLimitReached ? "(" + tasks.size() + ")" : null)
                 );
 
-                if (isTaskLimitReached) break;
+                if (maxTaskDisplayLimitReached) break;
             }
 
 
             //----- Check if task present with audio alert ------------------
             if (enableAudioAlert) {
+                boolean showAudioAlert = false;
                 for (int idx = 0; idx < tasks.size(); idx++) {
                     Task task = tasks.get(idx);
                     if (task.isFlaggedForAudioAlert()) {
-                        taskFoundWithAudioAlert = true;
-                        watchMessage = task.getTitle();
+                        showAudioAlert = true;
                         watchMessageCount++;
+                        watchMessage = watchMessageCount > 1 ? watchMessageCount + "  tasks" : task.getTitle();
                     }
                 }
+
+
+                if (!showAudioAlert && maxTaskDisplayLimitReached) {
+                    showAudioAlert = true;
+                    watchMessage = "Too many tasks....";
+                }
+
+
                 //  show alert notification before task alerts, because if tasks count is high, android does not allow showing alert notification
-                if (taskFoundWithAudioAlert && !isSilentTime()) {
-                    if (watchMessageCount > 1) watchMessage = watchMessageCount + "  tasks";
+                if (showAudioAlert && !isSilentTime()) {
                     watchMessage = watchMessage + " " + BELL_CHAR;
 
                     delay(1000);
