@@ -11,6 +11,7 @@ import com.example.taskman.common.Logs;
 import static android.media.AudioManager.STREAM_RING;
 
 public class MultimediaUtils {
+    private static MediaPlayer player = null;
     public static synchronized void playAssetSound(Context ctx, int resourceId) {
         AssetManager am;
         try {
@@ -21,8 +22,8 @@ public class MultimediaUtils {
                     .build();
 
             AudioManager audioManager = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
-
-            MediaPlayer player = MediaPlayer.create(ctx, resourceId, audioAttributes, audioManager.generateAudioSessionId());
+            stopPlayer();
+            player = MediaPlayer.create(ctx, resourceId, audioAttributes, audioManager.generateAudioSessionId());
             player.setLooping(false);
 
             player.start();
@@ -35,6 +36,17 @@ public class MultimediaUtils {
 
 
 
+        } catch (Throwable e) {
+            Logs.error(e);
+        }
+    }
+
+
+    private static void stopPlayer() {
+        try {
+            if (player != null) {
+                player.stop();
+            }
         } catch (Throwable e) {
             Logs.error(e);
         }
