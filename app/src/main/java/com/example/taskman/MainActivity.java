@@ -250,8 +250,8 @@ public class MainActivity extends AppCompatActivity {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
         } else if (id == R.id.action_testNotificationSound) {
-            NotificationHandler.playTone(this, false, "Test");
-            DialogUtils.infoDialog(this, "Test Complete","Note: last audio alert notification should be closed in order to tone to work. Also if too many tasks notifications are present, tone might not work since android limits max number of notifications per app");
+            NotificationHandler.showWatchAlert(this, "Test message", true);
+            DialogUtils.infoDialog(this, "Test Complete", "Note: last audio alert notification should be closed in order to tone to work. Also if too many tasks notifications are present, tone might not work since android limits max number of notifications per app");
             return true;
         }
 

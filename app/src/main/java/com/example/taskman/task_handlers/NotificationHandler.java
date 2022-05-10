@@ -122,7 +122,7 @@ public class NotificationHandler {
                     watchMessage = watchMessage + " " + BELL_CHAR;
 
                     delay(1000);
-                    playTone(context, true, watchMessage);
+                    showWatchAlert(context,  watchMessage, true);
                     //delay(2000);
                 }
             }
@@ -151,28 +151,6 @@ public class NotificationHandler {
 //        });
     }
 
-    public static synchronized void playTone(Context context, boolean afterDelay, String msg) {
-        //Somehow above tone play logic was not working after phone idle for some time, hence using notification way below...
-        showWatchAlert(context, msg, true);
-
-
-//        //run asynchronously
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    //if (afterDelay)  Thread.sleep(1500);  //sometimes sound gets disturbed when played along with notifications, hence added delay
-//
-//
-//                    //UserFeedbackUtils.playTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 700);   //ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD
-//
-//                } catch (Throwable ex) {
-//                    Logs.error("playTone error!!");
-//                    Logs.error(ex);
-//                }
-//            }
-//        }).start();
-    }
 
     private static boolean isSilentTime() {
         //silent between 23:00 and 7:00
@@ -334,6 +312,7 @@ public class NotificationHandler {
         notificationManager.notify("error", errorNotificationId, builder.build());
     }
 
+
     public static synchronized void showWatchAlert(Context context, String msg, boolean withAudio) {
         //final int notification_id = 987767;
         final String notification_tag = "audio_notification_tag";
@@ -355,10 +334,23 @@ public class NotificationHandler {
                 //.setGroup(errorNotificationId + "-error")
                 //.setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                //.setSubText(msg)  //not for display purpose, but to send info to tasker to show watch message  (this worked on amazfit watch)
-                .setContentText(msg)  //not for display purpose, but to send info to tasker to show watch message  (this worked on samsung galaxy 3 watch)
                 .setTimeoutAfter(5000)  //auto cancel after some delay
                 //.setOngoing(true)  //prevent dismiss
+
+
+                //--------------------------------------------
+                // Amazfit watch notification compatible code
+                //--------------------------------------------
+                //.setSubText(msg)
+
+                //--------------------------------------------
+                // Samsung Galaxy watch compatible code
+                //--------------------------------------------
+                .setContentTitle(msg)  //title of notification
+                //.setContentText(msg)    //message in notification
+
+
+                //
                 ;
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
