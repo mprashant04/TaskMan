@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 
+import com.example.taskman.common.AudioFile;
 import com.example.taskman.common.Declarations;
 import com.example.taskman.common.Logs;
 import com.example.taskman.common.OrderBy;
@@ -25,6 +26,7 @@ import com.example.taskman.task_handlers.NotificationHandler;
 import com.example.taskman.task_handlers.TaskHandler;
 import com.example.taskman.task_handlers.TaskHandlerMultiple;
 import com.example.taskman.utils.DialogUtils;
+import com.example.taskman.utils.MultimediaUtils;
 import com.example.taskman.utils.PushyUtils;
 import com.example.taskman.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.isBatteryOptimizationEnabled(this)) {
             DialogUtils.alertDialog(this, "Disable the battery optimization...");
         }
+
+        MultimediaUtils.checkIfAllSoundFilesPresent(this);
 
 
         MyAlarmManager.init(this);
@@ -250,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             DialogUtils.toastNew(this, "TODO: pending implementation...");
             return true;
         } else if (id == R.id.action_testNotificationSound) {
-            NotificationHandler.showWatchAlert(this, "Test message", true);
+            NotificationHandler.showWatchAlert(this, "Test message", AudioFile.NOTIFICATION_TASK);
             DialogUtils.infoDialog(this, "Test Complete", "Note: last audio alert notification should be closed in order to tone to work. Also if too many tasks notifications are present, tone might not work since android limits max number of notifications per app");
             return true;
         }

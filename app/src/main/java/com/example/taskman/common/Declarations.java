@@ -31,4 +31,6 @@ public class Declarations {
     public static final Date DATE_SOMEDAY = new Date(2099 - 1900, 1, 2, 3, 4, 5);   //do NOT change this value, it's saved in DB for "someday" tasks
     public static final String NEW_TASK_TITLE = "New Task";
 
+    public static final String ROOT_SD_FOLDER_PATH = "/storage/emulated/0/_TaskMan";
+
 }

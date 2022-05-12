@@ -19,6 +19,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.taskman.R;
+import com.example.taskman.common.AudioFile;
 import com.example.taskman.common.Declarations;
 import com.example.taskman.common.Logs;
 import com.example.taskman.db.TaskDbHelper;
@@ -36,7 +37,6 @@ import java.util.Random;
 import static com.example.taskman.common.Declarations.BELL_CHAR;
 import static com.example.taskman.common.Declarations.BELL_CHAR_HTML;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
-import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
@@ -122,7 +122,7 @@ public class NotificationHandler {
                     watchMessage = watchMessage + " " + BELL_CHAR;
 
                     delay(1000);
-                    showWatchAlert(context,  watchMessage, true);
+                    showWatchAlert(context, watchMessage, AudioFile.NOTIFICATION_TASK);
                     //delay(2000);
                 }
             }
@@ -178,7 +178,6 @@ public class NotificationHandler {
             String channelId = channel.getId();
             if (!channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_TASK)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_ERROR)
-                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT)) {
                 Logs.warn("Deleting obsolete notification channel - " + channelId);
                 notificationManager.deleteNotificationChannel(channelId);
@@ -194,24 +193,6 @@ public class NotificationHandler {
                     NotificationManager.IMPORTANCE_HIGH);
             channel.setSound(null, null);
             notificationManager.createNotificationChannel(channel);
-        }
-
-
-        //---------- Audio alert notification channel --------------------------------------------------------
-        if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_AUDIO_ALERT)) {
-            Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_AUDIO_ALERT);
-            NotificationChannel alertChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_AUDIO_ALERT,
-                    NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT,
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            Uri soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getApplicationContext().getPackageName() + "/" + R.raw.audio_alert_3);  //when sound changed, change notification id also, with same id android does not update new sound i think
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                    //.setUsage(AudioAttributes.USAGE_ALARM)
-                    .build();
-            alertChannel.setSound(soundUri, audioAttributes);
-            notificationManager.createNotificationChannel(alertChannel);
         }
 
         //---------- Non-Audio alert notification channel --------------------------------------------------------
@@ -313,7 +294,7 @@ public class NotificationHandler {
     }
 
 
-    public static synchronized void showWatchAlert(Context context, String msg, boolean withAudio) {
+    public static synchronized void showWatchAlert(Context context, String msg, AudioFile audioFile) {
         //final int notification_id = 987767;
         final String notification_tag = "audio_notification_tag";
 
@@ -357,8 +338,8 @@ public class NotificationHandler {
         notificationManager.notify(notification_tag, new Random().nextInt(), builder.build());
 
         //play sound
-        if (withAudio) {
-            MultimediaUtils.playAssetSound(context, R.raw.audio_alert_3);
+        if (audioFile != null) {
+            MultimediaUtils.playAssetSound(context, audioFile);
         }
 
         Logs.info(BELL_CHAR_HTML + " " + msg);

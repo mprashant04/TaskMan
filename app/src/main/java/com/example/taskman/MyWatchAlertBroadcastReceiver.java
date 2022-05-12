@@ -13,7 +13,7 @@ public class MyWatchAlertBroadcastReceiver extends BroadcastReceiver {
 
         if ("com.example.taskman.WatchAlert".equals(action)) {
             String sharedText = intent.getDataString();
-            NotificationHandler.showWatchAlert(context, sharedText, false);
+            NotificationHandler.showWatchAlert(context, sharedText, null);
         }
     }
 }

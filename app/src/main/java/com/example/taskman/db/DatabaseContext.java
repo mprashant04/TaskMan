@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.taskman.common.Declarations;
+
 import java.io.File;
 
 class DatabaseContext extends ContextWrapper {
@@ -19,8 +21,7 @@ class DatabaseContext extends ContextWrapper {
 
     @Override
     public File getDatabasePath(String name) {
-        File sdcard = Environment.getExternalStorageDirectory();
-        String dbfile = sdcard.getAbsolutePath() + File.separator + "_TaskMan" + File.separator + name;
+        String dbfile = Declarations.ROOT_SD_FOLDER_PATH + File.separator + name;
         if (!dbfile.endsWith(".db")) {
             dbfile += ".db";
         }
