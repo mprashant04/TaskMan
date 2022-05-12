@@ -4,11 +4,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioAttributes;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
@@ -40,7 +37,6 @@ import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
-import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_NON_AUDIO_ALERT;
 import static com.example.taskman.utils.Utils.delay;
 
@@ -89,13 +85,15 @@ public class NotificationHandler {
 
                 Task task = tasks.get(idx);
                 showTaskNotification(context,
-                        task,
-                        (maxTaskDisplayLimitReached ? " ♦" : null),
+                        task.getId(),
+                        task.getFormattedTitle() + (maxTaskDisplayLimitReached ? " ♦" : ""),
                         (isLastTask || maxTaskDisplayLimitReached ? "(" + tasks.size() + ")" : null)
                 );
 
                 if (maxTaskDisplayLimitReached) break;
             }
+            if (tasks.size() <= 0)
+                showTaskNotification(context, Declarations.NO_TASK_NOTIFICATION_ID, Declarations.NO_TASK_NOTIFICATION_TITLE, "(" + tasks.size() + ")");
 
 
             //----- Check if task present with audio alert ------------------
@@ -217,18 +215,18 @@ public class NotificationHandler {
     }
 
 
-    private static void showTaskNotification(Context context, Task task, String taskNameSuffix, String subText) {
+    private static void showTaskNotification(Context context, int taskId, String taskName, String subText) {
         // edit task intent
-        Intent intent = Utils.createEditTaskIntent(context, task.getId(), CALLED_FROM_NOTIFICATION);
+        Intent intent = Utils.createEditTaskIntent(context, taskId, CALLED_FROM_NOTIFICATION);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(intent);
-        PendingIntent editTaskIntent = stackBuilder.getPendingIntent(task.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent editTaskIntent = stackBuilder.getPendingIntent(taskId, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
         //RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
 
-        notificationLayout.setTextViewText(R.id.notification_text, task.getFormattedTitle() + (taskNameSuffix == null ? "" : taskNameSuffix));
+        notificationLayout.setTextViewText(R.id.notification_text, taskName);
 
         if (subText != null) {
             notificationLayout.setChronometer(R.id.notification_sub_text_chrono,
@@ -245,7 +243,7 @@ public class NotificationHandler {
                 .setSmallIcon(R.drawable.notification_icon)
                 //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
-                .setGroup(task.getId() + "")
+                .setGroup(taskId + "")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setOngoing(true)  //prevent dismiss
@@ -254,7 +252,7 @@ public class NotificationHandler {
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(task.getId() + "", Declarations.NOTIFICATION_ID, builder.build());
+        notificationManager.notify(taskId + "", Declarations.NOTIFICATION_ID, builder.build());
     }
 
     private static void cancelAllNotifications(Context context) {

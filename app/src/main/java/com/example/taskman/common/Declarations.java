@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Declarations {
 
-    public static final String APK_VERSION = "0.70";
+    public static final String APK_VERSION = "0.72";
 
     public static final int MAX_TASK_NOTIFICATIONS = 10;
 
@@ -33,4 +33,6 @@ public class Declarations {
 
     public static final String ROOT_SD_FOLDER_PATH = "/storage/emulated/0/_TaskMan";
 
+    public static final int NO_TASK_NOTIFICATION_ID = -99999;
+    public static final String NO_TASK_NOTIFICATION_TITLE = "\uD83D\uDE42";
 }
