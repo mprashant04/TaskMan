@@ -54,6 +54,18 @@ public class Utils {
     }
 
 
+    public static void checkWriteSettingsAccess(Context context) {
+        if (Settings.System.canWrite(context)) {
+            //todo when permission is granted
+        } else {
+            //request for the permission
+            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+            intent.setData(uri);
+            context.startActivity(intent);
+        }
+    }
+
     public static void checkExternalStorageAccess(Context context) {
         if (Environment.isExternalStorageManager()) {
             //todo when permission is granted

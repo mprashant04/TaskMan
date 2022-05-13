@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 
+import com.example.taskman.brightness.BrightnessService;
+import com.example.taskman.common.AppConfig;
 import com.example.taskman.common.AudioFile;
 import com.example.taskman.common.Declarations;
 import com.example.taskman.common.Logs;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.checkExternalStorageAccess(this);
+        Utils.checkWriteSettingsAccess(this);
+
+        AppConfig.validateIfAllConfigValuesPresent(this);
 
         NotificationHandler.createNotificationChannels(this);
         //startForegroundService(new Intent(this, TimeService.class));  //starting as foreground service to prevent it from getting killed
@@ -86,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         MyAlarmManager.init(this);
         PushyUtils.register(this);
         Pushy.listen(this);
+        BrightnessService.init(this);
+
     }
 
     private void populateTaskList() {
