@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
@@ -265,11 +266,16 @@ public class NotificationHandler {
         }
     }
 
-    public static void showError(Context context, String msg) {
+    public static void showErrorNotification(Context context, String msg, boolean persistent) {
+        showFeedbackNotification(context, msg, R.color.notification_background_error, Color.WHITE, persistent);
+    }
+
+    public static void showFeedbackNotification(Context context, String msg, int backgroundColor, int textColor, boolean persistent) {
         errorNotificationId++;
 
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
-        notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", R.color.notification_background_error);
+        notificationLayout.setInt(R.id.notification_layout, "setBackgroundResource", backgroundColor);
+        notificationLayout.setInt(R.id.notification_text, "setTextColor", textColor);
 
         notificationLayout.setTextViewText(R.id.notification_text, msg);
         notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
@@ -282,7 +288,7 @@ public class NotificationHandler {
                 .setGroup(errorNotificationId + "-error")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setOngoing(true)  //prevent dismiss
+                .setOngoing(persistent)  //prevent dismiss
                 //.setCustomBigContentView(notificationLayoutExpanded)
                 //.setContentIntent(editTaskIntent)
                 ;
