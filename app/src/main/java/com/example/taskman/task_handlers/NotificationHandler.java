@@ -39,9 +39,11 @@ import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ER
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_NON_AUDIO_ALERT;
+import static com.example.taskman.common.Declarations.NO_TASK_NOTIFICATION_ID;
 import static com.example.taskman.utils.Utils.delay;
 
 public class NotificationHandler {
+
     private static Object SYNC = new Object();
     private static int errorNotificationId = 0;
 
@@ -76,7 +78,8 @@ public class NotificationHandler {
             List<Task> tasks = db.getActiveAndOverdue();
             sortTasks(tasks);
 
-            cancelAllNotifications(context);
+
+            cancelTaskNotifications(context);
 
             //------ Show tasks ----------------------------------------------
             for (int idx = 0; idx < tasks.size(); idx++) {
@@ -93,9 +96,10 @@ public class NotificationHandler {
 
                 if (maxTaskDisplayLimitReached) break;
             }
+
             if (tasks.size() <= 0)
                 showTaskNotification(context, Declarations.NO_TASK_NOTIFICATION_ID, Declarations.NO_TASK_NOTIFICATION_TITLE, "(" + tasks.size() + ")");
-
+            
 
             //----- Check if task present with audio alert ------------------
             if (enableAudioAlert) {
@@ -205,10 +209,13 @@ public class NotificationHandler {
 
     private static void showTaskNotification(Context context, int taskId, String taskName, String subText) {
         // edit task intent
-        Intent intent = Utils.createEditTaskIntent(context, taskId, CALLED_FROM_NOTIFICATION);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntentWithParentStack(intent);
-        PendingIntent editTaskIntent = stackBuilder.getPendingIntent(taskId, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent editTaskIntent = null;
+        if (taskId != NO_TASK_NOTIFICATION_ID) {
+            Intent intent = Utils.createEditTaskIntent(context, taskId, CALLED_FROM_NOTIFICATION);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addNextIntentWithParentStack(intent);
+            editTaskIntent = stackBuilder.getPendingIntent(taskId, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
 
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
@@ -240,18 +247,18 @@ public class NotificationHandler {
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(taskId + "", Declarations.NOTIFICATION_ID, builder.build());
+        notificationManager.notify(Declarations.NOTIFICATION_TAG_TASKS, taskId, builder.build());
     }
 
-    private static void cancelAllNotifications(Context context) {
+    private static void cancelTaskNotifications(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        for (StatusBarNotification n : mNotificationManager.getActiveNotifications()) {
-            if (Declarations.NOTIFICATION_CHANNEL_ID_TASK.equals(n.getNotification().getChannelId())) {
+        for (StatusBarNotification n : mNotificationManager.getActiveNotifications())
+            if (Declarations.NOTIFICATION_CHANNEL_ID_TASK.equals(n.getNotification().getChannelId()))
                 mNotificationManager.cancel(n.getTag(), n.getId());
-            }
-        }
+
     }
+
 
     public static void showErrorNotification(Context context, String msg, boolean persistent) {
         showFeedbackNotification(context, msg, R.color.notification_background_error, Color.WHITE, persistent);

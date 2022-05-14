@@ -71,14 +71,6 @@ public class EditTaskActivity extends Activity {
 
             long taskId = extras.getLong("taskId");
 
-            if (taskId == Declarations.NO_TASK_NOTIFICATION_ID) { //clicked no-task notificaton
-                DialogUtils.toastNew(this, "No pending tasks....");
-                closeActivity();
-                //TaskHandler.listTasks(this);
-                return;
-            }
-
-
             task = db.get(taskId);
             updateUI();
         } else {
