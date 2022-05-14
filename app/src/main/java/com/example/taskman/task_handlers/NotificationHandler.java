@@ -99,7 +99,7 @@ public class NotificationHandler {
 
             if (tasks.size() <= 0)
                 showTaskNotification(context, Declarations.NO_TASK_NOTIFICATION_ID, Declarations.NO_TASK_NOTIFICATION_TITLE, "(" + tasks.size() + ")");
-            
+
 
             //----- Check if task present with audio alert ------------------
             if (enableAudioAlert) {
