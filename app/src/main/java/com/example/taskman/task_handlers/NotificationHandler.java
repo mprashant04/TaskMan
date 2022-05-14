@@ -129,25 +129,12 @@ public class NotificationHandler {
         }
     }
 
-    private static void sortTasks(List<Task> tasks) {
-        Collections.sort(tasks,
-                Comparator.comparing(Task::isFlaggedForAudioAlert).reversed()  //first show alert flagged tasks
-                        .thenComparing(Task::getDueOn) //then in due date order
-        );
-
-//        tasks.sort(new Comparator<Task>() {
-//            @Override
-//            public int compare(Task o1, Task o2) {
-//                boolean o1Flagged = o1.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT);
-//                boolean o2Flagged = o2.isFlagged(Declarations.TASK_FLAG_AUDIO_ALERT);
-//                //first sort by audio flag
-//                if (o1Flagged != o2Flagged) {
-//                    return (o1Flagged ? -1 : 1);
-//                }
-//                //then sort by id
-//                return o1.getId() - o2.getId();
-//            }
-//        });
+    public static void sortTasks(List<Task> tasks) {
+        if (tasks != null && tasks.size() > 0)
+            Collections.sort(tasks,
+                    Comparator.comparing(Task::isFlaggedForAudioAlert).reversed()  //first show alert flagged tasks
+                            .thenComparing(Task::getDueOn) //then in due date order
+            );
     }
 
 

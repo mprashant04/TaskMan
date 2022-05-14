@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.example.taskman.MainActivity;
 import com.example.taskman.common.AppConfig;
+import com.example.taskman.common.Logs;
 import com.example.taskman.utils.BrightnessUtils;
 import com.example.taskman.utils.DialogUtils;
 
@@ -64,6 +65,7 @@ public class BrightnessService extends Service {
 
     @Override
     public void onDestroy() {
+        Logs.error("BrightnessService.onDestroy() ===========================================");
         super.onDestroy();
         getContentResolver().unregisterContentObserver(contentObserver);
     }

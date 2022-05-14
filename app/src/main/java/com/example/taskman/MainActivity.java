@@ -292,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void runAllOverdueTasks() {
         List<Task> tasks = db.getActiveAndOverdue();
+        NotificationHandler.sortTasks(tasks);
         if (tasks.size() > 0) {
             List<Integer> taskIds = tasks.stream().map(t -> t.getId()).collect(Collectors.toList());
             TaskHandlerMultiple.editMultipleTasks(this, taskIds);
