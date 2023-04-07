@@ -18,7 +18,7 @@ public class ForegroundServiceNotificationCreator {
         service.startForeground(getNotificationId(), getNotification(service));
     }
 
-    private static synchronized Notification getNotification(Context context) {
+    public static synchronized Notification getNotification(Context context) {
         if (notification == null) {
             //Intent notificationIntent = new Intent(context, MainActivity.class);
             //        PendingIntent pendingIntent =

@@ -12,6 +12,7 @@ import com.example.taskman.utils.ForegroundServiceNotificationCreator;
 import com.example.taskman.utils.PushyUtils;
 
 import me.pushy.sdk.Pushy;
+import me.pushy.sdk.services.PushySocketService;
 
 public class PushyService extends Service {
 
@@ -26,6 +27,7 @@ public class PushyService extends Service {
         ForegroundServiceNotificationCreator.startForeground(this);
 
         PushyUtils.register(this);
+        PushySocketService.setForegroundNotification(ForegroundServiceNotificationCreator.getNotification(this));
         Pushy.listen(this);
 
         DialogUtils.toastLong("Pushy  service started...", this);
