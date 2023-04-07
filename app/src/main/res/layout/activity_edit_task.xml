@@ -146,7 +146,7 @@
             android:layout_height="@dimen/time_button_height"
             android:layout_below="@id/boundaryAddTime"
             android:onClick="onClickTimeButton"
-            android:tag="time_6" />
+            android:tag="time_0" />
 
         <Button
             android:id="@+id/time7"
