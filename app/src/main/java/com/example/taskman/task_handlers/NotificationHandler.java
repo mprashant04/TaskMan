@@ -202,7 +202,7 @@ public class NotificationHandler {
             Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE);
             NotificationChannel serivceChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE,
                     NOTIFICATION_CHANNEL_NAME_FOREGROUND_SERVICE,
-                    NotificationManager.IMPORTANCE_HIGH
+                    NotificationManager.IMPORTANCE_LOW
             );
             notificationManager.createNotificationChannel(serivceChannel);
         }
