@@ -1,5 +1,7 @@
 package com.example.taskman.brightness;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -11,9 +13,12 @@ import androidx.annotation.Nullable;
 
 import com.example.taskman.MainActivity;
 import com.example.taskman.common.AppConfig;
+import com.example.taskman.utils.ForegroundServiceNotificationCreator;
 import com.example.taskman.common.Logs;
 import com.example.taskman.utils.BrightnessUtils;
 import com.example.taskman.utils.DialogUtils;
+
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE;
 
 public class BrightnessService extends Service {
 
@@ -40,13 +45,16 @@ public class BrightnessService extends Service {
 
 
     public static void init(MainActivity mainActivity) {
-        mainActivity.startService(new Intent(mainActivity, BrightnessService.class));
+        mainActivity.startForegroundService(new Intent(mainActivity, BrightnessService.class));
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         THIS = this;
+
+        ForegroundServiceNotificationCreator.startForeground(this);
+
         DialogUtils.toastLong("Brightness service started...", this);
         getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS),
                 false, contentObserver);

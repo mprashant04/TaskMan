@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         MyAlarmManager.init(this);
-        PushyUtils.register(this);
-        Pushy.listen(this);
         BrightnessService.init(this);
+        PushyService.init(this);
+
 
     }
 

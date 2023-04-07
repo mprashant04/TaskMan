@@ -36,8 +36,10 @@ import static com.example.taskman.common.Declarations.BELL_CHAR;
 import static com.example.taskman.common.Declarations.BELL_CHAR_HTML;
 import static com.example.taskman.common.Declarations.CALLED_FROM_NOTIFICATION;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_ERROR;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
+import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_FOREGROUND_SERVICE;
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_NAME_NON_AUDIO_ALERT;
 import static com.example.taskman.common.Declarations.NO_TASK_NOTIFICATION_ID;
 import static com.example.taskman.utils.Utils.delay;
@@ -193,6 +195,16 @@ public class NotificationHandler {
                     NotificationManager.IMPORTANCE_HIGH
             );
             notificationManager.createNotificationChannel(alertChannel);
+        }
+
+        //---------- Foreground serivces notification channel --------------------------------------------------------
+        if (!isNotificationChannelPresent(context, NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE)) {
+            Logs.warn("Creating notification channel - " + NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE);
+            NotificationChannel serivceChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE,
+                    NOTIFICATION_CHANNEL_NAME_FOREGROUND_SERVICE,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationManager.createNotificationChannel(serivceChannel);
         }
 
         //---------- Error notification channel ------------------------------------------------------------------

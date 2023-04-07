@@ -87,6 +87,10 @@
             android:name="com.example.taskman.brightness.BrightnessService"
             android:enabled="true" />
 
+        <service
+            android:name="com.example.taskman.PushyService"
+            android:enabled="true" />
+
 
         <!-- Pushy Declarations -->
         <!-- Pushy Notification Receiver -->
