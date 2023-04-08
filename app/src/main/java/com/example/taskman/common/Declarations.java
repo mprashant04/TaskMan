@@ -4,19 +4,18 @@ import java.util.Date;
 
 public class Declarations {
 
-    public static final String APK_VERSION = "0.82";
+    public static final String APK_VERSION = "0.84";
 
     public static final int MAX_TASK_NOTIFICATIONS = 10;
 
     public static final String  NOTIFICATION_TAG_TASKS = "MyTasks";
-
+    
     public static final String NOTIFICATION_CHANNEL_ID_TASK = "TasksChannel_" + APK_VERSION;
-    public static final String NOTIFICATION_CHANNEL_ID_AUDIO_ALERT = "TaskMan_Audio_Alert_" + APK_VERSION;
     public static final String NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT = "TaskMan_Non_Audio_Alert_" + APK_VERSION;
     public static final String NOTIFICATION_CHANNEL_ID_ERROR = "ErrorChannel_" + APK_VERSION;
     public static final String NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE = "TasksChannel_Foreground_Service_" + APK_VERSION;
 
-    public static final String NOTIFICATION_CHANNEL_NAME_AUDIO_ALERT = "Audio Alert Channel (TaskMan)";
+
     public static final String NOTIFICATION_CHANNEL_NAME_NON_AUDIO_ALERT = "Non-Audio Alert Channel (TaskMan)";
     public static final String NOTIFICATION_CHANNEL_NAME_FOREGROUND_SERVICE = "Foreground Services (TaskMan)";
 

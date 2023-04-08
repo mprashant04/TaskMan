@@ -170,6 +170,7 @@ public class NotificationHandler {
             String channelId = channel.getId();
             if (!channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_TASK)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_ERROR)
+                    && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE)
                     && !channelId.equalsIgnoreCase(NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT)) {
                 Logs.warn("Deleting obsolete notification channel - " + channelId);
                 notificationManager.deleteNotificationChannel(channelId);

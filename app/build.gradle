@@ -36,10 +36,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'org.projectlombok:lombok:1.18.20'
-    implementation files('libs\\sdk-1.0.73.jar')
+    //implementation files('libs\\sdk-1.0.73.jar')
 
     //implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    //implementation 'me.pushy:sdk:1.0.73'
+    implementation 'me.pushy:sdk:1.0.90'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
