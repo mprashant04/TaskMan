@@ -5,16 +5,16 @@ import android.app.Service;
 import android.content.Context;
 
 import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_FOREGROUND_SERVICE;
-import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_NON_AUDIO_ALERT;
-import static com.example.taskman.common.Declarations.NOTIFICATION_CHANNEL_ID_TASK;
 
-//created this singleton for using single notification for multiple foreground services
+
 public class ForegroundServiceNotificationCreator {
 
-    private static final int NOTIFICATION_ID = 1094;
+    //using common id so that same notification be used for multiple foreground serivces
+    //this number is taken from me.pushy.sdk.services.PushySocketService.java class, line 123.  So that both pushy and my own services will continue using same single notification
+    private final static int NOTIFICATION_ID = 100031;
     private static Notification notification = null;
 
-        public static void startForeground(Service service) {
+    public static void startForeground(Service service) {
         service.startForeground(getNotificationId(), getNotification(service));
     }
 
@@ -39,6 +39,7 @@ public class ForegroundServiceNotificationCreator {
 
     private static int getNotificationId() {
         return NOTIFICATION_ID;
+        //return NOTIFICATION_ID++;
     }
 
 
