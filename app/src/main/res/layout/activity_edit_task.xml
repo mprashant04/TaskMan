@@ -128,7 +128,7 @@
             android:layout_toRightOf="@id/addTime6Hr"
             android:longClickable="true"
             android:onClick="onClickInformAboutLongPress"
-            android:tag="set_time_some_day" />
+            android:tag="set_time_tomorrow" />
 
         <!--  section separator -->
         <Button

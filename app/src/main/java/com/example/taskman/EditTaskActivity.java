@@ -47,7 +47,7 @@ import static com.example.taskman.common.Declarations.TASK_FLAG_AUDIO_ALERT;
 public class EditTaskActivity extends Activity {
     private static final String BTN_TAG_TIME = "time_";
     private static final String BTN_TAG_TIME_ADD_MINUTES = "add_minutes_";
-    private static final String BTN_TAG_TIME_SOMEDAY = "set_time_some_day";
+    private static final String BTN_TAG_TIME_TOMORROW = "set_time_tomorrow";
     private static final String BTN_TAG_ANCHOR_DAY = "anchor_day_";
 
     private Task task = null;
@@ -312,8 +312,8 @@ public class EditTaskActivity extends Activity {
                 ((Button) v).setBackgroundTintList(ColorStateList.valueOf(0xff626284));
             }
             //------- someday button UI --------------------------------------
-            else if (v instanceof Button && v.getTag() != null && v.getTag().toString().equals(BTN_TAG_TIME_SOMEDAY)) {
-                ((Button) v).setText("Sumday");
+            else if (v instanceof Button && v.getTag() != null && v.getTag().toString().equals(BTN_TAG_TIME_TOMORROW)) {
+                ((Button) v).setText("D + 1");
                 //((Button) v).setBackgroundTintList(ColorStateList.valueOf(0xff54542b));
             }
         }
@@ -416,9 +416,10 @@ public class EditTaskActivity extends Activity {
                 int minutes = Integer.parseInt(v.getTag().toString().replace(BTN_TAG_TIME_ADD_MINUTES, ""));
                 task.setDueOn(DateUtils.addMinutes(new Date(), minutes));
                 saveAndClose = true;
-            } else if (v.getTag().toString().equals(BTN_TAG_TIME_SOMEDAY)) {
-                //----  set time = someday ------------
-                task.setDueOn(Declarations.DATE_SOMEDAY);
+            } else if (v.getTag().toString().equals(BTN_TAG_TIME_TOMORROW)) {
+                //----  set time = tomorrow ------------
+                //task.setDueOn(Declarations.DATE_SOMEDAY);
+                task.setDueOn(DateUtils.removeTime(DateUtils.addDays(new Date(), 1)));
                 saveAndClose = true;
             }
         }
