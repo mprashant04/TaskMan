@@ -126,8 +126,7 @@
             android:layout_height="@dimen/time_button_height"
             android:layout_below="@id/boundaryTop"
             android:layout_toRightOf="@id/addTime6Hr"
-            android:longClickable="true"
-            android:onClick="onClickInformAboutLongPress"
+            android:onClick="onClickTimeButton"
             android:tag="set_time_tomorrow" />
 
         <!--  section separator -->
