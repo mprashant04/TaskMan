@@ -1,8 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="time_button_width">74dp</dimen>
-    <dimen name="time_button_height">52dp</dimen>
+    <dimen name="time_button_width">72dp</dimen>
+    <dimen name="time_button_height">50dp</dimen>
     <dimen name="editDialogSectionMargin">15dp</dimen>
 
 </resources>

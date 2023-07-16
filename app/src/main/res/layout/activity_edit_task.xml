@@ -76,418 +76,328 @@
             android:layout_marginTop="@dimen/editDialogSectionMargin" />
 
         <!-- ************ add time buttons**********************************************************  -->
-        <Button
-            android:id="@+id/addTimeNow"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryTop"
-            android:onClick="onClickTimeButton"
-            android:tag="add_minutes_0" />
 
-        <Button
-            android:id="@+id/addTime30Min"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryTop"
-            android:layout_toRightOf="@id/addTimeNow"
-            android:onClick="onClickTimeButton"
-            android:tag="add_minutes_30" />
+        <LinearLayout
+            android:id="@+id/layoutBtnAddTimes"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/boundaryTop">
+            <!--            android:background="#737373">-->
 
-        <Button
-            android:id="@+id/addTime1Hr"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryTop"
-            android:layout_toRightOf="@id/addTime30Min"
-            android:onClick="onClickTimeButton"
-            android:tag="add_minutes_60" />
+            <Button
+                android:id="@+id/addTimeNow"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="add_minutes_0" />
 
-        <Button
-            android:id="@+id/addTime3Hr"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryTop"
-            android:layout_toRightOf="@id/addTime1Hr"
-            android:onClick="onClickTimeButton"
-            android:tag="add_minutes_180" />
+            <Button
+                android:id="@+id/addTime30Min"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="add_minutes_30" />
 
-        <Button
-            android:id="@+id/addTime6Hr"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryTop"
-            android:layout_toRightOf="@id/addTime3Hr"
-            android:onClick="onClickTimeButton"
-            android:tag="add_minutes_360" />
+            <Button
+                android:id="@+id/addTime1Hr"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="add_minutes_60" />
 
-        <Button
-            android:id="@+id/timeSomeDay"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryTop"
-            android:layout_toRightOf="@id/addTime6Hr"
-            android:onClick="onClickTimeButton"
-            android:tag="set_time_tomorrow" />
+            <Button
+                android:id="@+id/addTime3Hr"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="add_minutes_180" />
 
-        <!--  section separator -->
-        <Button
-            android:id="@+id/boundaryAddTime"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_below="@id/addTimeNow"
-            android:layout_marginTop="@dimen/editDialogSectionMargin" />
+            <Button
+                android:id="@+id/addTime6Hr"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="add_minutes_360" />
+
+            <Button
+                android:id="@+id/timeSomeDay"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="set_time_tomorrow" />
+
+        </LinearLayout>
 
         <!-- ************ Time buttons**********************************************************  -->
         <!--  row 1 -->
-        <Button
-            android:id="@+id/time6"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryAddTime"
-            android:onClick="onClickTimeButton"
-            android:tag="time_0" />
+        <LinearLayout
+            android:id="@+id/layoutBtnTime1"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/layoutBtnAddTimes"
+            android:paddingTop="10dp">
 
-        <Button
-            android:id="@+id/time7"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryAddTime"
-            android:layout_toRightOf="@id/time6"
-            android:onClick="onClickTimeButton"
-            android:tag="time_7" />
+            <Button
+                android:id="@+id/time6"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_0" />
 
-        <Button
-            android:id="@+id/time8"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryAddTime"
-            android:layout_toRightOf="@id/time7"
-            android:onClick="onClickTimeButton"
-            android:tag="time_8" />
+            <Button
+                android:id="@+id/time7"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_7" />
 
-        <Button
-            android:id="@+id/time9"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryAddTime"
-            android:layout_toRightOf="@id/time8"
-            android:onClick="onClickTimeButton"
-            android:tag="time_9" />
+            <Button
+                android:id="@+id/time8"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_8" />
 
-        <Button
-            android:id="@+id/time10"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryAddTime"
-            android:layout_toRightOf="@id/time9"
-            android:onClick="onClickTimeButton"
-            android:tag="time_10" />
+            <Button
+                android:id="@+id/time9"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_9" />
 
-        <Button
-            android:id="@+id/time11"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/boundaryAddTime"
-            android:layout_toRightOf="@id/time10"
-            android:onClick="onClickTimeButton"
-            android:tag="time_11" />
+            <Button
+                android:id="@+id/time10"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_10" />
+
+            <Button
+                android:id="@+id/time11"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_11" />
+        </LinearLayout>
+
 
         <!--  row 2 -->
-        <Button
-            android:id="@+id/time12"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time6"
-            android:onClick="onClickTimeButton"
-            android:tag="time_12" />
+        <LinearLayout
+            android:id="@+id/layoutBtnTime2"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/layoutBtnTime1">
 
-        <Button
-            android:id="@+id/time13"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time6"
-            android:layout_toRightOf="@id/time12"
-            android:onClick="onClickTimeButton"
-            android:tag="time_13" />
+            <Button
+                android:id="@+id/time12"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_12" />
 
-        <Button
-            android:id="@+id/time14"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time6"
-            android:layout_toRightOf="@id/time13"
-            android:onClick="onClickTimeButton"
-            android:tag="time_14" />
+            <Button
+                android:id="@+id/time13"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_13" />
 
-        <Button
-            android:id="@+id/time15"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time6"
-            android:layout_toRightOf="@id/time14"
-            android:onClick="onClickTimeButton"
-            android:tag="time_15" />
+            <Button
+                android:id="@+id/time14"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_14" />
 
-        <Button
-            android:id="@+id/time16"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time6"
-            android:layout_toRightOf="@id/time15"
-            android:onClick="onClickTimeButton"
-            android:tag="time_16" />
+            <Button
+                android:id="@+id/time15"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_15" />
 
-        <Button
-            android:id="@+id/time17"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time6"
-            android:layout_toRightOf="@id/time16"
-            android:onClick="onClickTimeButton"
-            android:tag="time_17" />
+            <Button
+                android:id="@+id/time16"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_16" />
+
+            <Button
+                android:id="@+id/time17"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_17" />
+
+        </LinearLayout>
 
         <!--  row 3 -->
-        <Button
-            android:id="@+id/time18"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time12"
-            android:onClick="onClickTimeButton"
-            android:tag="time_18" />
+        <LinearLayout
+            android:id="@+id/layoutBtnTime3"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/layoutBtnTime2">
 
-        <Button
-            android:id="@+id/time19"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time12"
-            android:layout_toRightOf="@id/time18"
-            android:onClick="onClickTimeButton"
-            android:tag="time_19" />
+            <Button
+                android:id="@+id/time18"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_18" />
 
-        <Button
-            android:id="@+id/time20"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time12"
-            android:layout_toRightOf="@id/time19"
-            android:onClick="onClickTimeButton"
-            android:tag="time_20" />
+            <Button
+                android:id="@+id/time19"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_19" />
 
-        <Button
-            android:id="@+id/time21"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time12"
-            android:layout_toRightOf="@id/time20"
-            android:onClick="onClickTimeButton"
-            android:tag="time_21" />
+            <Button
+                android:id="@+id/time20"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_20" />
 
-        <Button
-            android:id="@+id/time22"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time12"
-            android:layout_toRightOf="@id/time21"
-            android:onClick="onClickTimeButton"
-            android:tag="time_22" />
+            <Button
+                android:id="@+id/time21"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_21" />
 
-        <Button
-            android:id="@+id/time23"
-            android:layout_width="@dimen/time_button_width"
-            android:layout_height="@dimen/time_button_height"
-            android:layout_below="@id/time12"
-            android:layout_toRightOf="@id/time22"
-            android:onClick="onClickTimeButton"
-            android:tag="time_23" />
+            <Button
+                android:id="@+id/time22"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_22" />
 
-
-        <!--  section separator -->
-        <Button
-            android:id="@+id/boundaryTime"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_below="@id/time23"
-            android:layout_marginTop="@dimen/editDialogSectionMargin" />
+            <Button
+                android:id="@+id/time23"
+                style="@style/buttonStyle"
+                android:onClick="onClickTimeButton"
+                android:tag="time_23" />
+        </LinearLayout>
 
 
         <!-- ************ anchor date **********************************************************  -->
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/relative_layout_date_controls"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/boundaryTime"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp">
+        <LinearLayout
+            android:id="@+id/layoutBtnDays1"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/layoutBtnTime3"
+            android:paddingTop="10dp">
 
             <Button
                 android:id="@+id/anchor_day_0"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_0" />
 
             <Button
                 android:id="@+id/anchor_day_1"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_toRightOf="@id/anchor_day_0"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_1" />
 
             <Button
                 android:id="@+id/anchor_day_2"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_toRightOf="@id/anchor_day_1"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_2" />
 
             <Button
                 android:id="@+id/anchor_day_3"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_toRightOf="@id/anchor_day_2"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_3" />
 
             <Button
                 android:id="@+id/anchor_day_4"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_toRightOf="@id/anchor_day_3"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_4" />
 
             <Button
                 android:id="@+id/anchor_day_5"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_toRightOf="@id/anchor_day_4"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutBtnDays2"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/layoutBtnDays1">
 
             <Button
                 android:id="@+id/anchor_day_6"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_0"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_6" />
 
             <Button
                 android:id="@+id/anchor_day_7"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_0"
-                android:layout_toRightOf="@id/anchor_day_6"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_7" />
 
             <Button
                 android:id="@+id/anchor_day_8"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_0"
-                android:layout_toRightOf="@id/anchor_day_7"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_8" />
 
             <Button
                 android:id="@+id/anchor_day_9"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_0"
-                android:layout_toRightOf="@id/anchor_day_8"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_9" />
 
             <Button
                 android:id="@+id/anchor_day_10"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_0"
-                android:layout_toRightOf="@id/anchor_day_9"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_10" />
 
             <Button
                 android:id="@+id/anchor_day_11"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_0"
-                android:layout_toRightOf="@id/anchor_day_10"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_11" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutBtnDays3"
+            style="@style/buttonLayouts"
+            android:layout_below="@id/layoutBtnDays2">
 
             <Button
                 android:id="@+id/anchor_day_12"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_6"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_12" />
 
             <Button
                 android:id="@+id/anchor_day_13"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_6"
-                android:layout_toRightOf="@id/anchor_day_12"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_13" />
 
             <Button
                 android:id="@+id/anchor_day_14"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_6"
-                android:layout_toRightOf="@id/anchor_day_13"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_14" />
 
             <Button
                 android:id="@+id/anchor_day_15"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_6"
-                android:layout_toRightOf="@id/anchor_day_14"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_15" />
 
             <Button
                 android:id="@+id/anchor_day_16"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_6"
-                android:layout_toRightOf="@id/anchor_day_15"
+                style="@style/buttonStyle"
                 android:onClick="onClickAnchorDayButton"
                 android:tag="anchor_day_16" />
 
             <Button
                 android:id="@+id/customAnchorDay"
-                android:layout_width="@dimen/time_button_width"
-                android:layout_height="@dimen/time_button_height"
-                android:layout_below="@id/anchor_day_6"
-                android:layout_toRightOf="@id/anchor_day_16"
+                style="@style/buttonStyle"
                 android:onClick="onClickCustomAnchorDayButton"
                 android:text="Custom" />
+        </LinearLayout>
 
-            <!--  section separator -->
-            <Button
-                android:id="@+id/boundaryDate"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_below="@id/anchor_day_12"
-                android:layout_marginTop="@dimen/editDialogSectionMargin" />
+        <!--  section separator -->
+        <Button
+            android:id="@+id/boundaryDate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/layoutBtnDays3"
+            android:layout_marginTop="@dimen/editDialogSectionMargin" />
 
-        </RelativeLayout>
 
         <!-- ************ custom date selection **********************************************************  -->
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/relative_layout_date_custom_controls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/boundaryTime"
+            android:layout_below="@id/boundaryDate"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:visibility="gone">
@@ -497,8 +407,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:onClick="onClickCustomAnchorDayButton"
                 android:layout_marginTop="40dp"
+                android:onClick="onClickCustomAnchorDayButton"
                 android:textSize="22sp" />
 
         </RelativeLayout>
@@ -509,7 +419,7 @@
             android:id="@+id/deleteTask"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@id/relative_layout_date_controls"
+            android:layout_below="@id/boundaryDate"
             android:backgroundTint="@color/transparent"
             android:longClickable="true"
             android:onClick="onClickInformAboutLongPress"
@@ -520,7 +430,7 @@
             android:id="@+id/saveTask"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@id/relative_layout_date_controls"
+            android:layout_below="@id/boundaryDate"
             android:layout_toRightOf="@id/deleteTask"
             android:longClickable="true"
             android:onClick="onClickInformAboutLongPress"
@@ -530,7 +440,7 @@
             android:id="@+id/expandCompleteTask"
             android:layout_width="150dp"
             android:layout_height="100dp"
-            android:layout_below="@id/relative_layout_date_controls"
+            android:layout_below="@id/boundaryDate"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:backgroundTint="@color/task_expand_complete_button_background"
@@ -542,7 +452,7 @@
             android:id="@+id/completeTask"
             android:layout_width="150dp"
             android:layout_height="100dp"
-            android:layout_below="@id/relative_layout_date_controls"
+            android:layout_below="@id/boundaryDate"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:backgroundTint="@color/task_complete_button_background"

@@ -15,13 +15,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
 
-import com.example.taskman.common.Declarations;
 import com.example.taskman.db.TaskDbHelper;
 import com.example.taskman.models.Task;
 import com.example.taskman.models.TaskStatus;
@@ -36,8 +36,10 @@ import com.example.taskman.utils.StringUtils;
 import com.example.taskman.utils.UserFeedbackUtils;
 import com.example.taskman.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
 import static com.example.taskman.common.Declarations.CALLED_FROM_MULTIPLE_EDIT_MODE;
@@ -294,9 +296,10 @@ public class EditTaskActivity extends Activity {
 
 
         //------- Setup UI controls --------------------------------------
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relative_layout);
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View v = layout.getChildAt(i);
+        List<View> buttons = getAllButtons();
+
+
+        for (View v : buttons) {
             //------- time buttons UI --------------------------------------
             if (v instanceof Button && v.getTag() != null && v.getTag().toString().startsWith(BTN_TAG_TIME)) {
                 int hr = Integer.parseInt(v.getTag().toString().replace(BTN_TAG_TIME, ""));
@@ -349,6 +352,23 @@ public class EditTaskActivity extends Activity {
 
     }
 
+    private List<View> getAllButtons() {
+        List<View> buttons = new ArrayList();
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relative_layout);
+        for (int i = 0; i < layout.getChildCount(); i++) addButton(layout.getChildAt(i), buttons);
+        return buttons;
+    }
+
+    private void addButton(View v, List list) {
+        if (v instanceof Button)
+            list.add(v);
+        else if (v instanceof LinearLayout) {
+            for (int j = 0; j < ((LinearLayout) v).getChildCount(); j++) {
+                addButton(((LinearLayout) v).getChildAt(j), list);
+            }
+        }
+    }
+
 
     private void updateFlagButtonsUI() {
 
@@ -368,10 +388,8 @@ public class EditTaskActivity extends Activity {
 
     private void updateSelectedAnchorDayButtonUI() {
 
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relative_layout).findViewById(R.id.relative_layout_date_controls);
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View v = layout.getChildAt(i);
-
+        List<View> buttons =getAllButtons();
+        for (View v : buttons) {
             if (v instanceof Button && v.getTag() != null && v.getTag().toString().startsWith(BTN_TAG_ANCHOR_DAY)) {
                 Date dt = resolveAnchorDate(v.getTag().toString());
                 Button btn = (Button) v;
@@ -498,7 +516,9 @@ public class EditTaskActivity extends Activity {
     }
 
     public void onClickCustomAnchorDayButton(View v) {
-        findViewById(R.id.relative_layout).findViewById(R.id.relative_layout_date_controls).setVisibility(View.INVISIBLE);
+        findViewById(R.id.relative_layout).findViewById(R.id.layoutBtnDays1).setVisibility(View.INVISIBLE);
+        findViewById(R.id.relative_layout).findViewById(R.id.layoutBtnDays2).setVisibility(View.INVISIBLE);
+        findViewById(R.id.relative_layout).findViewById(R.id.layoutBtnDays3).setVisibility(View.INVISIBLE);
         findViewById(R.id.relative_layout).findViewById(R.id.relative_layout_date_custom_controls).setVisibility(View.VISIBLE);
 
         final Calendar newCalendar = Calendar.getInstance();
