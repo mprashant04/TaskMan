@@ -27,6 +27,7 @@
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.TaskMan.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,6 +54,7 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:taskAffinity="">
             <intent-filter>
                 <action android:name="com.example.taskman.CreateNewTask" />

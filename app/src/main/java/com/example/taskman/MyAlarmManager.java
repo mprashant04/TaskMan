@@ -49,7 +49,7 @@ public class MyAlarmManager extends BroadcastReceiver {
 
         AlarmManager am = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(activity, MyAlarmManager.class);
-        PendingIntent pi = PendingIntent.getBroadcast(activity, 0, i, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(activity, 0, i, PendingIntent.FLAG_IMMUTABLE);
 
         am.setRepeating(AlarmManager.RTC, new Date().getTime() + INTERVAL, INTERVAL, pi);
 

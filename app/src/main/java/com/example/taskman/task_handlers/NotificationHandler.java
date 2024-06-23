@@ -227,7 +227,7 @@ public class NotificationHandler {
             Intent intent = Utils.createEditTaskIntent(context, taskId, CALLED_FROM_NOTIFICATION);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addNextIntentWithParentStack(intent);
-            editTaskIntent = stackBuilder.getPendingIntent(taskId, PendingIntent.FLAG_UPDATE_CURRENT);
+            editTaskIntent = stackBuilder.getPendingIntent(taskId, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         }
 
 
