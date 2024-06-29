@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notification_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    android:padding="0dp">
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/notification_sub_text"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:text=""-->
+    <!--        android:textColor="@color/notification_subtext"-->
+    <!--        android:textSize="9sp" />-->
+
+    <TextView
+        android:id="@+id/notification_sub_text_str"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/notification_subtext"
+        android:paddingRight="3dp"	
+		android:visibility="gone"		
+        android:textSize="9sp" />
+
+    <Chronometer
+        android:id="@+id/notification_sub_text_chrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/notification_sub_text_str"
+        android:paddingRight="3dp"
+        android:textColor="@color/notification_subtext"
+        android:textSize="9sp"
+        android:visibility="gone" />
+
+
+
+    <TextView
+        android:id="@+id/notification_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="-1dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:text="@string/notification_sample_app"
+        android:textColor="@color/blue_text" />
+
+</RelativeLayout>

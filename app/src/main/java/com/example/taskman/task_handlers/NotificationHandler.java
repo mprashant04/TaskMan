@@ -7,6 +7,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.notification.StatusBarNotification;
@@ -15,6 +16,7 @@ import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.taskman.R;
 import com.example.taskman.common.AudioFile;
@@ -231,26 +233,35 @@ public class NotificationHandler {
         }
 
 
-        RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);
-        //RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
+        //RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);  //upto android 11
+        RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small_12);  //android 12
+
 
         notificationLayout.setTextViewText(R.id.notification_text, taskName);
 
-        if (subText != null) {
-            notificationLayout.setChronometer(R.id.notification_sub_text_chrono,
-                    chronoTimerBase,
-                    null,
-                    true);
-            notificationLayout.setTextViewText(R.id.notification_sub_text_str, subText);
-        } else {
-            notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
+
+        if (Build.VERSION.SDK_INT < 31) {  //android 11 only
+            if (subText != null) {
+                notificationLayout.setChronometer(R.id.notification_sub_text_chrono,
+                        chronoTimerBase,
+                        null,
+                        true);
+                notificationLayout.setTextViewText(R.id.notification_sub_text_str, subText);
+            } else {
+                notificationLayout.setViewVisibility(R.id.notification_sub_text_chrono, View.GONE);
+            }
         }
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID_TASK)
                 .setSmallIcon(R.drawable.notification_icon)
+
                 //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+
                 .setCustomContentView(notificationLayout)
+
+                .setStyle(new NotificationCompat.InboxStyle().setSummaryText(subText)) //android 12 onwards
+
                 .setGroup(taskId + "")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
