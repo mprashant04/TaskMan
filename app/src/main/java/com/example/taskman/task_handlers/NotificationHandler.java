@@ -16,7 +16,6 @@ import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.taskman.R;
 import com.example.taskman.common.AppConfig;
@@ -53,6 +52,9 @@ public class NotificationHandler {
     private static int errorNotificationId = 0;
 
     private static Long chronoTimerBase = null;
+
+
+    private enum NotificationIconType {NORMAL, MORE_TASKS_PRESENT}
 
 
     public static synchronized void refreshAll(Context context) {
@@ -96,14 +98,15 @@ public class NotificationHandler {
                 showTaskNotification(context,
                         task.getId(),
                         task.getFormattedTitle() + (maxTaskDisplayLimitReached ? " ♦" : ""),
-                        (isLastTask || maxTaskDisplayLimitReached ? "(" + tasks.size() + ")" : null)
+                        (isLastTask || maxTaskDisplayLimitReached ? "(" + tasks.size() + ")" : null),
+                        (maxTaskDisplayLimitReached ? NotificationIconType.MORE_TASKS_PRESENT : NotificationIconType.NORMAL)
                 );
 
                 if (maxTaskDisplayLimitReached) break;
             }
 
             if (tasks.size() <= 0)
-                showTaskNotification(context, Declarations.NO_TASK_NOTIFICATION_ID, Declarations.NO_TASK_NOTIFICATION_TITLE, "(" + tasks.size() + ")");
+                showTaskNotification(context, Declarations.NO_TASK_NOTIFICATION_ID, Declarations.NO_TASK_NOTIFICATION_TITLE, "(" + tasks.size() + ")", NotificationIconType.NORMAL);
 
 
             //----- Check if task present with audio alert ------------------
@@ -226,7 +229,14 @@ public class NotificationHandler {
     }
 
 
-    private static void showTaskNotification(Context context, int taskId, String taskName, String subText) {
+    private static void showTaskNotification(Context context, int taskId, String taskName, String subText, NotificationIconType iconType) {
+        final Integer ICON_COLOR_NORMAL = 0xffffff;
+        final Integer ICON_COLOR_MORE_TASKS_PRESENT = 0xff0066;
+
+        int iconColor = iconType.equals(NotificationIconType.NORMAL) ? ICON_COLOR_NORMAL : ICON_COLOR_MORE_TASKS_PRESENT;
+        int iconFile = iconType.equals(NotificationIconType.NORMAL) ? R.drawable.notifications_check : R.drawable.notifications_dots;
+
+
         // edit task intent
         PendingIntent editTaskIntent = null;
         if (taskId != NO_TASK_NOTIFICATION_ID) {
@@ -257,8 +267,14 @@ public class NotificationHandler {
         }
 
 
+        //NOTE: icon xml files can be downloaded from https://fonts.google.com/icons
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Declarations.NOTIFICATION_CHANNEL_ID_TASK)
-                .setSmallIcon(R.drawable.notification_icon)
+
+                .setSmallIcon(iconFile)
+
+                //icon background color
+                .setColorized(true)
+                .setColor(iconColor)
 
                 //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
 
