@@ -3,7 +3,8 @@
 - https://github.com/mprashant04/TaskMan/tree/main/app/build/outputs/apk
 
 if direct APK installation fails on the phone, then download apk on the PC and install it using following command
-	`adb install <filename>.apk`
+
+- `adb install <filename>.apk`
 
 
 ***How To create initial db manually***
