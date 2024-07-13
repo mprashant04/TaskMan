@@ -19,6 +19,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.taskman.R;
+import com.example.taskman.common.AppConfig;
 import com.example.taskman.common.AudioFile;
 import com.example.taskman.common.Declarations;
 import com.example.taskman.common.Logs;
@@ -147,10 +148,13 @@ public class NotificationHandler {
 
 
     private static boolean isSilentTime() {
-        //silent between 23:00 and 7:00
-        return DateUtils.getHours() < 7
-                //  || DateUtils.getHours() >= 23
-                ;
+
+        long silentTill = AppConfig.getSilentTillHourMinuteValue();
+        long curTime = (DateUtils.getHours() * 100) + DateUtils.getMinutes();
+
+        //Logs.info("silent till = "+ silentTill + ",   cur time = " + curTime);
+
+        return curTime < silentTill;
     }
 
     private static synchronized boolean isNotificationChannelPresent(Context context, String channelId) {

@@ -273,7 +273,8 @@ public class MainActivity extends AppCompatActivity {
         String msg = "";
         msg += "*** Manually adjust notification config *** \n"
                 + "   - Long press on task notification\n"
-                + "   - Disable 'Popup on screen' for 'Tasks' and 'Audio Alert' and 'Non-Audio Alert' channels"
+                + "   - Change 'Alerts' to 'Silent'"   //for samsung S24 ultra
+                //+ "   - Disable 'Popup on screen' for 'Tasks' and 'Audio Alert' and 'Non-Audio Alert' channels"   //for old oneplus phone
                 + "\n\n\n"
                 + "Add TaskMan in SmartWatch app notification list"
                 + "\n\n\n"

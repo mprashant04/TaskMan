@@ -13,6 +13,7 @@ public class AppConfig {
     private static Properties props = null;
 
     private enum SettingNames {
+        SILENT_TILL("silent-till"),
         BRIGHTNESS_AUTO_MINIMUM("brightness-auto-minimun"),
         BRIGHTNESS_SHOW_TOAST_DEBUG_ON_CHANGES("brightness-show-toast-on-change");
 
@@ -39,6 +40,11 @@ public class AppConfig {
         } catch (Throwable ex) {
             Logs.error(ex);
         }
+    }
+
+    public static int getSilentTillHourMinuteValue() {
+        // in HMM format
+        return Integer.parseInt(props.getProperty(SettingNames.SILENT_TILL.getValue(), "700"));
     }
 
     public static int getBrightnessAutoMinimumValue() {
