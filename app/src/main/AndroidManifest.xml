@@ -63,6 +63,12 @@
         </activity>
 
         <receiver
+            android:name=".GenericNotificationBroadcastReceiver"
+            android:exported="true">
+        </receiver>
+
+
+        <receiver
             android:name=".MyWatchAlertBroadcastReceiver"
             android:exported="true" />
 

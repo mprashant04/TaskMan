@@ -17,6 +17,7 @@ import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.taskman.GenericNotificationBroadcastReceiver;
 import com.example.taskman.R;
 import com.example.taskman.common.AppConfig;
 import com.example.taskman.common.AudioFile;
@@ -246,6 +247,13 @@ public class NotificationHandler {
             editTaskIntent = stackBuilder.getPendingIntent(taskId, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         }
 
+        PendingIntent manuallyDismissedIntent = null;
+        //if (taskId != NO_TASK_NOTIFICATION_ID) {
+        Intent intent = new Intent(context, GenericNotificationBroadcastReceiver.class);
+        intent.setAction(GenericNotificationBroadcastReceiver.ACTION_NOTIFICATION_MANUALLY_DISMISSED);
+        manuallyDismissedIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+        //}
+
 
         //RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small);  //upto android 11
         RemoteViews notificationLayout = new RemoteViews(context.getPackageName(), R.layout.notification_small_12);  //android 12
@@ -287,6 +295,7 @@ public class NotificationHandler {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setOngoing(true)  //prevent dismiss
                 //.setCustomBigContentView(notificationLayoutExpanded)
+                .setDeleteIntent(manuallyDismissedIntent)   //starting android 14, persistent notifications not allowed. Hence adding this to re-show all notifications if user tried to cancel the event
                 .setContentIntent(editTaskIntent);
 
 
