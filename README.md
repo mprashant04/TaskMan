@@ -4,7 +4,7 @@
 
 if direct APK installation fails on the phone, then download apk on the PC and install it using following command
 
-- `adb install <filename>.apk`
+- `adb install -t <filename>.apk`
 - if second clone app also gets created, then just uninstall manually this clone app
 
 
