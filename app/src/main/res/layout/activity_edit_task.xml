@@ -57,6 +57,8 @@
         <!--            android:gravity="right"-->
         <!--            android:textSize="15sp" />-->
 
+
+        <!-- hiding this categoty/tag combo, not much useful and used to get accidentaly clicked while pressing D+1 button below it -->
         <Spinner
             android:id="@+id/tagSpinner"
             android:layout_width="fill_parent"
