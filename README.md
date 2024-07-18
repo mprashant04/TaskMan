@@ -1,4 +1,10 @@
-*****Download APK*****
+***App setup on the phone***
+- Add 'TaskMan' in Smartwatch app notification list
+- Notifications setup
+    - Long press task notification
+    -          
+
+***Download APK***
 
 - https://github.com/mprashant04/TaskMan/tree/main/app/build/outputs/apk
 
@@ -6,6 +12,8 @@ if direct APK installation fails on the phone, then download apk on the PC and i
 
 - `adb install -t <filename>.apk`
 - if second clone app also gets created, then just uninstall manually this clone app
+
+
 
 
 ***How To create initial db manually***
