@@ -1,3 +1,5 @@
+
+
 ***Download APK***
 
 - https://github.com/mprashant04/TaskMan/tree/main/app/build/outputs/apk
@@ -7,6 +9,12 @@ if direct APK installation fails on the phone, then download apk on the PC and i
 - `adb install -t <filename>.apk`
 - if second clone app also gets created, then just uninstall manually this clone app
 
+
+
+***App setup on the phone***
+- Notes stored in this public md file: https://github.com/mprashant04/public/blob/main/Taskman.md
+
+  
 
 ***How To create initial db manually***
 
