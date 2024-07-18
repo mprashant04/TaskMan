@@ -1,5 +1,4 @@
-***App setup on the phone***
-- Notes stored in this public md file: https://github.com/mprashant04/public/blob/main/Taskman.md
+
 
 ***Download APK***
 
@@ -12,6 +11,10 @@ if direct APK installation fails on the phone, then download apk on the PC and i
 
 
 
+***App setup on the phone***
+- Notes stored in this public md file: https://github.com/mprashant04/public/blob/main/Taskman.md
+
+  
 
 ***How To create initial db manually***
 
