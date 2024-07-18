@@ -1,12 +1,16 @@
 package com.example.taskman;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -36,10 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import me.pushy.sdk.Pushy;
-
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
-import static com.example.taskman.utils.DialogUtils.infoDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -270,20 +271,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showHelpDialog() {
-        String msg = "";
-        msg += "*** Manually adjust notification config *** \n"
-                + "   - Long press on task notification\n"
-                + "   - Change 'Alerts' to 'Silent'"   //for samsung S24 ultra
-                //+ "   - Disable 'Popup on screen' for 'Tasks' and 'Audio Alert' and 'Non-Audio Alert' channels"   //for old oneplus phone
-                + "\n\n\n"
-                + "Add TaskMan in SmartWatch app notification list"
-                + "\n\n\n"
+        String stringMsg = "";
+        stringMsg += "<a href=\"https://github.com/mprashant04/public/edit/main/Taskman.md\">Refer this readme file in github</a>   (click to open)"
+                + "<br><br><br>"
                 + "Log path: " + Logs.PATH
-                + "\n\n\n"
+                + "<br><br><br>"
                 + "APK version: " + Declarations.APK_VERSION;
         ;
 
-        infoDialog(this, "Help", msg);
+        //infoDialog(this, "Help", stringMsg);
+
+        //Dialog with clickable link in it
+        final TextView msg = new TextView(this);
+//        final SpannableString s = new SpannableString("https://play.google.com/store/apps/details?id=com.google.zxing.client.android");
+//        Linkify.addLinks(s, Linkify.WEB_URLS);
+        msg.setText(Html.fromHtml(stringMsg));
+        msg.setMovementMethod(LinkMovementMethod.getInstance());
+        msg.setPadding(100,100,100,100);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Help")
+                .setView(msg)
+//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        return;
+//                    }
+//                })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
     }
 
     private void changeSortOrder(OrderBy order) {
