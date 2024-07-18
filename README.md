@@ -1,11 +1,5 @@
 ***App setup on the phone***
-- Add 'TaskMan' in Smartwatch app notification list
-- Notifications setup (S24 ultra)
-    - Long press task notification
-    - disable "badge" & "pop-up", but keep enabled "lock screen"
-    - Notification categories
-        - Forgrond service -> disable
-        - 
+- Notes stored in this public md file: https://github.com/mprashant04/public/blob/main/Taskman.md
 
 ***Download APK***
 
