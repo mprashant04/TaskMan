@@ -32,7 +32,7 @@
     <NumberPicker
         android:id="@+id/timeHour"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:layout_below="@id/date_picker"
         android:layout_marginLeft="120dp" />
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date_picker"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:layout_toRightOf="@id/timeHour"
         android:text="  Hr     "
         android:textSize="15sp" />
@@ -49,7 +49,7 @@
     <NumberPicker
         android:id="@+id/timeMinute"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:layout_below="@id/date_picker"
         android:layout_toRightOf="@id/labelHr" />
 
@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date_picker"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:layout_toRightOf="@id/timeMinute"
         android:text="  Min  "
         android:textSize="15sp" />
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/timeHour"
         android:layout_marginLeft="120dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="55dp"
         android:text="Every        "
         android:textSize="15sp" />
 
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_below="@id/timeHour"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/labelEvery" />
 
     <Spinner
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/timeHour"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="55dp"
         android:layout_toRightOf="@id/recursiveDuration" />
 
 
@@ -99,7 +99,7 @@
         android:layout_below="@id/recursiveDuration"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/new_recursive_task_sumamry"
         android:textSize="18sp" />
 
