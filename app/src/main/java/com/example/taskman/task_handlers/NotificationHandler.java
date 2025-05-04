@@ -287,6 +287,7 @@ public class NotificationHandler {
                 //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
 
                 .setCustomContentView(notificationLayout)
+                .setCustomBigContentView(notificationLayout)
 
                 .setStyle(new NotificationCompat.InboxStyle().setSummaryText(subText)) //android 12 onwards
 
