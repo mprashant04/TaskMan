@@ -180,7 +180,7 @@ public class EditTaskActivity extends Activity {
             changeTitleTextSize(SIZE_1);
 
 
-        ((TextView) findViewById(R.id.dueOnText)).setText(currentTitleSize + " / " + lines + "/" + title.getText().length());  //for debugging temp, comment later
+       // ((TextView) findViewById(R.id.dueOnText)).setText(currentTitleSize + " / " + lines + "/" + title.getText().length());  //for debugging temp, comment later
     }
 
     private void changeTitleTextSize(int size) {

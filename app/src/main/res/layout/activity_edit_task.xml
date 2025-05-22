@@ -23,7 +23,7 @@
             android:hint="Enter Title"
             android:inputType="text|textCapSentences"
             android:lineSpacingExtra="-3dp"
-            android:maxLength="1000"
+            android:maxLength="550"
             android:selectAllOnFocus="true"
             android:textSize="1sp" />    <!-- textsize also change programatically depending on text length -->
 
