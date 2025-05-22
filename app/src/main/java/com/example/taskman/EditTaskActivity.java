@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.taskman.common.Declarations.CALLED_FROM_LIST_VIEW;
 import static com.example.taskman.common.Declarations.CALLED_FROM_MULTIPLE_EDIT_MODE;
@@ -52,6 +55,7 @@ public class EditTaskActivity extends Activity {
     private static final String BTN_TAG_TIME_TOMORROW = "set_time_tomorrow";
     private static final String BTN_TAG_ANCHOR_DAY = "anchor_day_";
 
+    private int currentTitleSize = -1;
     private Task task = null;
     private String calledFrom = null;
     private final TaskDbHelper db = new TaskDbHelper(this);
@@ -64,7 +68,6 @@ public class EditTaskActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             calledFrom = extras.getString("calledFrom");
@@ -75,6 +78,7 @@ public class EditTaskActivity extends Activity {
 
             task = db.get(taskId);
             updateUI();
+
         } else {
             DialogUtils.alertDialog(this, "Error!!!   extras = null");
         }
@@ -136,6 +140,7 @@ public class EditTaskActivity extends Activity {
             public void onTextChanged(CharSequence s, int start, int before,
                                       int count) {
                 task.setTitle(StringUtils.capitalizeFirstCharacter(s.toString().trim()));
+                autoChangeTextSize();
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -145,6 +150,42 @@ public class EditTaskActivity extends Activity {
             }
         });
 
+    }
+
+
+
+    private void autoChangeTextSize() {
+        EditText title = (EditText) findViewById(R.id.title);
+
+        final int SIZE_UNIT = TypedValue.COMPLEX_UNIT_SP;
+        final int SIZE_1 = 25;
+        final int SIZE_2 = 19;
+
+        final int MAX_LINE_COUNT_1 = 10;
+
+        final int MIN_LINE_COUNT_2 = 5;
+        final int MAX_LINE_COUNT_2 = 14;
+
+        //int size = (int) title.getTextSize();
+        int lines = title.getLineCount();
+
+
+        if (currentTitleSize <= 0)
+            changeTitleTextSize(SIZE_1);
+
+
+        if (currentTitleSize == SIZE_1 && lines > MAX_LINE_COUNT_1)
+            changeTitleTextSize(SIZE_2);
+        else if (currentTitleSize == SIZE_2 && lines < MIN_LINE_COUNT_2)
+            changeTitleTextSize(SIZE_1);
+
+
+        ((TextView) findViewById(R.id.dueOnText)).setText(currentTitleSize + " / " + lines + "/" + title.getText().length());  //for debugging temp, comment later
+    }
+
+    private void changeTitleTextSize(int size) {
+        ((EditText) findViewById(R.id.title)).setTextSize(size);
+        currentTitleSize = size;
     }
 
     private void toggleFlag(String flagName) {
@@ -272,6 +313,8 @@ public class EditTaskActivity extends Activity {
         EditText title = (EditText) findViewById(R.id.title);
         title.setText(task.getTitle());
 
+
+
         TextView dueOn = (TextView) findViewById(R.id.dueOnText);
         dueOn.setText(DateUtils.toReadableString(task.getDueOn()));
         if (task.getType() == TaskType.RECURSIVE) {
@@ -335,6 +378,7 @@ public class EditTaskActivity extends Activity {
         updateFlagButtonsUI();
 
 
+
         // ------------ multi edit mode -------------------------------------------
         if (CALLED_FROM_MULTIPLE_EDIT_MODE.compareTo(calledFrom) == 0) {
             TextView multiEditSummary = (TextView) findViewById(R.id.multiEditSummary);
@@ -348,6 +392,16 @@ public class EditTaskActivity extends Activity {
                 }
             });
         }
+
+
+
+        title.post(new Runnable() {
+            @Override
+            public void run() {
+                autoChangeTextSize();
+            }
+        });
+        autoChangeTextSize();
 
 
     }
@@ -388,7 +442,7 @@ public class EditTaskActivity extends Activity {
 
     private void updateSelectedAnchorDayButtonUI() {
 
-        List<View> buttons =getAllButtons();
+        List<View> buttons = getAllButtons();
         for (View v : buttons) {
             if (v instanceof Button && v.getTag() != null && v.getTag().toString().startsWith(BTN_TAG_ANCHOR_DAY)) {
                 Date dt = resolveAnchorDate(v.getTag().toString());

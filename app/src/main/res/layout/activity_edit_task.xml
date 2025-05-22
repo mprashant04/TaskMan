@@ -23,9 +23,9 @@
             android:hint="Enter Title"
             android:inputType="text|textCapSentences"
             android:lineSpacingExtra="-3dp"
-            android:maxLength="350"
+            android:maxLength="1000"
             android:selectAllOnFocus="true"
-            android:textSize="25sp" />
+            android:textSize="1sp" />    <!-- textsize also change programatically depending on text length -->
 
         <TextView
             android:id="@+id/dueOnText"
